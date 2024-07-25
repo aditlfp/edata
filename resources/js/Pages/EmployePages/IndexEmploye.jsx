@@ -2,7 +2,7 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm } from "@inertiajs/react";
 import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
-const NoImageComponent  = lazy(() => import("../../Components/NoImageComponent"))
+const NoImageComponent = lazy(() => import("../../Components/NoImageComponent"));
 import {
   BiSolidCog,
   BiSolidExtension,
@@ -18,7 +18,6 @@ import ReactPaginate from "react-paginate";
 import debounce from "lodash/debounce";
 
 function IndexEmploye({ employe, clients, auth, users, emploCount }) {
-  // console.log(employe);
   const [sortOrder, setSortOrder] = useState(false);
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState();
@@ -26,34 +25,22 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
   const [filterSelect, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const employeesPerPage = 25;
-  const employeItems = [];
 
-  // Initialize useForm from Inertia.js
-  const {
-    data,
-    setData,
-    delete: destroy,
-    get,
-  } = useForm({
+  const { data, setData, delete: destroy, get } = useForm({
     id: "",
     name: "",
   });
 
-  // Handle delete modal visibility and setting data
   const handleDelete = (id) => {
     setModal(true);
     const employeData = employe.data.find((emp) => emp.id === id);
     setDataModal(employeData);
   };
 
-  // Toggle modal visibility
   const closeModal = () => {
     setModal(!modal);
   };
 
- 
-
-  // Filter employees based on search query and filter selection
   const combinedFilteredEmployees = useMemo(() => {
     return employe.data.filter((employee) => {
       const matchesSearchQuery =
@@ -68,34 +55,32 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
     });
   }, [searchQuery, filterSelect, employe.data]);
 
-  // Paginate filtered employees
   const currentEmployees = useMemo(() => {
-    const offset = currentPage;
-    return combinedFilteredEmployees.slice(offset, offset + employeesPerPage);
-  }, [combinedFilteredEmployees, currentPage, employeesPerPage]);
+    const sortedEmployees = [...combinedFilteredEmployees].sort((a, b) =>
+      sortOrder ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
+    );
 
-  // console.log(users);
+    const offset = currentPage * employeesPerPage;
+    return sortedEmployees.slice(offset, offset + employeesPerPage);
+  }, [combinedFilteredEmployees, currentPage, employeesPerPage, sortOrder]);
+
   const getJabatanOnEmploye = (employee) => {
     const user = users.find(us => us.nama_lengkap === employee.name);
     return user && user.jabatan ? user.jabatan.name_jabatan : 'Data NotFound In Absensi';
   };
 
-  // Handle file download
   const handleDownload = () => {
     get(route("download.employe", data));
   };
 
-  // Calculate total pages for pagination
   const pageCount = useMemo(() => {
     return Math.ceil(combinedFilteredEmployees.length / employeesPerPage);
   }, [combinedFilteredEmployees.length, employeesPerPage]);
 
-  // Handle page click for pagination
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
 
-  // Confirm delete and show a toast notification on success
   const confirmDelete = (id) => {
     destroy(route(`employes.destroy`, id), {
       onSuccess: () => {
@@ -114,46 +99,26 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
     setModal(!modal);
   };
 
-  // Sort search results based on sortOrder
-  const sortSearchResults = useCallback(() => {
-    const sortedResults = [...combinedFilteredEmployees];
-    sortOrder
-      ? sortedResults.sort((a, b) => a.name.localeCompare(b.name))
-      : sortedResults.sort((a, b) => b.name.localeCompare(a.name));
-
-    return sortedResults;
-  }, [combinedFilteredEmployees, sortOrder]);
-
-  useEffect(() => {
-    sortSearchResults();
-  }, [sortOrder, sortSearchResults]);
-
-  // Toggle sort order
   const toggleSortOrder = () => {
     setSortOrder(!sortOrder);
   };
 
-  // Redirect to create employee page
   const createEmploye = () => {
     get(route("employes.create"));
   };
 
-  // Redirect to show employee page
   const showEmploye = (id) => {
     get(route("employes.show", id));
   };
 
-  // Redirect to edit employee page
   const editEmploye = (id) => {
     get(route("employes.edit", id));
   };
 
-  // Redirect to create career page
   const createCareer = (id) => {
     get(route("careers.show", id));
   };
 
-  // Debounce search input to improve performance
   const debouncedSearch = useMemo(() => debounce(setSearchQuery, 300), []);
 
   useEffect(() => {
@@ -162,54 +127,44 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
     };
   }, [debouncedSearch]);
 
-    // Check if image exists
-    const checkImageExists = async (img) => {
-      try {
-        const response = await fetch(`/storage/images/${img}`);
-        if (response.ok) {
-          return true;
-        } else {
-          return false;
-        }
-      } catch (error) {
-        return false;
-      }
-    };
-  
-    const EmployeeImage = ({ img }) => {
-      const [imgSrc, setImgSrc] = useState(null);
-  
-      useEffect(() => {
-        const verifyImage = async () => {
-          if (img) {
-            const exists = await checkImageExists(img);
-            setImgSrc(exists ? `/storage/images/${img}` : null);
-          }
-        };
-        verifyImage();
-      }, [img]);
-  
-      return (
-        <Suspense fallback={<div>Loading...</div>}>
-          {imgSrc ? (
-            <img src={imgSrc} width={100} loading="lazy" />
-          ) : (
-            <NoImageComponent width={100} loading="lazy" />
-          )}
-        </Suspense>
-      );
-    };
-
-    for (let i = 1; i <= emploCount; i++) {
-      employeItems.push(<li key={i}>Employe {i}</li>);
+  const checkImageExists = async (img) => {
+    try {
+      const response = await fetch(`/storage/images/${img}`);
+      return response.ok;
+    } catch (error) {
+      return false;
     }
+  };
+
+  const EmployeeImage = ({ img }) => {
+    const [imgSrc, setImgSrc] = useState(null);
+
+    useEffect(() => {
+      const verifyImage = async () => {
+        if (img) {
+          const exists = await checkImageExists(img);
+          setImgSrc(exists ? `/storage/images/${img}` : null);
+        }
+      };
+      verifyImage();
+    }, [img]);
+
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        {imgSrc ? (
+          <img src={imgSrc} width={100} loading="lazy" />
+        ) : (
+          <NoImageComponent width={100} loading="lazy" />
+        )}
+      </Suspense>
+    );
+  };
 
   return (
     <AdminLayout overflow={modal ? "overflow-hidden" : "overflow-auto"}>
       <Head title="Employe - Home" />
       <HeadNavigation title={"Employe - Home"} />
       <div className="flex flex-col sm:flex-row justify-end gap-2 my-4 items-start sm:items-center">
-        {/* emplo.client.name */}
         <div>
           <select
             defaultValue={0}
@@ -258,19 +213,19 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
       </div>
 
       <div className="overflow-hidden">
-        <table className="table table-zebra  table-xs my-5">
+        <table className="table table-zebra table-xs my-5">
           <thead>
             <tr className="bg-orange-600 text-white capitalize">
               <th className="border-x-[1px] border-orange-300">No</th>
               <th className="border-x-[1px] border-orange-300">Foto Profile</th>
               <th className="border-x-[1px] border-orange-300 flex">
-                {sortOrder == false ? (
-                  <BiSortUp
+                {sortOrder ? (
+                  <BiSortDown
                     className="text-lg hover:cursor-pointer"
                     onClick={toggleSortOrder}
                   />
                 ) : (
-                  <BiSortDown
+                  <BiSortUp
                     className="text-lg hover:cursor-pointer"
                     onClick={toggleSortOrder}
                   />
@@ -290,7 +245,7 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
           <tbody>
             {currentEmployees.length > 0 ? (
               currentEmployees?.map((emplo, index) => (
-                <tr key={index} className="border-[1px] border-orange-300 ">
+                <tr key={index} className="border-[1px] border-orange-300">
                   <td className="border-[1px] border-orange-300">
                     {currentPage * employeesPerPage + index + 1}
                   </td>
@@ -319,7 +274,6 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
                     <td className="border-[1px] border-orange-300">
                       <div className="flex justify-center gap-x-1 items-center">
                         <div className="flex flex-col gap-y-1">
-                          {/* Edit */}
                           <div
                             className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
                             data-tip="Edit"
@@ -331,8 +285,6 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
                               <BiSolidCog />
                             </button>
                           </div>
-                          {/* End Edit */}
-                          {/* delete */}
                           <div
                             className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
                             data-tip="Delete"
@@ -344,9 +296,7 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
                               <BiSolidTrash />
                             </button>
                           </div>
-                          {/* End Delete */}
                         </div>
-
                         <div className="flex flex-col gap-y-1">
                           <div
                             className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
@@ -377,17 +327,14 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
                 </tr>
               ))
             ) : (
-              <>
-                <tr className="border-[1px] text-center border-orange-300">
-                  <td colSpan={8}>Data Belum Tersedia</td>
-                </tr>
-              </>
+              <tr className="border-[1px] text-center border-orange-300">
+                <td colSpan={8}>Data Belum Tersedia</td>
+              </tr>
             )}
           </tbody>
         </table>
       </div>
 
-      {/* <Paginate meta={props.employe.meta}></Paginate> */}
       <ReactPaginate
         containerClassName="join shadow-md mb-10"
         previousLinkClassName="join-item btn btn-sm rounded-sm bg-orange-600 hover:bg-orange-800 text-white"
@@ -401,7 +348,6 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
         marginPagesDisplayed={0}
         pageRangeDisplayed={5}
         onPageChange={handlePageClick}
-        // containerClassName={"pagination"}
         activeClassName={"active"}
         renderOnZeroPageCount={null}
       />

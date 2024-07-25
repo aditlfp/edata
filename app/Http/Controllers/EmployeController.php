@@ -23,18 +23,17 @@ class EmployeController extends Controller
     public function index()
     {
         
-        $employes = Employe::with('client')->latest()->get();
-        $clients = Client::select('id','name')->get();
-        $users = User::with('jabatan')->get();
+        $employes = Employe::with(['client:id,name', 'user.jabatan:id,name_jabatan'])->latest()->get(['id', 'name', 'no_ktp', 'no_kk', 'ttl', 'img', 'client_id']);
+        $clients = Client::select('id', 'name')->get();
+        $users = User::with('jabatan:id,name_jabatan')->get(['id', 'nama_lengkap', 'jabatan_id']);
+
         $employe = EmployeResource::collection($employes);
+
         // $users = User::with('jabatan')->whereIn('nama_lengkap', $employes->pluck('name'))->get();
         // Decrypt necessary fields for each employee if they are encrypted
 
         // dd($decryptedEmployes[0]);
-        $emploCount = $employes->count();
-
-
-        return Inertia::render('EmployePages/IndexEmploye', compact('employe', 'clients', 'users', 'emploCount'));
+        return Inertia::render('EmployePages/IndexEmploye', compact('employe', 'clients', 'users'));
     }
 
     public function create()
