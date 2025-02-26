@@ -21,6 +21,8 @@ function ShowEmploye(props) {
     setNowUrl("employeRoute");
   };
 
+  // console.log(props.employe);
+
   return (
     <AdminLayout>
       <Head title="Employe - Details" />
@@ -90,9 +92,9 @@ function ShowEmploye(props) {
                           <td className="font-medium">Nama Lengkap</td>
                           <td>
                             :{" "}
-                            {props.employe.user_id
+                            {props.employe.user
                               ? props.employe.user.nama_lengkap
-                              : props.users.jabatan.name_jabatan}
+                              : "User Tidak Ditemukan"}
                           </td>
                         </tr>
                         <tr>
@@ -104,20 +106,13 @@ function ShowEmploye(props) {
                         <tr>
                           <td className="font-medium">No. KK</td>
                           <td>
-                            
-                            :{" "}
-                            {props.employe.no_kk
-                              ? props.no_kk
-                              : "kosong"}
+                            : {props.employe.no_kk ? props.no_kk : "kosong"}
                           </td>
                         </tr>
                         <tr>
                           <td className="font-medium">No. KTP</td>
                           <td>
-                            :{" "}
-                            {props.employe.no_ktp
-                              ? props.no_ktp
-                              : "kosong"}
+                            : {props.employe.no_ktp ? props.no_ktp : "kosong"}
                           </td>
                         </tr>
                         <tr>

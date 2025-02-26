@@ -91,9 +91,11 @@ export default function Login({ status, canResetPassword }) {
 
         <button
           type="submit"
-          className="btn text-white hover:text-orange-500 font-semibold text-lg btn-block my-2 bg-orange-500 hover:bg-orange-300 rounded-full"
+          className={`btn ${
+            processing ? "btn-disabled" : ""
+          } text-white hover:text-orange-500 font-semibold text-lg btn-block my-2 bg-orange-500 hover:bg-orange-300 rounded-full`}
         >
-          Log In
+          {processing ? "Waiting.." : "Log In"}
         </button>
       </form>
     </GuestLayout>
