@@ -12,8 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $connection = 'mysql2connection';
-
-    // protected $table = 'data_auth.users';
+    protected $table = 'users';
+    // protected $table = 'absensi.users';
 
     /**
      * The attributes that are mass assignable.
@@ -50,11 +50,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
-    public function Devisi()
+   
+    public function Divisi()
     {
-        return $this->setConnection('mysql2connection')->belongsTo(Divisi::class);
+        return $this->setConnection('mysql2connection')->belongsTo(Divisi::class, 'devisi_id', 'id');
     }
-
+    
     public function SlipGaji()
     {
         return $this->setConnection("mysql")->hasMany(SlipGaji::class);

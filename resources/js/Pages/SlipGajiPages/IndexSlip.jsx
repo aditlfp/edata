@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { FaFileUpload } from "react-icons/fa";
 import { toast } from "react-toastify";
 import axios from 'axios';
+import EachUtils from "@/lib/utils/EachUtils";
 
 
 export default function IndexSlip(props) {
@@ -15,14 +16,8 @@ export default function IndexSlip(props) {
     file: ""
   });
   const { flash } = usePage().props
-  // console.log(flash)
-  const [file, setFile] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredEmployees, setFilteredEmployees] = useState(props.employe); // Assuming it's props.employees, not props.employe
-  const datas = Object.values(props.slip);
-  const slipsArray = filteredEmployees?.map(employee => {
-    return datas.filter(slip => slip?.user_id === employee?.id);
-  });
 
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
@@ -30,11 +25,11 @@ export default function IndexSlip(props) {
 
     const filtered = props.employe.filter((employee) => {
       const nameMatch =
-        employee.nama_lengkap &&
-        employee.nama_lengkap.toLowerCase().includes(value);
+        employee.name &&
+        employee.name.toLowerCase().includes(value);
       const divisionMatch = props.divisi.some(
         (dev) =>
-          employee.devisi_id === dev.id &&
+          employee.user?.divisi?.id === dev.id &&
           dev.name.toLowerCase().includes(value)
       );
       return nameMatch || divisionMatch;
@@ -43,7 +38,7 @@ export default function IndexSlip(props) {
     setFilteredEmployees(filtered);
   };
 
-  // console.log(data);
+  // console.log(filteredEmployees[0].slip_gaji);
 
   const create = (e) => {
     e.preventDefault();
@@ -51,6 +46,11 @@ export default function IndexSlip(props) {
       get(route("slip-gaji.create"));
     } else if (data.route == "edit") {
       get(route("editSlip", data.mitra));
+    }else if (data.route == 'download'){
+      // get(route("downSlip"))
+      window.open(`/slipgaji/data_download?mitra=${data.mitra}&bulan=${data.bulan}&route=download&file=`, '_blank')
+      // exportDownload()
+      // http://localhost:8000/slipgaji/data_download?mitra=1&bulan=2024-10&route=download&file=
     }
   };
 
@@ -84,6 +84,8 @@ export default function IndexSlip(props) {
             }
         })
         .then(response => {
+          // console.log("then('response')",response);
+          
             if (response.ok) {
                 return response.blob(); // Convert the response to a Blob
             } else {
@@ -108,6 +110,8 @@ export default function IndexSlip(props) {
 
 
   }
+
+
   return (
     <>
       <AdminLayout>
@@ -126,7 +130,7 @@ export default function IndexSlip(props) {
             />
           </div>
         </div>
-        <form onSubmit={handleSubmit} enctype="multipart/form-data" className="flex">
+        <form onSubmit={handleSubmit} encType="multipart/form-data" className="flex">
             <div className="form-group flex items-end gap-x-1">
             <span className="flex flex-col">
                   <label htmlFor="file" className="label">Excel File: </label>
@@ -135,7 +139,7 @@ export default function IndexSlip(props) {
             </span>
               <span className="flex gap-x-1">
                   <button type="submit" className="btn btn-sm btn-success rounded-sm"><FaFileUpload className="text-green-950"/></button>
-                  <a onClick={() => download()} className="btn btn-sm rounded-sm  bg-orange-500 font-semibold text-sm hover:text-gray-200 uppercase text-orange-900 hover:bg-orange-700 border-none text-white">download template</a>
+                  <a onClick={() => download()} className="btn btn-sm rounded-sm  bg-orange-500 font-semibold text-sm hover:text-gray-200 uppercase  hover:bg-orange-700 border-none text-white">download template</a>
               </span>
               </div>
                 {errors.file && <span className="text-red-500">{errors.file}</span>}
@@ -197,6 +201,19 @@ export default function IndexSlip(props) {
                     Edit
                   </label>
                 </div>
+                <div className="flex gap-1 items-center">
+                  <input
+                    type="radio"
+                    id="download"
+                    name="aksi"
+                    value="download"
+                    className="radio radio-sm"
+                    onClick={(e) => setData("route", e.target.value)}
+                  />
+                  <label htmlFor="download" className="label text-sm">
+                    Download
+                  </label>
+                </div>
               </div>
             </div>
             <div className="flex items-center mx-5 h-full">
@@ -218,7 +235,7 @@ export default function IndexSlip(props) {
         )}
         
         {/*end alert*/}
-        <div className="overflow-y-auto h-[365px] my-5">
+        <div className="overflow-y-auto h-[400pt] my-5">
 
           <table className="table table-zebra table-xs w-full">
             <thead className="sticky top-0">
@@ -247,27 +264,19 @@ export default function IndexSlip(props) {
               className=""
               style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}
             >
-              {filteredEmployees.map((us, index) => {
-                return (
+              <EachUtils colspan={6} of={filteredEmployees} render={(us, index) => (
                   <tr key={index} className="border-[1px] border-orange-300 ">
                     <td className="border-[1px] border-orange-300">
                       {index + 1}
                     </td>
                     <td className="border-[1px] border-orange-300">
-                      {us.nama_lengkap}
+                      {us.name}
                     </td>
                     <td className="border-[1px] border-orange-300">
-                      {props.divisi?.map((dev, i) => {
-                        // GET Devisi On DB2_CONNECTION
-                        return (
-                          <span key={i}>
-                            {us.devisi_id == dev.id && dev.name}
-                          </span>
-                        );
-                      })}
+                      {us.user ? us.user.divisi.name : '~ Formasi Kosong ~'}
                     </td>
                     <td className="border-[1px] border-orange-300">
-                      {us.temp_ban == "false" ? (
+                      {us.user?.temp_ban == "false" ? (
                         <span className="text-white rounded-sm badge badge-success badge-sm">
                           Active
                         </span>
@@ -278,81 +287,33 @@ export default function IndexSlip(props) {
                       )}
                     </td>
                     <td className="border-[1px] border-orange-300">
-                     {slipsArray.map((s, i) => {
-                      const matchedSlip = s.find(slip => us.id === slip.user_id);
-                      return matchedSlip ? matchedSlip.bulan_tahun : null;
-                    })}
-
+                      {us.slip_gaji ? 
+                        (
+                          <span className="badge badge-accent bg-sky-500 rounded-sm border-none text-white text-xs">
+                            {us.slip_gaji.bulan_tahun}
+                          </span>) : (
+                        <span className="badge badge-accent bg-red-500 rounded-sm border-none text-white text-xs">Data Tidak Ditemukan</span>
+                      )}
                     </td>
                     <td className="border-[1px] border-orange-300">
-                      {slipsArray.map((s, i) => {
-                        if (
-                          us.id == s.user_id &&
-                          s.bulan_tahun == props.currentMonth
-                        ) {
-                          return (
-                            <div
-                              key={i}
-                              className="w-full flex items-center justify-center"
-                            >
-                              <span
-                                key={i}
-                                className="badge badge-sm badge-info rounded-sm text-sky-950"
-                              >
-                                Sudah Dibuat
-                              </span>
-                            </div>
-                          );
-                        }
-                      })}
-                        {slipsArray.map((s, i) => {
-                          // Check if s is an array before using find
-                          const matchedSlip = s.find(slip => us.id === slip.user_id);
-                          const matchMonth = s.find(slip => slip.bulan_tahun === props.currentMonth);
-
-                          return (
-                            <div
-                              key={i}
-                              className="w-full flex items-center justify-center"
-                            >
-                              {matchedSlip ? (
-                                matchMonth && (
-                                  <span
-                                    key={i}
-                                    className="badge badge-sm badge-info rounded-sm text-sky-950"
-                                  >
-                                    Sudah Dibuat
-                                  </span>
-                                )) : null}
-                            </div>
-                          );
-                        })}
-
+                      {us.slip_gaji?.bulan_tahun == props.currentMonth ? (
+                        <span className="badge badge-accent bg-green-500 rounded-sm border-none text-white text-xs">Sudah Dibuat</span>
+                      ) : (
+                        <span className="badge badge-accent bg-red-500 rounded-sm border-none text-white text-xs">Belum Dibuat</span>
+                      )}
                     </td>
                   </tr>
-                );
-              })}
+              )}/>
             </tbody>
           </table>
         </div>
       </AdminLayout>
       <style jsx>{`
-        ::-webkit-scrollbar {
-          height: 12px;
+        table tr td:nth-child(n+3) {
+            text-align: center;
         }
-
-        ::-webkit-scrollbar-track {
-          background: #f1f1f1;
-          border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: #ea580c;
-          border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-          background: #a33b04;
+        table thead tr th:nth-child(n+3){
+            text-align: center;
         }
       `}</style>
     </>

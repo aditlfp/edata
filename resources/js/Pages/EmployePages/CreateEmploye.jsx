@@ -1,8 +1,9 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
 import { Head, useForm } from "@inertiajs/react";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 function CreateEmploye(props) {
   const [jenisBpjs, setJenisBpjs] = useState({
@@ -12,6 +13,10 @@ function CreateEmploye(props) {
     jp: false,
     jkp: false,
   });
+
+  // console.log(props);
+
+
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
@@ -23,6 +28,7 @@ function CreateEmploye(props) {
         : data.jenis_bpjs.filter((item) => item !== name),
     }));
   };
+
 
   const { data, setData, post, get, processing, errors, reset } = useForm({
     user_id: "",
@@ -38,7 +44,94 @@ function CreateEmploye(props) {
     file_bpjs_kesehatan: "",
     no_bpjs_ketenaga: "",
     file_bpjs_ketenaga: "",
+    initials: '',
+    numbers: '0000',
+    date_year: '',
+    placehoders: '0000',
   });
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Pads month with leading 0 (months are zero-indexed)
+    const year = d.getFullYear();
+
+    return `${month}-${year}`;
+  };
+
+  // console.log(data.initials + " " +  data.numbers + "-" + formatDate(data.date_year));
+  // UMP 00001-04-2023
+  // PSP 00001 04-2023
+
+
+  // Function to extract initials from the name
+    const getInitials = (name) => {
+      // Remove any text inside parentheses, including the parentheses themselves
+      const match = name.match(/\(.*?\)/g, '');
+      let nameWithoutParentheses = name.replace(/\(.*?\)/g, '').trim();
+      // console.log("AKU PARENTIS", nameWithoutParentheses);
+      if (match && match[0]) {
+        nameWithoutParentheses += match[0]
+        .trim()
+        .split(' ')
+        .map((word) => {
+          let r = word[1];
+
+          let ok = ' '+r
+          return ok
+        })
+        .join('');
+      }
+
+      // Split the name into words and take the first letter of each word
+      return nameWithoutParentheses
+        .split(' ')
+        .map((word) => word[0].toUpperCase())
+        .join('');
+    };
+
+
+  // Handle change for the select input
+  const handleSelectChange = (e) => {
+    const clientId = e.target.value;
+    const selectedClient = props.clients.find(client => client.id == clientId);
+
+    if (selectedClient) {
+      const initials = getInitials(selectedClient.name);
+
+      // Update the data state with both client_id and initials
+      setData({
+        ...data,
+        client_id: clientId,
+        initials: initials,
+      });
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+        const res = await axios.get(`api/${data.client_id}`).then((response) => {
+        // console.log(response.data);
+        if (response.data?.client_id != null) {
+          const num = +response.data.numbers + 1;
+          const str = String(num).padStart(4, '0');
+          setData("numbers", str); // Set the data when a match is found
+        }else{
+          setData("numbers", '0000')
+        }
+
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (data.client_id) {
+      fetchData();
+    }
+  }, [data.client_id]);
+
+  // console.log(props.emploGetNIK);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,7 +151,10 @@ function CreateEmploye(props) {
           "no_bpjs_ketenaga",
           "no_kk",
           "no_ktp",
-          "ttl"
+          "ttl",
+          "initials",
+          "numbers",
+          "date_year"
         ),
           toast.success("Berhasil Menambahkan Data !", {
             theme: "colored",
@@ -70,6 +166,7 @@ function CreateEmploye(props) {
     e.preventDefault();
     window.location.href = route("employes.index");
   };
+
   return (
     <AdminLayout>
       <Head title="Employe - Create" />
@@ -181,7 +278,7 @@ function CreateEmploye(props) {
               <select
                 defaultValue={0}
                 required
-                onChange={(e) => setData("client_id", e.target.value)}
+                onChange={handleSelectChange}
                 className="select select-bordered select-sm text-sm rounded-sm"
               >
                 <option value={0} disabled>
@@ -196,6 +293,33 @@ function CreateEmploye(props) {
               {errors.client_id && (
                 <span className="text-red-500">{errors.client_id}</span>
               )}
+
+               {/* Display the initials/alias */}
+              {data.initials ? (
+                <div className="w-full">
+                  <span className="label-text required">No Induk Karyawan : </span>
+                  <div className="flex gap-x-2">
+                    <input type="text" className="input input-sm input-bordered rounded-sm w-1/4" disabled
+                      value={data.initials} readOnly/>
+
+                    <input type="text" className="input input-sm input-bordered rounded-sm w-1/3"
+                      value={data.numbers}
+                      onChange={(e) => setData("numbers", e.target.value)}
+                      placeholder={data.numbers}/>
+
+                    <input type="month" className="input input-sm input-bordered rounded-sm w-1/2"
+                      value={data.date_year}
+                      onChange={(e) => setData("date_year", e.target.value)}/>
+                  </div>
+                </div>
+              ) : (
+                  <div className="w-full flex flex-col mt-5">
+                    <span className="label-text">No Induk Karyawan : </span>
+                    <span className="text-xs font-semibold required italic text-red-600">Pilih Mitra Terlebih Dahulu </span>
+                  </div>
+              )}
+
+
             </div>
             <div className="form-control mt-2">
               {data.img && (

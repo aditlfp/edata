@@ -8,14 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Employe extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql'; 
     protected $casts = [
-        'jenis_bpjs' => 'array'
+        'jenis_bpjs' => 'array',
+        'jbt_name' => 'array'
     ];
     protected $fillable = [
         'user_id',
         'name',
         'ttl',
         'nik',
+        'initials',
+        'numbers',
+        'date_real',
         'no_kk',
         'no_ktp',
         'client_id',
@@ -31,11 +36,16 @@ class Employe extends Model
 
     public function User()
     {
-        return $this->belongsTo(User::class);
-    }
+        return $this->belongsTo(User::class, 'name', 'nama_lengkap');
+    }    
 
     public function Client()
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function SlipGaji()
+    {
+        return $this->hasOne(SlipGaji::class, 'karyawan', 'name')->latest();
     }
 }

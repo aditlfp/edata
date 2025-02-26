@@ -6,3 +6,8 @@
   content: "*";
   color: red;
 }
+
+.table-container {
+  overflow-x: visible; /* Membuat konten tabel dapat melampaui batas */
+  max-width: 100%; /* Mengatur lebar maksimum untuk kontainer */
+}

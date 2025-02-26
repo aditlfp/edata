@@ -11,7 +11,7 @@
     "@tailwindcss/forms": "^0.5.3",
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.16",
-    "axios": "^1.6.1",
+    "axios": "^1.7.7",
     "daisyui": "^4.4.23",
     "laravel-vite-plugin": "^1.0.0",
     "postcss": "^8.4.32",
@@ -23,11 +23,16 @@
   "dependencies": {
     "@arismun/format-rupiah": "^3.0.0",
     "@react-pdf/renderer": "^3.4.4",
+    "chart.js": "^4.4.5",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.1.7",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "lodash": "^4.17.21",
+    "react-helmet": "^6.1.0",
     "react-icons": "^4.12.0",
     "react-paginate": "^8.2.0",
+    "react-select": "^5.8.3",
     "react-toastify": "^10.0.5"
   }
 }

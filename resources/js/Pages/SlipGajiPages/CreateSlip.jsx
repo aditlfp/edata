@@ -3,14 +3,15 @@ import HeadNavigation from "../Admin/Component/HeadNavigation";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { toast } from "react-toastify";
+import EachUtils from "@/lib/utils/EachUtils";
 export default function CreateSlip(props) {
-  console.log(props);
+    // console.log("props.users[0]",props)
   const { data, setData, post, get, processing, errors, reset } = useForm({
-    users: props.user.map((us) => ({
-      nama_lengkap: us.nama_lengkap,
-      devisi_id: us.devisi_id,
-      formasi: us.devisi.name, 
-      user_id: us.id,
+    users: props.users.map((us) => ({
+      nama_lengkap: us.user?.nama_lengkap,
+      devisi_id: us.user?.devisi_id,
+      formasi: us.user?.divisi?.name, 
+      user_id: us.user?.id,
       bulan_tahun: props.bulan,
       gaji_pokok: "",
       gaji_lembur: "",
@@ -149,9 +150,7 @@ export default function CreateSlip(props) {
                 </tr>
               </thead>
               <tbody className="text-[10px]">
-                {data.users.map((us, index) => {
-                  console.log(us)
-                  return (
+                <EachUtils colspan={14} of={data.users} render={(us, index) => (
                     <tr key={index} className="border-[1px] border-orange-300 ">
                       <td className="border-[1px] border-orange-300">
                         {us.nama_lengkap}
@@ -201,8 +200,7 @@ export default function CreateSlip(props) {
                         <FormatRupiah value={us.total} />
                       </td>
                     </tr>
-                  );
-                })}
+                )}/>
               </tbody>
             </table>
           </form>

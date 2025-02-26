@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware
     {
         if (Auth::user()) {
             $authUser = Auth::user()->id;
-            $user = User::on('mysql2connection')->where('id', $authUser)->firstOrFail();
+            $user = User::where('id', $authUser)->firstOrFail();
         }else{
             $user = $request->user();
         }
@@ -44,6 +44,7 @@ class HandleInertiaRequests extends Middleware
                 // $authUser = Auth::user() ? Auth::user()->id : "",
                 'user' => $user,
             ],
+            'api_key' => config('app.private_api_key'),
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

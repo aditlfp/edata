@@ -2,6 +2,8 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm } from "@inertiajs/react";
 import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
+import makeAnimated from 'react-select/animated';
+import Select from 'react-select';
 const NoImageComponent = lazy(() => import("../../Components/NoImageComponent"));
 import {
   BiSolidCog,
@@ -16,19 +18,28 @@ import Modal from "../Admin/Component/Modal";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import debounce from "lodash/debounce";
+import EachUtils from "@/lib/utils/EachUtils";
 
-function IndexEmploye({ employe, clients, auth, users, emploCount }) {
+function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, errors }) {
   const [sortOrder, setSortOrder] = useState(false);
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSelect, setFilter] = useState("");
+  const [filterjabatan, setFilterJabatan] = useState(null)
   const [currentPage, setCurrentPage] = useState(0);
   const employeesPerPage = 25;
+  const animatedComponents = makeAnimated();
+  const [options, setOptions] = useState([]);
+  
+  // console.log(errors.message);
+  
 
   const { data, setData, delete: destroy, get } = useForm({
     id: "",
     name: "",
+    jbt_name: [],
+    jbt_str: []
   });
 
   const handleDelete = (id) => {
@@ -41,20 +52,42 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
     setModal(!modal);
   };
 
+  const getJabatanOnEmploye = (employee) => {
+    const user = users.find(us => us.nama_lengkap.toLowerCase() === employee.name.toLowerCase());
+    // console.log(user);
+    
+    return user ? user.jabatan.name_jabatan : 'Data NotFound In Absensi';
+  };
+
   const combinedFilteredEmployees = useMemo(() => {
     return employe.data.filter((employee) => {
+      // Check if the employee matches the search query
       const matchesSearchQuery =
         employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         employee.no_ktp.includes(searchQuery);
-
+  
+      // Check if the employee matches the client filter
       const matchesFilterSelect =
         filterSelect.toLowerCase() === "all" ||
-        employee.client.name.toLowerCase().includes(filterSelect.toLowerCase());
-
-      return matchesSearchQuery && matchesFilterSelect;
+        employee.client?.name.toLowerCase().includes(filterSelect.toLowerCase());
+  
+      // Check if the employee matches the job title filter (filterjabatan)
+      const matchesFilterJabatan =
+        !filterjabatan || // If no filterjabatan selected, all employees match
+        filterjabatan.some((fjbt) => {
+          return (
+            fjbt.value.toLowerCase() === "all" ||
+            getJabatanOnEmploye(employee).toLowerCase().includes(fjbt.value.toLowerCase())
+          );
+        });
+  
+      // Return true if the employee matches all filters
+      return matchesSearchQuery && matchesFilterSelect && matchesFilterJabatan;
     });
-  }, [searchQuery, filterSelect, employe.data]);
+  }, [searchQuery, filterSelect, employe.data, filterjabatan]);
+  
 
+  
   const currentEmployees = useMemo(() => {
     const sortedEmployees = [...combinedFilteredEmployees].sort((a, b) =>
       sortOrder ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
@@ -63,11 +96,6 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
     const offset = currentPage * employeesPerPage;
     return sortedEmployees.slice(offset, offset + employeesPerPage);
   }, [combinedFilteredEmployees, currentPage, employeesPerPage, sortOrder]);
-
-  const getJabatanOnEmploye = (employee) => {
-    const user = users.find(us => us.nama_lengkap === employee.name);
-    return user && user.jabatan ? user.jabatan.name_jabatan : 'Data NotFound In Absensi';
-  };
 
   const handleDownload = () => {
     get(route("download.employe", data));
@@ -97,6 +125,14 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
       },
     });
     setModal(!modal);
+  };
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Pads month with leading 0 (months are zero-indexed)
+    const year = d.getFullYear();
+    
+    return `${month}-${year}`;
   };
 
   const toggleSortOrder = () => {
@@ -160,12 +196,76 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
     );
   };
 
+  const insertDataOption = () => {
+    const staticOptions = [
+      { value: "All", label: "Semua" },
+      { value: "Data NotFound In Absensi", label: "Data NotFound In Absensi" },
+    ];
+
+    const newOptions = jabatan.map((jbt) => ({
+      value: `${jbt.name_jabatan}`,
+      label: `${jbt.name_jabatan}`,
+    }));
+    setOptions([...staticOptions, ...newOptions]); 
+  }
+  useEffect(() => {
+    insertDataOption()
+  }, [])
+
+  const handleChange = (selected) => {
+    if (!selected || selected.length === 0) {
+      // If nothing is selected, reset to show all data
+      setFilterJabatan(null);
+      setData("jbt_name", []);
+      setData('jbt_str', []);
+    } else {
+      // Update the selected filters
+      setFilterJabatan(selected);
+      setData("jbt_name", selected);
+      setData("jbt_str", selected.filter((item) => item.value).map((item) => item.value));
+    }
+  };
+  
+  const updatedOptions = options.map((option) => ({
+    ...option,
+    isDisabled:
+    data.jbt_str != null &&
+      data.jbt_str.some((upjbt) => {
+        return (
+          (upjbt === "All" || upjbt === "Data NotFound In Absensi")
+        )})
+    }));
+    
+
+  useEffect(() => {
+    if (errors.message) {
+      toast.error(errors.message);
+    }
+  }, [errors])
+
   return (
     <AdminLayout overflow={modal ? "overflow-hidden" : "overflow-auto"}>
       <Head title="Employe - Home" />
       <HeadNavigation title={"Employe - Home"} />
       <div className="flex flex-col sm:flex-row justify-end gap-2 my-4 items-start sm:items-center">
-        <div>
+        <div className="flex flex-row gap-x-5">
+          {/* Select Divisi */}
+          <div
+             className="text-sm rounded-sm"
+          >
+            <Select
+                  required
+                  closeMenuOnSelect={false}
+                  components={animatedComponents}
+                  isMulti
+                  onChange={handleChange}
+                  options={updatedOptions}
+                  isOptionDisabled={(option) => option.isDisabled}
+                  placeholder="Select an option"
+                />
+          </div>
+
+          {/* End Select Divisi */}
           <select
             defaultValue={0}
             required
@@ -212,8 +312,8 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
         </button>
       </div>
 
-      <div className="overflow-hidden">
-        <table className="table table-zebra table-xs my-5">
+      <div className="overflow-x-visible">
+        <table className="table table-zebra table-xs my-5 overflow-x-scroll">
           <thead>
             <tr className="bg-orange-600 text-white capitalize">
               <th className="border-x-[1px] border-orange-300">No</th>
@@ -237,14 +337,14 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
               <th className="border-x-[1px] border-orange-300">No. KK</th>
               <th className="border-x-[1px] border-orange-300">No. KTP</th>
               <th className="border-x-[1px] border-orange-300">Mitra</th>
+              <th className="border-x-[1px] border-orange-300">No Induk Karyawan</th>
               {auth?.user.role_id == 2 && (
                 <th className="border-x-[1px] border-orange-300">Aksi</th>
               )}
             </tr>
           </thead>
           <tbody>
-            {currentEmployees.length > 0 ? (
-              currentEmployees?.map((emplo, index) => (
+             <EachUtils colspan={10} of={currentEmployees} render={(emplo,index) => (           
                 <tr key={index} className="border-[1px] border-orange-300">
                   <td className="border-[1px] border-orange-300">
                     {currentPage * employeesPerPage + index + 1}
@@ -253,7 +353,7 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
                     <EmployeeImage img={emplo.img} />
                   </td>
                   <td className="border-[1px] border-orange-300">
-                    {emplo.name}
+                    {emplo?.name}
                   </td>
                   <td className={`border-[1px] border-orange-300 ${getJabatanOnEmploye(emplo) === "Data NotFound In Absensi" ? 'text-red-500 font-semibold' : ''}`}>
                     {getJabatanOnEmploye(emplo)}
@@ -268,7 +368,18 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
                     {emplo.no_ktp}
                   </td>
                   <td className="border-[1px] border-orange-300">
-                    {emplo.client.name}
+                    {emplo.client?.name}
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    {emplo.initials && emplo.numbers && emplo.date_real ?
+                      (
+                        emplo.initials + ' ' + emplo.numbers + '-' + emplo.date_real
+                      )
+                      : 
+                      <span className="italic text-red-600">
+                          Kode Tidak Ditemukan 
+                      </span>
+                    }
                   </td>
                   {auth?.user.role_id == 2 && (
                     <td className="border-[1px] border-orange-300">
@@ -325,12 +436,7 @@ function IndexEmploye({ employe, clients, auth, users, emploCount }) {
                     </td>
                   )}
                 </tr>
-              ))
-            ) : (
-              <tr className="border-[1px] text-center border-orange-300">
-                <td colSpan={8}>Data Belum Tersedia</td>
-              </tr>
-            )}
+              )} />
           </tbody>
         </table>
       </div>

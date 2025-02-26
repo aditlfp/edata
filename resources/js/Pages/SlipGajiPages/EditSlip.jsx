@@ -3,7 +3,7 @@ import HeadNavigation from "../Admin/Component/HeadNavigation";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { toast } from "react-toastify";
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdFileDownload } from "react-icons/md";
 export default function CreateSlip(props) {
   const { data, setData, post, get, processing, errors, reset, delete: destroy } = useForm({
     users: props.slip.map((slip) => ({
@@ -96,6 +96,13 @@ export default function CreateSlip(props) {
       },
     });
   };
+
+  const downloadUserSlip = (params) => {
+    window.location.href = route('downUserSlip', {
+      id: params.id,
+      bulan_tahun: params.bulan_tahun,
+    })
+  }
   return (
     <>
       <AdminLayout>
@@ -167,25 +174,24 @@ export default function CreateSlip(props) {
                   return (
                     <tr key={index} className="border-[1px] border-orange-300 ">
                       <td>
-                      <button
-                        type="button"
-                        className="btn btn-error btn-sm rounded-sm text-white hover:text-red-900 hover:bg-red-600 hover:bg-opacity-20 hover:border-0"
-                        onClick={() => confirmDelete(us.id)}
-                      >
-                        <MdDeleteForever className="text-xl"/>
-                      </button>
+                        <div className="flex gap-y-1 flex-col">
+                          <button
+                            type="button"
+                            className="btn btn-error btn-sm rounded-sm text-white hover:text-red-900 hover:bg-red-600 hover:bg-opacity-20 hover:border-0"
+                            onClick={() => confirmDelete(us.id)}
+                          >
+                            <MdDeleteForever className="text-xl"/>
+                          </button>
+                          <button className="btn btn-sm rounded-sm bg-green-600 hover:bg-green-500 text-white hover:text-green-800 hover:bg-opacity-20 hover:border-0 border-green-500" onClick={() => downloadUserSlip(us)}>
+                          <MdFileDownload className="text-xl"/>
+                          </button>
+                        </div>
                       </td>
                       <td className="border-[1px] border-orange-300">
                         {us.nama_lengkap}
                       </td>
                       <td className="border-[1px] border-orange-300">
-                        {props.divisi?.map((dev, i) => {
-                          return (
-                            <span key={i}>
-                              {us.devisi_id == dev.id && dev.name}
-                            </span>
-                          );
-                        })}
+                        {us.formasi}
                       </td>
                       {/* MK */}
 

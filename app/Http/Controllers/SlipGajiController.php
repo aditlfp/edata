@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DataSlipGajiExport;
 use App\Models\SlipGaji;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SlipGajiRequest;
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Imports\SlipGajiImport;
 use App\Exports\SlipGajiExport;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,11 +32,11 @@ class SlipGajiController extends Controller
     {
         // $employe = Employe::all();
         $currentMonth = date('Y-m');
-        $employe = User::on('mysql2connection')->with('SlipGaji')->get();
-        $slip = SlipGaji::latest()->get();
+        $employe = Employe::with(['user', 'user.divisi', 'SlipGaji'])->get();
+        // dd($employe[0]->user);
         $mitra = Kerjasama::on('mysql2connection')->with('client')->get();
         $divisi = Divisi::on('mysql2connection')->get();
-        return Inertia::render('SlipGajiPages/IndexSlip', compact('currentMonth', 'employe', 'slip', 'mitra', 'divisi'));
+        return Inertia::render('SlipGajiPages/IndexSlip', compact('currentMonth', 'employe', 'mitra', 'divisi'));
     }
 
     /**
@@ -45,22 +48,29 @@ class SlipGajiController extends Controller
         $bulan = $request->bulan;
         $bulanFormat = Carbon::createFromFormat('Y-m', $request->bulan);
         $client = Kerjasama::on('mysql2connection')->with('client')->where('id', $mitra)->first();
-        $employe = Employe::all();
+        $employe = Employe::query();
         $divisi = Divisi::on('mysql2connection')->get();
-        
+        $user = User::all();
         $slip = SlipGaji::where('bulan_tahun', $bulan)->get();
-        
-       $user = User::on('mysql2connection')
-                ->with('devisi')
-                ->where('kerjasama_id', $client->id)
-                ->orderBy('kerjasama_id', 'asc')
-                ->whereIn('nama_lengkap', $employe->pluck('name')->toArray())
-                ->whereNotIn('id', $slip->pluck('user_id')->toArray())
-                ->get();
+
+        $users = $employe->with(['user', 'user.divisi'])->where('client_id', $client->id)
+                    ->whereIn('name', $user->pluck('nama_lengkap')->toArray())
+                    ->orderBy("numbers", 'asc')
+                    ->orderBy("date_real", 'asc')
+                    ->whereNotIn('name', $slip->pluck('karyawan')->toArray())
+                    ->get();
+                //         $userd = User::on('mysql2connection')
+                // ->with('divisi')
+                // ->where('kerjasama_id', $client->id)
+                // ->orderBy('kerjasama_id', 'asc')
+                // ->whereIn('nama_lengkap', $employe->pluck('name')->toArray())
+                // ->whereNotIn('id', $slip->pluck('user_id')->toArray())
+                // ->get();
+        // dd($userd[0]);
 
         $absensi = Absensi::on('mysql2connection')->where('kerjasama_id', $mitra)->whereYear('tanggal_absen', $bulanFormat->year)->whereMonth('tanggal_absen', $bulanFormat->month)->get();
         
-        return Inertia::render('SlipGajiPages/CreateSlip', compact('employe', 'user', 'bulan', 'divisi', 'absensi', 'mitra', 'client', 'slip'));
+        return Inertia::render('SlipGajiPages/CreateSlip', compact('users', 'bulan', 'divisi', 'absensi', 'mitra', 'client', 'slip'));
     }
 
     /**
@@ -110,8 +120,9 @@ class SlipGajiController extends Controller
         $client = Kerjasama::on('mysql2connection')->with('client')->where('id', $id)->first();
         $employe = Employe::all();
         $divisi = Divisi::on('mysql2connection')->get();
-        $user = User::on('mysql2connection')->with(['devisi', 'kerjasama'])->where('kerjasama_id', $client->id)->orderBy('kerjasama_id', 'asc')->wherein('nama_lengkap', $employe->pluck('name'))->get();
-        
+        $user = User::on('mysql2connection')->with(['divisi', 'kerjasama', 'slipGaji'])->where('kerjasama_id', $client->id)->orderBy('kerjasama_id', 'asc')->wherein('nama_lengkap', $employe->pluck('name'))->get();
+        // dd($user[4]->slipGaji);
+
         $absensi = Absensi::on('mysql2connection')->where('kerjasama_id', $mitra)->whereYear('tanggal_absen', $bulanFormat->year)->whereMonth('tanggal_absen', $bulanFormat->month)->get();
         $slip = SlipGaji::with(['user'])->where('bulan_tahun', $bulan)->wherein('karyawan', $user->pluck('nama_lengkap'))->get();
         // dd($slip);
@@ -130,7 +141,7 @@ class SlipGajiController extends Controller
                 $slip = [
                     'user_id' => $userData['user_id'],
                     'bulan_tahun' => $userData['bulan_tahun'],
-                    'karyawan' => $userData['karyawan'],
+                    'karyawan' => $userData['nama_lengkap'],
                     'formasi' => $userData['formasi'],
                     'status' => 'true',
                     'gaji_pokok' => $userData['gaji_pokok'],
@@ -181,14 +192,17 @@ class SlipGajiController extends Controller
         $bulanFormat = Carbon::createFromFormat('Y-m', $bulan);
         $slip = SlipGaji::where('bulan_tahun', $bulan)->get();
         $client = Kerjasama::on('mysql2connection')->with('client')->where('id', $mitra)->first();
-        $employe = Employe::pluck('name');
+        // $employe = Employe::pluck('name');
+        $user = User::all();
+        // dd($request->all());
         return Excel::download(
             (new SlipGajiExport)
-                ->forWith('devisi')
+                ->forWithUser('user')
+                ->forDevUser('user.divisi')
                 ->forKerjasama($client->id)
+                ->forWhereIn($user->pluck('nama_lengkap')->toArray())
                 ->forOrder('asc')
-                ->forWhereIn($employe->toArray())
-                ->forWhereNotIn($slip->pluck('user_id')->toArray())
+                ->forWhereNotIn($slip->pluck('karyawan')->toArray())
                 ->withAdditionalParams($bulan),
             'slip.xlsx'
         );
@@ -199,6 +213,49 @@ class SlipGajiController extends Controller
     {
         SlipGaji::findOrFail($id)->delete();
         return redirect()->back()->with(['messege' => 'Berhasil Hapus Data !']);
+    }
+
+    public function data_download(Request $request)
+    {
+        $mitra = $request->mitra;
+        $bulan = $request->bulan;
+        // dd($bulan);
+        if ($mitra && $bulan) {
+            $getAll = [];
+            $slip = SlipGaji::with(['user', 'user.divisi', 'employe'])
+                    ->join('employes', 'slip_gajis.karyawan', '=', 'employes.name') // Adjust 'user_id' and 'id' as needed
+                     ->select('slip_gajis.*')
+                    ->get();
+            foreach ($slip as $value) {
+                if (($value->user?->kerjasama_id == $mitra) && ($value->bulan_tahun == $bulan)) {
+                    $getAll[] = $value;
+                }
+            }
+
+            $isAll = wrapArray($getAll);
+            // dd($isAll->all());
+            // dd($isAll);
+            return Excel::download(
+                (new DataSlipGajiExport)
+                    ->forData($isAll)
+                    ->forOrder('asc'),
+                'slip2.xlsx'
+            );
+        }        
+    }
+
+    public function slipUserDownload(Request $request)
+    {
+        $path = 'logo/desain_slip.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        $id = $request->id;
+        
+        $slip = SlipGaji::with('employe', 'employe.client')->find($id);
+        $formatedMonth = Carbon::createFromFormat('Y-m', $slip->bulan_tahun)->isoFormat('M Y');
+        return Inertia::render('SlipGajiPages/ExportSlip', compact('slip', 'base64'));
     }
 
 }

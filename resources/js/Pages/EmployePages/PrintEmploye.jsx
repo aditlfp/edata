@@ -4,7 +4,7 @@ import { Head } from "@inertiajs/react";
 import MyDocument from "../Admin/Component/MyDocument";
 
 function PrintEmploye(props) {
-  // console.log(props);
+  // console.log("print page", props);
   return (
     <>
       <Head title="Export - Employes" />

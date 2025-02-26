@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Divisi extends Model
 {
     protected $connection = 'mysql2connection';
+    protected $table = 'divisis';
 
     public function Jabatan()
     {

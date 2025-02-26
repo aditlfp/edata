@@ -15,5 +15,9 @@ class SlipGaji extends Model
     {
         return $this->belongsTo(User::class)->latest();
     }
+    public function Employe()
+    {
+        return $this->belongsTo(Employe::class, 'karyawan', 'name');
+    }
 }
 

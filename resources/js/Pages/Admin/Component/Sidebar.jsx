@@ -2,7 +2,7 @@ import { Link, useForm } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { BiChevronsRight, BiSolidLockOpenAlt } from "react-icons/bi";
-import { BiExtension } from "react-icons/bi/index.esm";
+import { BiCreditCard, BiDetail, BiExtension } from "react-icons/bi/index.esm";
 
 function Sidebar({ link, value, children, open }) {
   const { post } = useForm({});
@@ -19,17 +19,24 @@ function Sidebar({ link, value, children, open }) {
           </div>
           <Link
             href={route(`${link}`)}
-            className="bg-orange-300 flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm justify-center text-xs sm:text-sm cursor-pointer"
+            className="bg-orange-300 flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm justify-between text-xs sm:text-sm cursor-pointer"
           >
             <div className="text-lg">{children}</div>
             {value}
           </Link>
           <Link
             href={route("slip-gaji.index")}
-            className="bg-orange-300 flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm justify-center text-xs sm:text-sm cursor-pointer"
+            className="bg-orange-300 flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm justify-between text-xs sm:text-sm cursor-pointer"
           >
-            <div className="text-lg">{<BiExtension />}</div>
-            Slip Gaji
+            <div className="text-lg">{<BiCreditCard />}</div>
+            Slip Gaji Bulanan
+          </Link>
+          <Link
+            href={route("contracts.index")}
+            className="bg-orange-300 flex justify-between hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm text-xs sm:text-sm cursor-pointer"
+          >
+            <div className="text-lg">{<BiDetail />}</div>
+            Ajukan Kontrak
           </Link>
           <button
             type="button"

@@ -1,8 +1,10 @@
 import Footer from "@/Components/Footer";
 import Sidebar from "@/Pages/Admin/Component/Sidebar";
+import { Head } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { BiChevronsLeft, BiChevronsRight, BiExtension } from "react-icons/bi";
+import { BiGroup } from "react-icons/bi/index.esm";
 import { ToastContainer } from "react-toastify";
 
 function AdminLayout({ children, overflow }) {
@@ -33,13 +35,16 @@ function AdminLayout({ children, overflow }) {
     setOpen(!open);
   };
   // console.log(isSm, open);
+
   return (
     <>
+      <Head title="Home" />
       <div
         className={`flex ${
           overflow ? overflow : "overflow-auto"
         } w-full bg-gray-200 gap-2`}
       >
+
         <AnimatePresence>
           <motion.div
             initial={{ width: "0%" }}
@@ -65,7 +70,7 @@ function AdminLayout({ children, overflow }) {
                 value={"Employes Data"}
                 open={open}
               >
-                {<BiExtension />}
+                {<BiGroup />}
               </Sidebar>
             </motion.div>
             <motion.div
@@ -108,6 +113,25 @@ function AdminLayout({ children, overflow }) {
         </div>
       </div>
       <Footer />
+      <style jsx>{`
+        ::-webkit-scrollbar {
+          height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: #ea580c;
+          border-radius: 10px;
+          border: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: #a33b04;
+        }
+      `}</style>
     </>
   );
 }

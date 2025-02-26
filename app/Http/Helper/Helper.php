@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Crypt;
 
 function UploadImage($request, $NameFile)
@@ -58,4 +60,22 @@ function decryptField($field)
         // If decryption fails, assume the field is not encrypted and use it as is
         return $field;
     }
+}
+
+function wrapArray($items) {
+    return new class($items) implements Arrayable {
+        private $items;
+
+        public function __construct($items) {
+            $this->items = $items;
+        }
+
+        public function all() {
+            return $this->items;
+        }
+
+        public function toArray() {
+            return $this->items;
+        }
+    };
 }

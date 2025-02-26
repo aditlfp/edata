@@ -228,10 +228,10 @@ var f = String.prototype.replace, a = /%20/g, c = "RFC3986", l = { default: c, f
     k2 = a2 ? T2.sort(a2) : T2;
   }
   for (var N2 = 0; N2 < k2.length; ++N2) {
-    var C2 = k2[N2], D2 = "object" == typeof C2 && void 0 !== C2.value ? C2.value : h2[C2];
-    if (!i2 || null !== D2) {
-      var $2 = g(h2) ? "function" == typeof n2 ? n2(e2, C2) : e2 : e2 + (c2 ? "." + C2 : "[" + C2 + "]");
-      w(x2, t3(D2, $2, n2, o2, i2, u2, f2, a2, c2, l2, s2, v2, p2, y2));
+    var C2 = k2[N2], A2 = "object" == typeof C2 && void 0 !== C2.value ? C2.value : h2[C2];
+    if (!i2 || null !== A2) {
+      var D2 = g(h2) ? "function" == typeof n2 ? n2(e2, C2) : e2 : e2 + (c2 ? "." + C2 : "[" + C2 + "]");
+      w(x2, t3(A2, D2, n2, o2, i2, u2, f2, a2, c2, l2, s2, v2, p2, y2));
     }
   }
   return x2;
@@ -241,7 +241,7 @@ var f = String.prototype.replace, a = /%20/g, c = "RFC3986", l = { default: c, f
   });
 }, C = function(t4, r2) {
   return t4 && "string" == typeof t4 && r2.comma && t4.indexOf(",") > -1 ? t4.split(",") : t4;
-}, D = function(t4, r2, e2, n2) {
+}, A = function(t4, r2, e2, n2) {
   if (t4) {
     var o2 = e2.allowDots ? t4.replace(/\.([^.[]+)/g, "[$1]") : t4, i2 = /(\[[^[\]]*])/g, u2 = e2.depth > 0 && /(\[[^[\]]*])/.exec(o2), f2 = u2 ? o2.slice(0, u2.index) : o2, a2 = [];
     if (f2) {
@@ -269,7 +269,7 @@ var f = String.prototype.replace, a = /%20/g, c = "RFC3986", l = { default: c, f
       return o3;
     }(a2, r2, e2, n2);
   }
-}, $ = function(t4, r2) {
+}, D = function(t4, r2) {
   var e2 = /* @__PURE__ */ function(t5) {
     return T;
   }();
@@ -289,11 +289,11 @@ var f = String.prototype.replace, a = /%20/g, c = "RFC3986", l = { default: c, f
       }
     return n3;
   }(t4, e2) : t4, o2 = e2.plainObjects ? /* @__PURE__ */ Object.create(null) : {}, i2 = Object.keys(n2), u2 = 0; u2 < i2.length; ++u2) {
-    var f2 = i2[u2], a2 = D(f2, n2[f2], e2, "string" == typeof t4);
+    var f2 = i2[u2], a2 = A(f2, n2[f2], e2, "string" == typeof t4);
     o2 = d.merge(o2, a2, e2);
   }
   return d.compact(o2);
-}, F = /* @__PURE__ */ function() {
+}, $ = /* @__PURE__ */ function() {
   function t4(t5, r2, e3) {
     var n2, o2;
     this.name = t5, this.definition = r2, this.bindings = null != (n2 = r2.bindings) ? n2 : {}, this.wheres = null != (o2 = r2.wheres) ? o2 : {}, this.config = e3;
@@ -310,7 +310,7 @@ var f = String.prototype.replace, a = /%20/g, c = "RFC3986", l = { default: c, f
     if (u2) {
       for (var f2 in u2.groups)
         u2.groups[f2] = "string" == typeof u2.groups[f2] ? decodeURIComponent(u2.groups[f2]) : u2.groups[f2];
-      return { params: u2.groups, query: $(i2) };
+      return { params: u2.groups, query: D(i2) };
     }
     return false;
   }, e2.compile = function(t5) {
@@ -334,14 +334,14 @@ var f = String.prototype.replace, a = /%20/g, c = "RFC3986", l = { default: c, f
       return { name: t6.replace(/{|\??}/g, ""), required: !/\?}$/.test(t6) };
     })) ? t5 : [];
   } }]), t4;
-}(), P = /* @__PURE__ */ function(t4) {
+}(), F = /* @__PURE__ */ function(t4) {
   var n2, i2;
   function u2(r2, n3, o2, i3) {
     var u3;
     if (void 0 === o2 && (o2 = true), (u3 = t4.call(this) || this).t = null != i3 ? i3 : "undefined" != typeof Ziggy ? Ziggy : null == globalThis ? void 0 : globalThis.Ziggy, u3.t = e({}, u3.t, { absolute: o2 }), r2) {
       if (!u3.t.routes[r2])
         throw new Error("Ziggy error: route '" + r2 + "' is not in the route list.");
-      u3.i = new F(r2, u3.t.routes[r2], u3.t), u3.u = u3.l(n3);
+      u3.i = new $(r2, u3.t.routes[r2], u3.t), u3.u = u3.l(n3);
     }
     return u3;
   }
@@ -395,7 +395,7 @@ var f = String.prototype.replace, a = /%20/g, c = "RFC3986", l = { default: c, f
     var r2 = this;
     t5 ? this.t.absolute && t5.startsWith("/") && (t5 = this.p().host + t5) : t5 = this.h();
     var n3 = {}, o2 = Object.entries(this.t.routes).find(function(e2) {
-      return n3 = new F(e2[0], e2[1], r2.t).matchesUrl(t5);
+      return n3 = new $(e2[0], e2[1], r2.t).matchesUrl(t5);
     }) || [void 0, void 0];
     return e({ name: o2[0] }, n3, { route: o2[1] });
   }, f2.h = function() {
@@ -408,16 +408,21 @@ var f = String.prototype.replace, a = /%20/g, c = "RFC3986", l = { default: c, f
     var a2 = new RegExp("^" + t5.replace(/\./g, "\\.").replace(/\*/g, ".*") + "$").test(o2);
     if ([null, void 0].includes(r2) || !a2)
       return a2;
-    var c2 = new F(o2, f3, this.t);
+    var c2 = new $(o2, f3, this.t);
     r2 = this.l(r2, c2);
     var l2 = e({}, i3, u3);
     return !(!Object.values(r2).every(function(t6) {
       return !t6;
     }) || Object.values(l2).some(function(t6) {
       return void 0 !== t6;
-    })) || Object.entries(r2).every(function(t6) {
-      return l2[t6[0]] == t6[1];
-    });
+    })) || function t6(r3, e2) {
+      return Object.entries(r3).every(function(r4) {
+        var n4 = r4[0], o3 = r4[1];
+        return Array.isArray(o3) && Array.isArray(e2[n4]) ? o3.every(function(t7) {
+          return e2[n4].includes(t7);
+        }) : "object" == typeof o3 && "object" == typeof e2[n4] && null !== o3 && null !== e2[n4] ? t6(o3, e2[n4]) : e2[n4] == o3;
+      });
+    }(r2, l2);
   }, f2.p = function() {
     var t5, r2, e2, n3, o2, i3, u3 = "undefined" != typeof window ? window.location : {}, f3 = u3.host, a2 = u3.pathname, c2 = u3.search;
     return { host: null != (t5 = null == (r2 = this.t.location) ? void 0 : r2.host) ? t5 : void 0 === f3 ? "" : f3, pathname: null != (e2 = null == (n3 = this.t.location) ? void 0 : n3.pathname) ? e2 : void 0 === a2 ? "" : a2, search: null != (o2 = null == (i3 = this.t.location) ? void 0 : i3.search) ? o2 : void 0 === c2 ? "" : c2 };
@@ -471,8 +476,8 @@ var f = String.prototype.replace, a = /%20/g, c = "RFC3986", l = { default: c, f
     return e({}, t5.params, t5.query);
   } }]), u2;
 }(/* @__PURE__ */ u(String));
-function A(t4, r2, e2, n2) {
-  var o2 = new P(t4, r2, e2, n2);
+function P(t4, r2, e2, n2) {
+  var o2 = new F(t4, r2, e2, n2);
   return t4 ? o2.toString() : o2;
 }
 const appName = "SAC-DataCenter";
@@ -481,9 +486,9 @@ createServer(
     page,
     render: ReactDOMServer.renderToString,
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, /* @__PURE__ */ Object.assign({ "./Pages/Admin/Component/HeadNavigation.jsx": () => import("./assets/HeadNavigation-C5ShT8hy.js"), "./Pages/Admin/Component/Modal.jsx": () => import("./assets/Modal-DmMYx0rx.js"), "./Pages/Admin/Component/MyDocument.jsx": () => import("./assets/MyDocument-f-5QUBLc.js"), "./Pages/Admin/Component/Sidebar.jsx": () => import("./assets/Sidebar-CW9JvTre.js"), "./Pages/Admin/Dashboard/Index.jsx": () => import("./assets/Index-bNsmJobe.js"), "./Pages/Auth/ConfirmPassword.jsx": () => import("./assets/ConfirmPassword-e_A4S8Kn.js"), "./Pages/Auth/ForgotPassword.jsx": () => import("./assets/ForgotPassword-46KQzcro.js"), "./Pages/Auth/Login.jsx": () => import("./assets/Login-dCxggSvp.js"), "./Pages/Auth/Register.jsx": () => import("./assets/Register-B3gLuUBS.js"), "./Pages/Auth/ResetPassword.jsx": () => import("./assets/ResetPassword-C2huCS53.js"), "./Pages/Auth/VerifyEmail.jsx": () => import("./assets/VerifyEmail-Bm-yC4Ut.js"), "./Pages/CareerPage/CreateCareer.jsx": () => import("./assets/CreateCareer-CWwRfVZF.js"), "./Pages/CareerPage/EditCareer.jsx": () => import("./assets/EditCareer-DpZfm0_H.js"), "./Pages/CareerPage/IndexCareer.jsx": () => import("./assets/IndexCareer-B-VGIf32.js"), "./Pages/CareerPage/ShowEmployeCareer.jsx": () => import("./assets/ShowEmployeCareer-CQuEBZPv.js"), "./Pages/Dashboard.jsx": () => import("./assets/Dashboard-CThOSKjm.js"), "./Pages/EmployePages/CreateEmploye.jsx": () => import("./assets/CreateEmploye-BU6KioEF.js"), "./Pages/EmployePages/EditEmploye.jsx": () => import("./assets/EditEmploye-BAlggV-E.js"), "./Pages/EmployePages/IndexEmploye.jsx": () => import("./assets/IndexEmploye-BALG8qAi.js"), "./Pages/EmployePages/PrintEmploye.jsx": () => import("./assets/PrintEmploye-CZRiAKU2.js"), "./Pages/EmployePages/ShowEmploye.jsx": () => import("./assets/ShowEmploye-D64ddYlY.js"), "./Pages/Profile/Edit.jsx": () => import("./assets/Edit-DheLYdJt.js"), "./Pages/Profile/Partials/DeleteUserForm.jsx": () => import("./assets/DeleteUserForm-ChEnN-Yb.js"), "./Pages/Profile/Partials/UpdatePasswordForm.jsx": () => import("./assets/UpdatePasswordForm-Dv4fd9xr.js"), "./Pages/Profile/Partials/UpdateProfileInformationForm.jsx": () => import("./assets/UpdateProfileInformationForm-Ck5ORd2C.js"), "./Pages/SlipGajiPages/CreateSlip.jsx": () => import("./assets/CreateSlip-BxenxKWZ.js"), "./Pages/SlipGajiPages/EditSlip.jsx": () => import("./assets/EditSlip-Do1jbCjN.js"), "./Pages/SlipGajiPages/IndexSlip.jsx": () => import("./assets/IndexSlip-DgOabZJ4.js"), "./Pages/Welcome.jsx": () => import("./assets/Welcome-CuLVnEAS.js") })),
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, /* @__PURE__ */ Object.assign({ "./Pages/Admin/Component/Fillable.jsx": () => import("./assets/Fillable-CD_jadOc.js"), "./Pages/Admin/Component/Footer.jsx": () => import("./assets/Footer-DSnh824x.js"), "./Pages/Admin/Component/HeadNavigation.jsx": () => import("./assets/HeadNavigation-C5ShT8hy.js"), "./Pages/Admin/Component/Modal.jsx": () => import("./assets/Modal-DmMYx0rx.js"), "./Pages/Admin/Component/MyDocument.jsx": () => import("./assets/MyDocument-DRh8lYYm.js"), "./Pages/Admin/Component/Readable.jsx": () => import("./assets/Readable-mB2VZ-71.js"), "./Pages/Admin/Component/Sidebar.jsx": () => import("./assets/Sidebar-DxOhayto.js"), "./Pages/Admin/Dashboard/Index.jsx": () => import("./assets/Index-Dm8S71l3.js"), "./Pages/Auth/ConfirmPassword.jsx": () => import("./assets/ConfirmPassword-e_A4S8Kn.js"), "./Pages/Auth/ForgotPassword.jsx": () => import("./assets/ForgotPassword-46KQzcro.js"), "./Pages/Auth/Login.jsx": () => import("./assets/Login-dCxggSvp.js"), "./Pages/Auth/Register.jsx": () => import("./assets/Register-B3gLuUBS.js"), "./Pages/Auth/ResetPassword.jsx": () => import("./assets/ResetPassword-C2huCS53.js"), "./Pages/Auth/VerifyEmail.jsx": () => import("./assets/VerifyEmail-Bm-yC4Ut.js"), "./Pages/CareerPage/CreateCareer.jsx": () => import("./assets/CreateCareer-MoaZl9Yk.js"), "./Pages/CareerPage/EditCareer.jsx": () => import("./assets/EditCareer-9CvqL9y6.js"), "./Pages/CareerPage/IndexCareer.jsx": () => import("./assets/IndexCareer-CTsmi7f3.js"), "./Pages/CareerPage/ShowEmployeCareer.jsx": () => import("./assets/ShowEmployeCareer-CQuEBZPv.js"), "./Pages/Dashboard.jsx": () => import("./assets/Dashboard-COXYij6G.js"), "./Pages/EmployePages/CreateEmploye.jsx": () => import("./assets/CreateEmploye-BCMZelgU.js"), "./Pages/EmployePages/EditEmploye.jsx": () => import("./assets/EditEmploye-DV77OBsk.js"), "./Pages/EmployePages/IndexEmploye.jsx": () => import("./assets/IndexEmploye-B7C3i_BF.js"), "./Pages/EmployePages/PrintEmploye.jsx": () => import("./assets/PrintEmploye-BREH8N2A.js"), "./Pages/EmployePages/ShowEmploye.jsx": () => import("./assets/ShowEmploye-CX0nkCVP.js"), "./Pages/PGJ_Kontrak/CreateKontrak.jsx": () => import("./assets/CreateKontrak-Bu5sSXYw.js"), "./Pages/PGJ_Kontrak/EditKontrak.jsx": () => import("./assets/EditKontrak-Bt7OjosB.js"), "./Pages/PGJ_Kontrak/IndexKontrak.jsx": () => import("./assets/IndexKontrak-Z0GkmZZU.js"), "./Pages/PGJ_Kontrak/ShowKontrak.jsx": () => import("./assets/ShowKontrak-DEnPY_G-.js"), "./Pages/Profile/Edit.jsx": () => import("./assets/Edit-BA5XYP7N.js"), "./Pages/Profile/Partials/DeleteUserForm.jsx": () => import("./assets/DeleteUserForm-ChEnN-Yb.js"), "./Pages/Profile/Partials/UpdatePasswordForm.jsx": () => import("./assets/UpdatePasswordForm-Dv4fd9xr.js"), "./Pages/Profile/Partials/UpdateProfileInformationForm.jsx": () => import("./assets/UpdateProfileInformationForm-Ck5ORd2C.js"), "./Pages/SlipGajiPages/CreateSlip.jsx": () => import("./assets/CreateSlip-ZtL1wqQ5.js"), "./Pages/SlipGajiPages/EditSlip.jsx": () => import("./assets/EditSlip-COxjSeDj.js"), "./Pages/SlipGajiPages/ExportSlip.jsx": () => import("./assets/ExportSlip-DtxuhzhC.js"), "./Pages/SlipGajiPages/IndexSlip.jsx": () => import("./assets/IndexSlip-as3b6mt7.js"), "./Pages/Welcome.jsx": () => import("./assets/Welcome-CuLVnEAS.js") })),
     setup: ({ App, props }) => {
-      global.route = (name, params, absolute) => A(name, params, absolute, {
+      global.route = (name, params, absolute) => P(name, params, absolute, {
         ...page.props.ziggy,
         location: new URL(page.props.ziggy.location)
       });

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\PGJKontrakController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SlipGajiController;
 use App\Models\Employe;
@@ -36,6 +37,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
+  Route::get('employes/api/{client_id}', [EmployeController::class, 'emploAPI'])->name('emplo-api');
+  Route::get('employes/editApi/{client_id}', [EmployeController::class, 'apiEdit'])->name('api-edit-emplo');
     Route::get('/export-employe/{data}', function(Employe $employe) {
         return Inertia::render('EmployePages/PrintEmploye', $employe);
     })->name('employe.export');
@@ -50,6 +53,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/employe/download', [EmployeController::class, 'download'])->name('download.employe');
     Route::post('/slipgaji/import', [SlipGajiController::class, 'import'])->name('importe.slipe');
     Route::get('/slipgaji/download-template', [SlipGajiController::class, 'downloadTemplate'])->name('download.template');
+    Route::get('/slipgaji/data_download', [SlipGajiController::class, 'data_download'])->name('downSlip');
+    Route::get('/slipgaji/user-download-slip', [SlipGajiController::class, 'slipUserDownload'])->name('downUserSlip');
+
+    Route::resource('/contracts', PGJKontrakController::class);
 });
 
 

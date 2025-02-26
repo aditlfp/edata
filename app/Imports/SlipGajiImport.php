@@ -109,7 +109,7 @@ class SlipGajiImport implements ToModel, WithHeadingRow, WithBatchInserts,  With
             'jabatan' => 'G3',
             'kehadiran' => 'H3',
             'kinerja' => 'I3',
-            'lain_lain' => 'J3',
+            'tj_lain' => 'J3',
             'bpjs' => 'K3',
             'pinjaman' => 'L3',
             'absen'  => 'M3',
