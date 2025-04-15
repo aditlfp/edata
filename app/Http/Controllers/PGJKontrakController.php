@@ -104,4 +104,23 @@ class PGJKontrakController extends Controller
          $contract->delete();
          return redirect()->route('contracts.index')->with('success', 'Contract deleted successfully.');
      }
+
+     public function sendToOperator(Request $request)
+     {
+        $contract = Contract::find($request->id);
+
+        if (!$contract) {
+            return redirect()->back()->with('error', 'Kontrak tidak ditemukan');
+        }
+
+        if (!$contract->send_to_operator && !$contract->ttd) {
+            $contract->update([
+                'send_to_operator' => 1,
+            ]);
+            return redirect()->back()->with('success', 'Kontrak berhasil dikirim ke operator');
+        } else {
+            return redirect()->back()->with('error', 'Kontrak sudah dikirim ke operator');
+        }
+
+     }
 }

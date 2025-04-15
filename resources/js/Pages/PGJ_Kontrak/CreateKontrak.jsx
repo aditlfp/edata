@@ -12,11 +12,11 @@ function CreateKontrak( props ) {
     nama_pk_ptm: "",
     alamat_pk_ptm: "",
     jabatan_pk_ptm: "",
-    nama_pk_kda: "",
-    tempat_lahir_pk_kda: "",
-    tgl_lahir_pk_kda: "",
-    nik_pk_kda: "",
-    alamat_pk_kda: "",
+    nama_pk_kda: "-",
+    tempat_lahir_pk_kda: "-",
+    tgl_lahir_pk_kda: "1900-01-01",
+    nik_pk_kda: "-",
+    alamat_pk_kda: "-",
     jabatan_pk_kda: "",
     status_pk_kda: "",
     unit_pk_kda: "",
@@ -73,7 +73,7 @@ function CreateKontrak( props ) {
         <form
           onSubmit={handleSubmit}
           encType="multipart/form-data"
-          className="gap-4 mt-10 flex flex-col sm:grid sm:grid-flow-cols sm:grid-cols-3 w-full"
+          className="gap-4 mt-10 flex flex-col sm:grid sm:grid-flow-cols sm:grid-cols-2 w-full"
         >
         <div className='flex flex-col gap-y-2'>
         <span className='text-center font-semibold'>Section Surat</span>
@@ -190,7 +190,7 @@ function CreateKontrak( props ) {
           </div>
         </div>
         <div className='flex flex-col gap-y-2'>
-        <span className='text-center font-semibold mb-2'>Pihak Pertama</span>
+        <span className='text-center font-semibold'>Pihak Pertama</span>
         <div className="form-control">
             <span className="label-text required">Nama : </span>
             <input
@@ -236,86 +236,9 @@ function CreateKontrak( props ) {
 
             {errors.jabatan_pk_ptm &&<span className="text-red-500">{errors.jabatan_pk_ptm}</span>}
           </div>
-        </div>
-        <div className='flex flex-col gap-y-2'>
+
         <span className='text-center font-semibold mb-2'>Pihak Kedua</span>
-        <div className="form-control">
-            <span className="label-text required">Nama : </span>
-            <input
-              id="nama_pk_kda"
-              name="nama_pk_kda"
-              required
-              type='text'
-              value={data.nama_pk_kda}
-              placeholder='Masukkan Nama Pihak Kedua....'
-              onChange={(e) => setData("nama_pk_kda", e.target.value)}
-              className="input input-sm rounded-sm input-bordered"
-            />
-
-            {errors.nama_pk_kda &&<span className="text-red-500">{errors.nama_pk_kda}</span>}
-          </div>
-          <div className='flex gap-x-2'>
-            <div className="form-control">
-                <span className="label-text required">Tempat : </span>
-                <input
-                id="tempat_lahir_pk_kda"
-                name="tempat_lahir_pk_kda"
-                required
-                type='text'
-                value={data.tempat_lahir_pk_kda}
-                placeholder='Masukkan Tempat Lahir Pihak Pertama....'
-                onChange={(e) => setData("tempat_lahir_pk_kda", e.target.value)}
-                className="input input-sm rounded-sm input-bordered"
-                />
-
-                {errors.tempat_lahir_pk_kda &&<span className="text-red-500">{errors.tempat_lahir_pk_kda}</span>}
-            </div>
-            <div className="form-control">
-                <span className="label-text required">Tanggal Lahir : </span>
-                <input
-                id="tgl_lahir_pk_kda"
-                name="tgl_lahir_pk_kda"
-                required
-                type='date'
-                value={data.tgl_lahir_pk_kda}
-                onChange={(e) => setData("tgl_lahir_pk_kda", e.target.value)}
-                className="input input-sm rounded-sm input-bordered"
-                />
-
-                {errors.tgl_lahir_pk_kda &&<span className="text-red-500">{errors.tgl_lahir_pk_kda}</span>}
-            </div>
-          </div>
-
-        <div className="form-control">
-            <span className="label-text required">NIK : </span>
-            <input
-              id="nik_pk_kda"
-              name="nik_pk_kda"
-              required
-              type='text'
-              value={data.nik_pk_kda}
-              placeholder='Masukkan NIK Pihak Pertama....'
-              onChange={(e) => setData("nik_pk_kda", e.target.value)}
-              className="input input-sm rounded-sm input-bordered"
-            />
-
-            {errors.nik_pk_kda &&<span className="text-red-500">{errors.nik_pk_kda}</span>}
-        </div>
-        <div className="form-control">
-            <span className="label-text required">Alamat : </span>
-            <input
-              id="alamat_pk_kda"
-              name="alamat_pk_kda"
-              required
-              type='text'
-              value={data.alamat_pk_kda}
-              placeholder='Masukkan Alamat Pihak Pertama....'
-              onChange={(e) => setData("alamat_pk_kda", e.target.value)}
-              className="input input-sm rounded-sm input-bordered"
-            />
-
-            {errors.alamat_pk_kda &&<span className="text-red-500">{errors.alamat_pk_kda}</span>}
-        </div>
+        
         <div className="form-control">
             <span className="label-text required">Jabatan : </span>
             <input
@@ -324,7 +247,7 @@ function CreateKontrak( props ) {
               required
               type='text'
               value={data.jabatan_pk_kda}
-              placeholder='Masukkan Jabatan Pihak Pertama....'
+              placeholder='Masukkan Jabatan Pihak Kedua....'
               onChange={(e) => setData("jabatan_pk_kda", e.target.value)}
               className="input input-sm rounded-sm input-bordered"
             />
@@ -339,7 +262,7 @@ function CreateKontrak( props ) {
               required
               type='text'
               value={data.status_pk_kda}
-              placeholder='Masukkan Status Pihak Pertama....'
+              placeholder='Masukkan Status Pihak Kedua....'
               onChange={(e) => setData("status_pk_kda", e.target.value)}
               className="input input-sm rounded-sm input-bordered"
             />
@@ -354,7 +277,7 @@ function CreateKontrak( props ) {
               required
               type='text'
               value={data.unit_pk_kda}
-              placeholder='Masukkan Unit Kerja Pihak Pertama....'
+              placeholder='Masukkan Unit Kerja Pihak Kedua....'
               onChange={(e) => setData("unit_pk_kda", e.target.value)}
               className="input input-sm rounded-sm input-bordered"
             />

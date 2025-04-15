@@ -55,8 +55,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/slipgaji/download-template', [SlipGajiController::class, 'downloadTemplate'])->name('download.template');
     Route::get('/slipgaji/data_download', [SlipGajiController::class, 'data_download'])->name('downSlip');
     Route::get('/slipgaji/user-download-slip', [SlipGajiController::class, 'slipUserDownload'])->name('downUserSlip');
-
+    
     Route::resource('/contracts', PGJKontrakController::class);
+    Route::patch('/contracts/send_into/{id}', [PGJKontrakController::class, 'sendToOperator'])->name('sendToOperator');
 });
 
 

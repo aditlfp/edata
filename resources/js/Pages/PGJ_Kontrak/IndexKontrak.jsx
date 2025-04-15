@@ -1,5 +1,5 @@
 import AdminLayout from '@/Layouts/AdminLayout'
-import { Head, useForm } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 import HeadNavigation from '../Admin/Component/HeadNavigation'
 import React, { useMemo, useState } from 'react'
 import { BiEraser, BiSearchAlt, BiShowAlt, BiSolidEdit } from 'react-icons/bi/index.esm';
@@ -7,9 +7,10 @@ import Modal from '../Admin/Component/Modal';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 import EachUtils from '@/lib/utils/EachUtils';
+import { RiMailSendFill } from "react-icons/ri";
 
 export default function IndexKontrak(props) {
-
+    // console.log(props)
     const [modal, setModal] = useState(false);
     const [dataModal, setDataModal] = useState("");
     const employeesPerPage = 25;
@@ -97,6 +98,31 @@ export default function IndexKontrak(props) {
       get(route('contracts.edit', id))
     }
 
+    const handleSendToOperator = (id) => {
+    
+        router.post(
+            route("sendToOperator", id),
+            {
+                _method: "PATCH", // spoofing PATCH method
+                id: id,
+            },
+            {
+                onSuccess: () => {
+                    toast.success("Berhasil Mengirim Pengajuan Kontrak!", {
+                        theme: "colored",
+                    });
+                    setTimeout(() => {
+                        router.get(route("contracts.index"), {
+                            replace: true,
+                            preserveScroll: true,
+                        });
+                    }, 2000);
+                },
+            }
+        );
+    };
+    
+
     function convertToDate(dateStr) {
         const [day, month, year] = dateStr.split('/');
         return new Date(`${year}-${month}-${day}`);
@@ -180,6 +206,11 @@ export default function IndexKontrak(props) {
                                                 onClick={() => handleEdit(items.data.id)}
                                                 className='btn btn-sm rounded-sm text-2xl bg-amber-500/20 hover:bg-amber-500 hover:text-white border-0 text-amber-500'>
                                                 <BiSolidEdit />
+                                            </button>
+                                            <button
+                                                onClick={() => handleSendToOperator(items.data.id)}
+                                                className='btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500'>
+                                                <RiMailSendFill />
                                             </button>
                                         </div>
                                     </td>

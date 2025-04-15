@@ -90,8 +90,8 @@ function Login({ status, canResetPassword }) {
         "button",
         {
           type: "submit",
-          className: "btn text-white hover:text-orange-500 font-semibold text-lg btn-block my-2 bg-orange-500 hover:bg-orange-300 rounded-full",
-          children: "Log In"
+          className: `btn ${processing ? "btn-disabled" : ""} text-white hover:text-orange-500 font-semibold text-lg btn-block my-2 bg-orange-500 hover:bg-orange-300 rounded-full`,
+          children: processing ? "Waiting.." : "Log In"
         }
       )
     ] })

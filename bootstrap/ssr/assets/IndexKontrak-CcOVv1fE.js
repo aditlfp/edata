@@ -1,6 +1,6 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { A as AdminLayout } from "./AdminLayout-CQyBQfjp.js";
-import { useForm, Head } from "@inertiajs/react";
+import { useForm, Head, router } from "@inertiajs/react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { useState, useMemo } from "react";
 import { BiSearchAlt, BiShowAlt, BiEraser, BiSolidEdit } from "react-icons/bi/index.esm.js";
@@ -8,6 +8,7 @@ import Modal from "./Modal-DmMYx0rx.js";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { E as EachUtils } from "./EachUtils-sRFHlwPj.js";
+import { RiMailSendFill } from "react-icons/ri/index.esm.js";
 import "./Sidebar-DxOhayto.js";
 import "framer-motion";
 function IndexKontrak(props) {
@@ -78,6 +79,29 @@ function IndexKontrak(props) {
   };
   const handleEdit = (id) => {
     get(route("contracts.edit", id));
+  };
+  const handleSendToOperator = (id) => {
+    router.post(
+      route("sendToOperator", id),
+      {
+        _method: "PATCH",
+        // spoofing PATCH method
+        id
+      },
+      {
+        onSuccess: () => {
+          toast.success("Berhasil Mengirim Pengajuan Kontrak!", {
+            theme: "colored"
+          });
+          setTimeout(() => {
+            router.get(route("contracts.index"), {
+              replace: true,
+              preserveScroll: true
+            });
+          }, 2e3);
+        }
+      }
+    );
   };
   function convertToDate(dateStr) {
     const [day2, month, year] = dateStr.split("/");
@@ -153,6 +177,14 @@ function IndexKontrak(props) {
                 onClick: () => handleEdit(items.data.id),
                 className: "btn btn-sm rounded-sm text-2xl bg-amber-500/20 hover:bg-amber-500 hover:text-white border-0 text-amber-500",
                 children: /* @__PURE__ */ jsx(BiSolidEdit, {})
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              "button",
+              {
+                onClick: () => handleSendToOperator(items.data.id),
+                className: "btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500",
+                children: /* @__PURE__ */ jsx(RiMailSendFill, {})
               }
             )
           ] }) })

@@ -14,11 +14,11 @@ function CreateKontrak(props) {
     nama_pk_ptm: "",
     alamat_pk_ptm: "",
     jabatan_pk_ptm: "",
-    nama_pk_kda: "",
-    tempat_lahir_pk_kda: "",
-    tgl_lahir_pk_kda: "",
-    nik_pk_kda: "",
-    alamat_pk_kda: "",
+    nama_pk_kda: "-",
+    tempat_lahir_pk_kda: "-",
+    tgl_lahir_pk_kda: "1900-01-01",
+    nik_pk_kda: "-",
+    alamat_pk_kda: "-",
     jabatan_pk_kda: "",
     status_pk_kda: "",
     unit_pk_kda: "",
@@ -70,7 +70,7 @@ function CreateKontrak(props) {
       {
         onSubmit: handleSubmit,
         encType: "multipart/form-data",
-        className: "gap-4 mt-10 flex flex-col sm:grid sm:grid-flow-cols sm:grid-cols-3 w-full",
+        className: "gap-4 mt-10 flex flex-col sm:grid sm:grid-flow-cols sm:grid-cols-2 w-full",
         children: [
           /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-y-2", children: [
             /* @__PURE__ */ jsx("span", { className: "text-center font-semibold", children: "Section Surat" }),
@@ -195,7 +195,7 @@ function CreateKontrak(props) {
             ] })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-y-2", children: [
-            /* @__PURE__ */ jsx("span", { className: "text-center font-semibold mb-2", children: "Pihak Pertama" }),
+            /* @__PURE__ */ jsx("span", { className: "text-center font-semibold", children: "Pihak Pertama" }),
             /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
               /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Nama : " }),
               /* @__PURE__ */ jsx(
@@ -246,96 +246,8 @@ function CreateKontrak(props) {
                 }
               ),
               errors.jabatan_pk_ptm && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.jabatan_pk_ptm })
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-y-2", children: [
+            ] }),
             /* @__PURE__ */ jsx("span", { className: "text-center font-semibold mb-2", children: "Pihak Kedua" }),
-            /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-              /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Nama : " }),
-              /* @__PURE__ */ jsx(
-                "input",
-                {
-                  id: "nama_pk_kda",
-                  name: "nama_pk_kda",
-                  required: true,
-                  type: "text",
-                  value: data.nama_pk_kda,
-                  placeholder: "Masukkan Nama Pihak Kedua....",
-                  onChange: (e) => setData("nama_pk_kda", e.target.value),
-                  className: "input input-sm rounded-sm input-bordered"
-                }
-              ),
-              errors.nama_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.nama_pk_kda })
-            ] }),
-            /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2", children: [
-              /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-                /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Tempat : " }),
-                /* @__PURE__ */ jsx(
-                  "input",
-                  {
-                    id: "tempat_lahir_pk_kda",
-                    name: "tempat_lahir_pk_kda",
-                    required: true,
-                    type: "text",
-                    value: data.tempat_lahir_pk_kda,
-                    placeholder: "Masukkan Tempat Lahir Pihak Pertama....",
-                    onChange: (e) => setData("tempat_lahir_pk_kda", e.target.value),
-                    className: "input input-sm rounded-sm input-bordered"
-                  }
-                ),
-                errors.tempat_lahir_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.tempat_lahir_pk_kda })
-              ] }),
-              /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-                /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Tanggal Lahir : " }),
-                /* @__PURE__ */ jsx(
-                  "input",
-                  {
-                    id: "tgl_lahir_pk_kda",
-                    name: "tgl_lahir_pk_kda",
-                    required: true,
-                    type: "date",
-                    value: data.tgl_lahir_pk_kda,
-                    onChange: (e) => setData("tgl_lahir_pk_kda", e.target.value),
-                    className: "input input-sm rounded-sm input-bordered"
-                  }
-                ),
-                errors.tgl_lahir_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.tgl_lahir_pk_kda })
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-              /* @__PURE__ */ jsx("span", { className: "label-text required", children: "NIK : " }),
-              /* @__PURE__ */ jsx(
-                "input",
-                {
-                  id: "nik_pk_kda",
-                  name: "nik_pk_kda",
-                  required: true,
-                  type: "text",
-                  value: data.nik_pk_kda,
-                  placeholder: "Masukkan NIK Pihak Pertama....",
-                  onChange: (e) => setData("nik_pk_kda", e.target.value),
-                  className: "input input-sm rounded-sm input-bordered"
-                }
-              ),
-              errors.nik_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.nik_pk_kda })
-            ] }),
-            /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-              /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Alamat : " }),
-              /* @__PURE__ */ jsx(
-                "input",
-                {
-                  id: "alamat_pk_kda",
-                  name: "alamat_pk_kda",
-                  required: true,
-                  type: "text",
-                  value: data.alamat_pk_kda,
-                  placeholder: "Masukkan Alamat Pihak Pertama....",
-                  onChange: (e) => setData("alamat_pk_kda", e.target.value),
-                  className: "input input-sm rounded-sm input-bordered"
-                }
-              ),
-              errors.alamat_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.alamat_pk_kda })
-            ] }),
             /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
               /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Jabatan : " }),
               /* @__PURE__ */ jsx(
@@ -346,7 +258,7 @@ function CreateKontrak(props) {
                   required: true,
                   type: "text",
                   value: data.jabatan_pk_kda,
-                  placeholder: "Masukkan Jabatan Pihak Pertama....",
+                  placeholder: "Masukkan Jabatan Pihak Kedua....",
                   onChange: (e) => setData("jabatan_pk_kda", e.target.value),
                   className: "input input-sm rounded-sm input-bordered"
                 }
@@ -363,7 +275,7 @@ function CreateKontrak(props) {
                   required: true,
                   type: "text",
                   value: data.status_pk_kda,
-                  placeholder: "Masukkan Status Pihak Pertama....",
+                  placeholder: "Masukkan Status Pihak Kedua....",
                   onChange: (e) => setData("status_pk_kda", e.target.value),
                   className: "input input-sm rounded-sm input-bordered"
                 }
@@ -380,7 +292,7 @@ function CreateKontrak(props) {
                   required: true,
                   type: "text",
                   value: data.unit_pk_kda,
-                  placeholder: "Masukkan Unit Kerja Pihak Pertama....",
+                  placeholder: "Masukkan Unit Kerja Pihak Kedua....",
                   onChange: (e) => setData("unit_pk_kda", e.target.value),
                   className: "input input-sm rounded-sm input-bordered"
                 }

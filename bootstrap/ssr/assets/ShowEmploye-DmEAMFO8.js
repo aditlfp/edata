@@ -80,7 +80,7 @@ function ShowEmploye(props) {
                   /* @__PURE__ */ jsxs("td", { children: [
                     ":",
                     " ",
-                    props.employe.user_id ? props.employe.user.nama_lengkap : props.users.jabatan.name_jabatan
+                    props.employe.user ? props.employe.user.nama_lengkap : "User Tidak Ditemukan"
                   ] })
                 ] }),
                 /* @__PURE__ */ jsxs("tr", { children: [
@@ -93,16 +93,14 @@ function ShowEmploye(props) {
                 /* @__PURE__ */ jsxs("tr", { children: [
                   /* @__PURE__ */ jsx("td", { className: "font-medium", children: "No. KK" }),
                   /* @__PURE__ */ jsxs("td", { children: [
-                    ":",
-                    " ",
+                    ": ",
                     props.employe.no_kk ? props.no_kk : "kosong"
                   ] })
                 ] }),
                 /* @__PURE__ */ jsxs("tr", { children: [
                   /* @__PURE__ */ jsx("td", { className: "font-medium", children: "No. KTP" }),
                   /* @__PURE__ */ jsxs("td", { children: [
-                    ":",
-                    " ",
+                    ": ",
                     props.employe.no_ktp ? props.no_ktp : "kosong"
                   ] })
                 ] }),

@@ -27,7 +27,10 @@ class PGJ_Kontrak extends Model
         'tgl_selesai_kontrak',
         'g_pok',
         'tj_hadir',
-        'kinerja'
+        'kinerja',
+        'send_to_operator',
+        'send_to_atasan',
+        'ttd',
     ];
 
     public function scopeSearch($query, $searchTerm)
