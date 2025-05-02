@@ -2,8 +2,18 @@
 import Footer from "./Footer";
 import Header from "/public/assets/header.png";
 
+function encodeSVG(svg) {
+  // URL-encode to ensure special chars don’t break the URI
+  return encodeURIComponent(svg)
+    // common replacements for better compression/compatibility
+    .replace(/'/g, '%27')
+    .replace(/"/g, '%22');
+}
+
 export default function Readable({ props }) {
-  
+  const dataUri = `data:image/svg+xml;utf8,${encodeSVG(props.ttd)}`;
+  const dataUri2 = `data:image/svg+xml;utf8,${encodeSVG(props.ttd_atasan)}`;
+
     return(
         <>
         {/* Hal 3 */}
@@ -375,21 +385,25 @@ export default function Readable({ props }) {
             </p>
             <div className="flex justify-around mt-[70pt]">
               <div className="text-center">
-                <p className="mb-[60pt]">PIHAK PERTAMA</p>
+                <p>PIHAK PERTAMA</p>
                 <p
                   className="font-bold underline underline-offset-[2.7pt]"
                   style={{ textDecorationThickness: "2pt" }}
                 >
+                  {/* TTD ATASAN */}
+                  <img src={dataUri2} alt={'Tanda Tangan Atasan'} className="w-[180px] h-auto" />
                   {props.nama_pk_ptm}. <br />
                 </p>
                 <span className="no-underline font-bold">{props.jabatan_pk_ptm}</span>
               </div>
               <div className="text-center">
-                <p className="mb-[60pt]">PIHAK KEDUA</p>
+                <p >PIHAK KEDUA</p>
                 <p
                   className="font-bold underline underline-offset-[2.7pt]"
                   style={{ textDecorationThickness: "2pt" }}
                 >
+                  {/* TTD */}
+                  <img src={dataUri} alt={'Tanda Tangan'} className="w-[180px] h-auto" />
                   {props.nama_pk_kda}
                 </p>
               </div>

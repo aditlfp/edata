@@ -8,9 +8,10 @@ import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 import EachUtils from '@/lib/utils/EachUtils';
 import { RiMailSendFill } from "react-icons/ri";
+import { FiFilter } from "react-icons/fi";
 
 export default function IndexKontrak(props) {
-    // console.log(props)
+    console.log(props)
     const [modal, setModal] = useState(false);
     const [dataModal, setDataModal] = useState("");
     const employeesPerPage = 25;
@@ -78,6 +79,8 @@ export default function IndexKontrak(props) {
         setModal(!modal);
     }
 
+   
+
     const searchSubmit = (e) => {
       e.preventDefault();
 
@@ -132,20 +135,35 @@ export default function IndexKontrak(props) {
         <AdminLayout>
             <Head title="Pengajuan Kontrak - Home" />
             <HeadNavigation title={"Pengajuan Kontrak - Home"} />
-            <div className='flex justify-end gap-x-2 items-center'>
-                <button
-                    onClick={() => newContract()}
-                    className="btn bg-orange-600 btn-sm text-white hover:text-orange-600 rounded-sm"
-                >
-                    + Ajukan Kontrak Baru
-                </button>
-                <form onSubmit={searchSubmit} className='flex items-center gap-x-2'>
-                  <input onChange={(e) => setData("search", e.target.value)} type="text" placeholder='Search...' className='input input-bordered input-sm rounded-sm border-orange-600 focus:border-orange-600 focus:outline-orange-600/50'/>
-                  <button type='submit' className='btn btn-sm rounded-sm bg-sky-600 text-white hover:text-sky-600 text-lg'><BiSearchAlt /></button>
-                </form>
-            </div>
-            <div className='flex'>
-                <div><span className='px-2.5 bg-red-600 rounded-full mr-2'></span> : Contracts Experied </div>
+            <div className='flex justify-between items-center'>
+                <div className='flex'>
+                    <div><span className='px-2.5 bg-red-600 rounded-full mr-2'></span> : Contracts Experied </div>
+                </div>
+                <div className='flex gap-x-2'>
+                    <form onSubmit={searchSubmit} className='flex items-center gap-x-2'>
+                        <select onChange={(e) => setData("search", e.target.value)} className='select select-sm rounded-sm text-sm border-orange-600 focus:border-orange-600 focus:outline-orange-600/50'>
+                            <option defaultValue={0} disabled selected>Filter</option>
+                            {props.client.map((item, i) => {
+                                return (
+                                    <option key={i} value={item.name}>{item.name}</option>
+                                )
+                            })}
+                        </select>
+                        <button type='submit' className='btn btn-sm rounded-sm bg-sky-600 text-white hover:text-sky-600 text-lg'><FiFilter /></button>
+                    </form>
+                  
+                    <form onSubmit={searchSubmit} className='flex items-center gap-x-2'>
+                    <input onChange={(e) => setData("search", e.target.value)} type="text" placeholder='Search...' className='input input-bordered input-sm rounded-sm border-orange-600 focus:border-orange-600 focus:outline-orange-600/50'/>
+                    <button type='submit' className='btn btn-sm rounded-sm bg-sky-600 text-white hover:text-sky-600 text-lg'><BiSearchAlt /></button>
+                    </form>
+
+                    <button
+                        onClick={() => newContract()}
+                        className="btn bg-orange-600 btn-sm text-white hover:text-orange-600 rounded-sm"
+                    >
+                        + Ajukan Kontrak Baru
+                    </button>
+                </div>
             </div>
             <div className="overflow-y-auto h-[365px] my-5">
                 <table className="table table-zebra table-xs w-full">
@@ -180,7 +198,8 @@ export default function IndexKontrak(props) {
                         {
                             const a = convertToDate(day.toLocaleDateString('en-GB'))
                             const b = new Date(paginatedData[0].data.tgl_selesai_kontrak)
-                            // console.log(a.getDate(), b.getDate());
+                            const hasSend = items.data.send_to_atasan === "0" && items.data.send_to_operator === "0";  
+                            // console.log(items)
                             return (
                                 <tr className={`border-[1px] border-orange-300 ${a.getTime() >= b.getTime() && 'text-red-600 font-semibold'}`} key={i}>
                                     <td className="border-[1px] border-orange-300">{items.data.no_srt}</td>
@@ -191,7 +210,7 @@ export default function IndexKontrak(props) {
                                     <td className="border-[1px] border-orange-300">{items.data.status_pk_kda}</td>
                                     <td className="border-[1px] border-orange-300">{formatDate(items.data.tgl_mulai_kontrak)} - {formatDate(items.data.tgl_selesai_kontrak)}</td>
                                     <td>
-                                        <div className='flex gap-x-2 justify-center'>
+                                        <div className='flex gap-x-2 justify-start items-center'>
                                             <button
                                                 onClick={() => showContract(items.data.id)}
                                                 className='btn btn-sm rounded-sm text-2xl bg-sky-500/20 hover:bg-sky-500 hover:text-white border-0 text-sky-500'>
@@ -207,11 +226,18 @@ export default function IndexKontrak(props) {
                                                 className='btn btn-sm rounded-sm text-2xl bg-amber-500/20 hover:bg-amber-500 hover:text-white border-0 text-amber-500'>
                                                 <BiSolidEdit />
                                             </button>
-                                            <button
-                                                onClick={() => handleSendToOperator(items.data.id)}
-                                                className='btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500'>
-                                                <RiMailSendFill />
-                                            </button>
+                                            {hasSend ? (
+                                                <button
+                                                    onClick={() => handleSendToOperator(items.data.id)}
+                                                    className='btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500'>
+                                                    <RiMailSendFill />
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    disabled
+                                                    className='btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500 hover:cursor-not-allowed'>
+                                                    <RiMailSendFill />
+                                                </button>)}
                                         </div>
                                     </td>
                                  </tr>

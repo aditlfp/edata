@@ -271,17 +271,14 @@ function CreateKontrak( props ) {
         </div>
         <div className="form-control">
             <span className="label-text required">Unit Kerja : </span>
-            <input
-              id="unit_pk_kda"
-              name="unit_pk_kda"
-              required
-              type='text'
-              value={data.unit_pk_kda}
-              placeholder='Masukkan Unit Kerja Pihak Kedua....'
-              onChange={(e) => setData("unit_pk_kda", e.target.value)}
-              className="input input-sm rounded-sm input-bordered"
-            />
-
+            <select name="unit_pk_kda" id="unit_pk_kda" required className='input input-sm text-xs rounded-sm input-bordered' onChange={(e) => setData("unit_pk_kda", e.target.value)}>
+              <option defaultValue={0} disabled selected>Unit Kerja</option>
+              {props.client.map((item, index) => {
+                return (
+                  <option key={index} value={item.name}>{item.name}</option>
+                )
+              })}
+            </select>
             {errors.unit_pk_kda &&<span className="text-red-500">{errors.unit_pk_kda}</span>}
         </div>
         </div>

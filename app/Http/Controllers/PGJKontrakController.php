@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PGJKontrakResource;
+use App\Models\Client;
 use App\Models\PGJ_Kontrak as Contract;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,17 +14,19 @@ class PGJKontrakController extends Controller
      // Display a listing of the resource
      public function index(Request $request)
      {
-        $searchTerm = $request->input('search');
+         $searchTerm = $request->input('search');
+         $client = Client::all();
          $contracts = Contract::search($searchTerm)->latest()->get();
          $contract = PGJKontrakResource::collection($contracts);
-         return Inertia::render('PGJ_Kontrak/IndexKontrak', compact('contract'));
+         return Inertia::render('PGJ_Kontrak/IndexKontrak', compact('contract', 'client', 'searchTerm'));
      }
  
      // Show the form for creating a new resource
      public function create()
      {
+        $client = Client::all();
         $contracts = Contract::latest()->first();
-         return Inertia::render('PGJ_Kontrak/CreateKontrak', compact('contracts'));
+         return Inertia::render('PGJ_Kontrak/CreateKontrak', compact('contracts', 'client'));
      }
  
      // Store a newly created resource in storage
