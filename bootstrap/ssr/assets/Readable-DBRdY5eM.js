@@ -1,7 +1,12 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import Footer from "./Footer-DSnh824x.js";
 import { H as Header } from "./header-BmokhI03.js";
+function encodeSVG(svg) {
+  return encodeURIComponent(svg).replace(/'/g, "%27").replace(/"/g, "%22");
+}
 function Readable({ props }) {
+  const dataUri = `data:image/svg+xml;utf8,${encodeSVG(props.ttd)}`;
+  const dataUri2 = `data:image/svg+xml;utf8,${encodeSVG(props.ttd_atasan)}`;
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col", children: [
       /* @__PURE__ */ jsx("img", { src: Header, alt: "header", className: "mt-[-6pt] px-[20pt]" }),
@@ -236,13 +241,14 @@ function Readable({ props }) {
         /* @__PURE__ */ jsx("p", { className: "", children: "Surat Perjanjian ini dibuat dan ditandatangani oleh KEDUA PIHAK di PONOROGO pada tanggal, bulan dan tahun tersebut di atas dalam rangkap 2 (dua) yang memiliki kekuatan hukum yang sama dan dipegang oleh masing – masing pihak" }),
         /* @__PURE__ */ jsxs("div", { className: "flex justify-around mt-[70pt]", children: [
           /* @__PURE__ */ jsxs("div", { className: "text-center", children: [
-            /* @__PURE__ */ jsx("p", { className: "mb-[60pt]", children: "PIHAK PERTAMA" }),
+            /* @__PURE__ */ jsx("p", { children: "PIHAK PERTAMA" }),
             /* @__PURE__ */ jsxs(
               "p",
               {
                 className: "font-bold underline underline-offset-[2.7pt]",
                 style: { textDecorationThickness: "2pt" },
                 children: [
+                  /* @__PURE__ */ jsx("img", { src: dataUri2, alt: "Tanda Tangan Atasan", className: "w-[180px] h-auto" }),
                   props.nama_pk_ptm,
                   ". ",
                   /* @__PURE__ */ jsx("br", {})
@@ -252,13 +258,16 @@ function Readable({ props }) {
             /* @__PURE__ */ jsx("span", { className: "no-underline font-bold", children: props.jabatan_pk_ptm })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "text-center", children: [
-            /* @__PURE__ */ jsx("p", { className: "mb-[60pt]", children: "PIHAK KEDUA" }),
-            /* @__PURE__ */ jsx(
+            /* @__PURE__ */ jsx("p", { children: "PIHAK KEDUA" }),
+            /* @__PURE__ */ jsxs(
               "p",
               {
                 className: "font-bold underline underline-offset-[2.7pt]",
                 style: { textDecorationThickness: "2pt" },
-                children: props.nama_pk_kda
+                children: [
+                  /* @__PURE__ */ jsx("img", { src: dataUri, alt: "Tanda Tangan", className: "w-[180px] h-auto" }),
+                  props.nama_pk_kda
+                ]
               }
             )
           ] })

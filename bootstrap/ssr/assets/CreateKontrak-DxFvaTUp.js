@@ -284,19 +284,12 @@ function CreateKontrak(props) {
             ] }),
             /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
               /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Unit Kerja : " }),
-              /* @__PURE__ */ jsx(
-                "input",
-                {
-                  id: "unit_pk_kda",
-                  name: "unit_pk_kda",
-                  required: true,
-                  type: "text",
-                  value: data.unit_pk_kda,
-                  placeholder: "Masukkan Unit Kerja Pihak Kedua....",
-                  onChange: (e) => setData("unit_pk_kda", e.target.value),
-                  className: "input input-sm rounded-sm input-bordered"
-                }
-              ),
+              /* @__PURE__ */ jsxs("select", { name: "unit_pk_kda", id: "unit_pk_kda", required: true, className: "input input-sm text-xs rounded-sm input-bordered", onChange: (e) => setData("unit_pk_kda", e.target.value), children: [
+                /* @__PURE__ */ jsx("option", { defaultValue: 0, disabled: true, selected: true, children: "Unit Kerja" }),
+                props.client.map((item, index) => {
+                  return /* @__PURE__ */ jsx("option", { value: item.name, children: item.name }, index);
+                })
+              ] }),
               errors.unit_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.unit_pk_kda })
             ] })
           ] }),

@@ -9,9 +9,11 @@ import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { E as EachUtils } from "./EachUtils-sRFHlwPj.js";
 import { RiMailSendFill } from "react-icons/ri/index.esm.js";
+import { FiFilter } from "react-icons/fi/index.esm.js";
 import "./Sidebar-DxOhayto.js";
 import "framer-motion";
 function IndexKontrak(props) {
+  console.log(props);
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState("");
   const employeesPerPage = 25;
@@ -110,24 +112,35 @@ function IndexKontrak(props) {
   return /* @__PURE__ */ jsxs(AdminLayout, { children: [
     /* @__PURE__ */ jsx(Head, { title: "Pengajuan Kontrak - Home" }),
     /* @__PURE__ */ jsx(HeadNavigation, { title: "Pengajuan Kontrak - Home" }),
-    /* @__PURE__ */ jsxs("div", { className: "flex justify-end gap-x-2 items-center", children: [
-      /* @__PURE__ */ jsx(
-        "button",
-        {
-          onClick: () => newContract(),
-          className: "btn bg-orange-600 btn-sm text-white hover:text-orange-600 rounded-sm",
-          children: "+ Ajukan Kontrak Baru"
-        }
-      ),
-      /* @__PURE__ */ jsxs("form", { onSubmit: searchSubmit, className: "flex items-center gap-x-2", children: [
-        /* @__PURE__ */ jsx("input", { onChange: (e) => setData("search", e.target.value), type: "text", placeholder: "Search...", className: "input input-bordered input-sm rounded-sm border-orange-600 focus:border-orange-600 focus:outline-orange-600/50" }),
-        /* @__PURE__ */ jsx("button", { type: "submit", className: "btn btn-sm rounded-sm bg-sky-600 text-white hover:text-sky-600 text-lg", children: /* @__PURE__ */ jsx(BiSearchAlt, {}) })
+    /* @__PURE__ */ jsxs("div", { className: "flex justify-between items-center", children: [
+      /* @__PURE__ */ jsx("div", { className: "flex", children: /* @__PURE__ */ jsxs("div", { children: [
+        /* @__PURE__ */ jsx("span", { className: "px-2.5 bg-red-600 rounded-full mr-2" }),
+        " : Contracts Experied "
+      ] }) }),
+      /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2", children: [
+        /* @__PURE__ */ jsxs("form", { onSubmit: searchSubmit, className: "flex items-center gap-x-2", children: [
+          /* @__PURE__ */ jsxs("select", { onChange: (e) => setData("search", e.target.value), className: "select select-sm rounded-sm text-sm border-orange-600 focus:border-orange-600 focus:outline-orange-600/50", children: [
+            /* @__PURE__ */ jsx("option", { defaultValue: 0, disabled: true, selected: true, children: "Filter" }),
+            props.client.map((item, i) => {
+              return /* @__PURE__ */ jsx("option", { value: item.name, children: item.name }, i);
+            })
+          ] }),
+          /* @__PURE__ */ jsx("button", { type: "submit", className: "btn btn-sm rounded-sm bg-sky-600 text-white hover:text-sky-600 text-lg", children: /* @__PURE__ */ jsx(FiFilter, {}) })
+        ] }),
+        /* @__PURE__ */ jsxs("form", { onSubmit: searchSubmit, className: "flex items-center gap-x-2", children: [
+          /* @__PURE__ */ jsx("input", { onChange: (e) => setData("search", e.target.value), type: "text", placeholder: "Search...", className: "input input-bordered input-sm rounded-sm border-orange-600 focus:border-orange-600 focus:outline-orange-600/50" }),
+          /* @__PURE__ */ jsx("button", { type: "submit", className: "btn btn-sm rounded-sm bg-sky-600 text-white hover:text-sky-600 text-lg", children: /* @__PURE__ */ jsx(BiSearchAlt, {}) })
+        ] }),
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            onClick: () => newContract(),
+            className: "btn bg-orange-600 btn-sm text-white hover:text-orange-600 rounded-sm",
+            children: "+ Ajukan Kontrak Baru"
+          }
+        )
       ] })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "flex", children: /* @__PURE__ */ jsxs("div", { children: [
-      /* @__PURE__ */ jsx("span", { className: "px-2.5 bg-red-600 rounded-full mr-2" }),
-      " : Contracts Experied "
-    ] }) }),
     /* @__PURE__ */ jsx("div", { className: "overflow-y-auto h-[365px] my-5", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra table-xs w-full", children: [
       /* @__PURE__ */ jsx("thead", { className: "sticky top-0", children: /* @__PURE__ */ jsxs("tr", { className: "bg-orange-600 text-white capitalize", children: [
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "No Surat" }),
@@ -142,6 +155,7 @@ function IndexKontrak(props) {
       /* @__PURE__ */ jsx("tbody", { className: "text-center", style: { maxHeight: "calc(100vh - 200px)", overflowY: "auto" }, children: /* @__PURE__ */ jsx(EachUtils, { colspan: 8, of: paginatedData, render: (items, i) => {
         const a = convertToDate(day.toLocaleDateString("en-GB"));
         const b = new Date(paginatedData[0].data.tgl_selesai_kontrak);
+        const hasSend = items.data.send_to_atasan === "0" && items.data.send_to_operator === "0";
         return /* @__PURE__ */ jsxs("tr", { className: `border-[1px] border-orange-300 ${a.getTime() >= b.getTime() && "text-red-600 font-semibold"}`, children: [
           /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.no_srt }),
           /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.nama_pk_kda }),
@@ -154,7 +168,7 @@ function IndexKontrak(props) {
             " - ",
             formatDate(items.data.tgl_selesai_kontrak)
           ] }),
-          /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2 justify-center", children: [
+          /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2 justify-start items-center", children: [
             /* @__PURE__ */ jsx(
               "button",
               {
@@ -179,11 +193,18 @@ function IndexKontrak(props) {
                 children: /* @__PURE__ */ jsx(BiSolidEdit, {})
               }
             ),
-            /* @__PURE__ */ jsx(
+            hasSend ? /* @__PURE__ */ jsx(
               "button",
               {
                 onClick: () => handleSendToOperator(items.data.id),
                 className: "btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500",
+                children: /* @__PURE__ */ jsx(RiMailSendFill, {})
+              }
+            ) : /* @__PURE__ */ jsx(
+              "button",
+              {
+                disabled: true,
+                className: "btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500 hover:cursor-not-allowed",
                 children: /* @__PURE__ */ jsx(RiMailSendFill, {})
               }
             )

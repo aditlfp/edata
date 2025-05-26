@@ -1,7 +1,7 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useEffect } from "react";
 import Fillable from "./Fillable-CD_jadOc.js";
-import Readable from "./Readable-mB2VZ-71.js";
+import Readable from "./Readable-DBRdY5eM.js";
 import { Helmet } from "react-helmet";
 import "./header-BmokhI03.js";
 import "./Footer-DSnh824x.js";
