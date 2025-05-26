@@ -5,7 +5,7 @@ const EachUtils = ({ of, render, colspan }) => {
   {
     return (
        <tr className='w-full'>
-            <td colSpan={colspan ? colspan : 0} className='text-center italic text-gray-400 text-lg border-[1px] border-orange-300'>- Data Saat Ini Masih Belum Tersedia -</td>
+            <td colSpan={colspan ? colspan : 0} className='text-center italic text-gray-400 text-lg border-[1px] border-orange-300 '>- Data Saat Ini Masih Belum Tersedia -</td>
        </tr>
     )
   }

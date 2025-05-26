@@ -97,7 +97,7 @@ export default function CreateSlip(props) {
             </p>
             <p className="font-bold text-base">Bulan: {props.bulan}</p>
           </div>
-          <div className="flex justify-start mt-1">
+          <div className="flex justify-start mt-1 mb-8">
             <Link
               href={route("slip-gaji.index")}
               className="btn bg-orange-600 btn-sm text-white hover:text-orange-600 rounded-sm"
@@ -109,100 +109,105 @@ export default function CreateSlip(props) {
 
         <div className="">
           <form onSubmit={submit} className="overflow-x-scroll">
-            <table className="table table-zebra table-xs my-5 text-center">
-              <thead className="text-[10px]">
-                <tr className="bg-orange-600 text-white capitalize">
-                  <th className="border-x-[1px] border-orange-300" colSpan={3}>
-                    Data Karyawan
-                  </th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={2}>
-                    Gaji
-                  </th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={4}>
-                    Tunjangan
-                  </th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={4}>
-                    Potongan
-                  </th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={1}>
-                    Total
-                  </th>
-                </tr>
-                <tr className="bg-orange-600 text-white capitalize">
-                  <th className="border-x-[1px] border-orange-300">Karyawan</th>
-                  <th className="border-x-[1px] border-orange-300">Formasi</th>
-                  <th className="border-x-[1px] border-orange-300">MK</th>
-                  <th className="border-x-[1px] border-orange-300">Pokok</th>
-                  <th className="border-x-[1px] border-orange-300">Lembur</th>
-                  <th className="border-x-[1px] border-orange-300">Jabatan</th>
-                  <th className="border-x-[1px] border-orange-300">
-                    Kehadiran
-                  </th>
-                  <th className="border-x-[1px] border-orange-300">Kinerja</th>
-                  <th className="border-x-[1px] border-orange-300">Lain Lain</th>
-                  <th className="border-x-[1px] border-orange-300">BPJS</th>
-                  <th className="border-x-[1px] border-orange-300">Pinjaman</th>
-                  <th className="border-x-[1px] border-orange-300">Absen</th>
-                  <th className="border-x-[1px] border-orange-300">
-                    Lain-lain
-                  </th>
-                  <th className="border-x-[1px] border-orange-300">Total</th>
-                </tr>
-              </thead>
-              <tbody className="text-[10px]">
-                <EachUtils colspan={14} of={data.users} render={(us, index) => (
-                    <tr key={index} className="border-[1px] border-orange-300 ">
-                      <td className="border-[1px] border-orange-300">
-                        {us.nama_lengkap}
-                      </td>
-                      <td className="border-[1px] border-orange-300">
-                        <span>
-                          {us.formasi}
-                        </span>
-                      </td>
-                      {/* MK */}
 
-                      {[
-                        "mk",
-                        "gaji_pokok",
-                        "gaji_lembur",
-                        "tj_jabatan",
-                        "tj_kehadiran",
-                        "tj_kinerja",
-                        "tj_lain",
-                        "bpjs",
-                        "pinjaman",
-                        "absen",
-                        "lain_lain",
-                      ].map((field) => (
-                        <td
-                          key={field}
-                          className="border-[1px] border-orange-300 min-w-[95px]"
-                        >
-                          <input
-                            id={us[field]}
-                            type="number"
-                            className="input input-xs input-bordered w-full"
-                            value={us[field]}
-                            inputMode="numeric"
-                            onChange={(e) =>
-                              handleChange(index, field, e.target.value)
-                            }
-                          />
-                          {errors[field] && (
-                            <span className="text-red-500">
-                              {errors[field]}
-                            </span>
-                          )}
-                        </td>
-                      ))}
-                      <td className="border-[1px] border-orange-300">
-                        <FormatRupiah value={us.total} />
-                      </td>
-                    </tr>
-                )}/>
-              </tbody>
-            </table>
+                <div className="max-h-[400px] overflow-y-auto">
+                  <table className="table table-zebra table-xs text-center">
+                    <thead className="sticky top-0 text-[10px]">
+                      <tr className="bg-orange-600 text-white capitalize">
+                        <th className="border-x-[1px] border-orange-300" colSpan={3}>
+                          Data Karyawan
+                        </th>
+                        <th className="border-x-[1px] border-orange-300" colSpan={2}>
+                          Gaji
+                        </th>
+                        <th className="border-x-[1px] border-orange-300" colSpan={4}>
+                          Tunjangan
+                        </th>
+                        <th className="border-x-[1px] border-orange-300" colSpan={4}>
+                          Potongan
+                        </th>
+                        <th className="border-x-[1px] border-orange-300" colSpan={1}>
+                          Total
+                        </th>
+                      </tr>
+                      <tr className="bg-orange-600 text-white capitalize">
+                        <th className="border-x-[1px] border-orange-300">Karyawan</th>
+                        <th className="border-x-[1px] border-orange-300">Formasi</th>
+                        <th className="border-x-[1px] border-orange-300">MK</th>
+                        <th className="border-x-[1px] border-orange-300">Pokok</th>
+                        <th className="border-x-[1px] border-orange-300">Lembur</th>
+                        <th className="border-x-[1px] border-orange-300">Jabatan</th>
+                        <th className="border-x-[1px] border-orange-300">
+                          Kehadiran
+                        </th>
+                        <th className="border-x-[1px] border-orange-300">Kinerja</th>
+                        <th className="border-x-[1px] border-orange-300">Lain Lain</th>
+                        <th className="border-x-[1px] border-orange-300">BPJS</th>
+                        <th className="border-x-[1px] border-orange-300">Pinjaman</th>
+                        <th className="border-x-[1px] border-orange-300">Absen</th>
+                        <th className="border-x-[1px] border-orange-300">
+                          Lain-lain
+                        </th>
+                        <th className="border-x-[1px] border-orange-300">Total</th>
+                      </tr>
+                    </thead>
+                      <tbody className="text-[10px]">
+                        {/* <div className="max-h-screen overflow-y-auto">  */}
+                          <EachUtils colspan={14} of={data.users} render={(us, index) => (
+                                <tr key={index} className="border-[1px] border-orange-300 ">
+                                  <td className="border-[1px] border-orange-300">
+                                    {us.nama_lengkap}
+                                  </td>
+                                  <td className="border-[1px] border-orange-300">
+                                    <span>
+                                      {us.formasi}
+                                    </span>
+                                  </td>
+                                  {/* MK */}
+
+                                  {[
+                                    "mk",
+                                    "gaji_pokok",
+                                    "gaji_lembur",
+                                    "tj_jabatan",
+                                    "tj_kehadiran",
+                                    "tj_kinerja",
+                                    "tj_lain",
+                                    "bpjs",
+                                    "pinjaman",
+                                    "absen",
+                                    "lain_lain",
+                                  ].map((field) => (
+                                    <td
+                                      key={field}
+                                      className="border-[1px] border-orange-300 min-w-[95px]"
+                                    >
+                                      <input
+                                        id={us[field]}
+                                        type="number"
+                                        className="input input-xs input-bordered w-full"
+                                        value={us[field]}
+                                        inputMode="numeric"
+                                        onChange={(e) =>
+                                          handleChange(index, field, e.target.value)
+                                        }
+                                      />
+                                      {errors[field] && (
+                                        <span className="text-red-500">
+                                          {errors[field]}
+                                        </span>
+                                      )}
+                                    </td>
+                                  ))}
+                                  <td className="border-[1px] border-orange-300">
+                                    <FormatRupiah value={us.total} />
+                                  </td>
+                                </tr>
+                          )}/>
+                        {/* </div> */}
+                      </tbody>
+                  </table>
+                </div>
           </form>
           <div className="flex justify-end">
             <button
