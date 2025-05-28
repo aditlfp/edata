@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import { useEffect } from 'react'
 
 function CreateKontrak( props ) {
+  // console.log(props.employe.data);
   
   const {data, setData, processing ,errors, post, reset} = useForm({
     no_srt: "",
@@ -16,8 +17,8 @@ function CreateKontrak( props ) {
     nama_pk_kda: "",
     tempat_lahir_pk_kda: "-",
     tgl_lahir_pk_kda: "1900-01-01",
-    nik_pk_kda: "-",
-    alamat_pk_kda: "-",
+    nik_pk_kda: "",
+    alamat_pk_kda: "",
     jabatan_pk_kda: "",
     status_pk_kda: "",
     unit_pk_kda: "",
@@ -61,18 +62,49 @@ function CreateKontrak( props ) {
     })
   }
 
+ const handleBirthData = (value) => {
+    if (!value || typeof value !== "string" || value.toLowerCase().includes("null")) {
+          return { tempat_lahir: "", tanggal_lahir: "" };
+    }
+
+    const [place = "", date = ""] = value.split(",").map((str) => str.trim());
+
+    return {
+      tempat_lahir: place,
+      tanggal_lahir: date,
+    };
+  };
+
+
   const autoSelect = () => {
     const selectedUser = props?.users.find(
       (item) => item.nama_lengkap === data.nama_pk_kda
     );
+
+    const selectEmploye = props?.employe?.data.find(
+      (item) =>  item.name === data.nama_pk_kda
+    );
+
+    const birth = handleBirthData(selectEmploye?.ttl);
+
     
-    if (selectedUser) {
+    if (selectedUser && selectEmploye) {
      setData({
         ...data, // Keep existing fields
         jabatan_pk_kda: selectedUser.jabatan?.name_jabatan || "",
-        unit_pk_kda: selectedUser.client?.name || ""
+        unit_pk_kda: selectedUser.client?.name || "",
+        nik_pk_kda: selectEmploye?.no_ktp,
+        tempat_lahir_pk_kda: birth.tempat_lahir,
+        tgl_lahir_pk_kda: birth.tanggal_lahir,
       });
     }
+  };
+
+
+  const convertToDateInputFormat = (value) => {
+    if (!value) return "";
+    const [day, month, year] = value.split("-");
+    return `${year}-${month}-${day}`;
   };
 
   useEffect(() => {
@@ -270,6 +302,68 @@ function CreateKontrak( props ) {
             })}
             </select>
             {errors.nama_pk_kda &&<span className="text-red-500">{errors.nama_pk_kda}</span>}
+        </div>
+        <div className='flex gap-x-2'>
+            <div className="form-control">
+                <span className="label-text required">Tempat : </span>
+                <input
+                id="tempat_lahir_pk_kda"
+                name="tempat_lahir_pk_kda"
+                required
+                type='text'
+                value={data.tempat_lahir_pk_kda}
+                placeholder='Masukkan Tempat Lahir Pihak Pertama....'
+                onChange={(e) => setData("tempat_lahir_pk_kda", e.target.value)}
+                className="input input-sm rounded-sm input-bordered"
+                />
+
+                {errors.tempat_lahir_pk_kda &&<span className="text-red-500">{errors.tempat_lahir_pk_kda}</span>}
+            </div>
+            <div className="form-control">
+                <span className="label-text required">Tanggal Lahir : </span>
+                <input
+                id="tgl_lahir_pk_kda"
+                name="tgl_lahir_pk_kda"
+                required
+                type='date'
+                value={convertToDateInputFormat(data.tgl_lahir_pk_kda)}
+                onChange={(e) => setData("tgl_lahir_pk_kda", e.target.value)}
+                className="input input-sm rounded-sm input-bordered"
+                />
+
+                {errors.tgl_lahir_pk_kda &&<span className="text-red-500">{errors.tgl_lahir_pk_kda}</span>}
+            </div>
+          </div>
+         <div className="form-control">
+                <span className="label-text required">NIK : </span>
+                <input
+                id="nik_pk_kda"
+                name="nik_pk_kda"
+                required
+                type='text'
+                readOnly
+                value={data.nik_pk_kda}
+                placeholder='Masukkan NIK Pihak Pertama....'
+                onChange={(e) => setData("nik_pk_kda", e.target.value)}
+                className="input input-sm rounded-sm input-bordered"
+                />
+
+                {errors.nik_pk_kda &&<span className="text-red-500">{errors.nik_pk_kda}</span>}
+            </div>
+        <div className="form-control">
+            <span className="label-text required">Alamat : </span>
+            <input
+              id="alamat_pk_kda"
+              name="alamat_pk_kda"
+              required
+              type='text'
+              value={data.alamat_pk_kda}
+              placeholder='Masukkan Alamat Pihak Kedua....'
+              onChange={(e) => setData("alamat_pk_kda", e.target.value)}
+              className="input input-sm rounded-sm input-bordered"
+            />
+
+            {errors.alamat_pk_kda &&<span className="text-red-500">{errors.alamat_pk_kda}</span>}
         </div>
         <div className="form-control">
             <span className="label-text required">Jabatan : </span>

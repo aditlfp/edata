@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EmployeResource;
 use App\Http\Resources\PGJKontrakResource;
 use App\Models\Client;
+use App\Models\Employe;
 use App\Models\Jabatan;
 use App\Models\PGJ_Kontrak as Contract;
 use App\Models\User;
@@ -26,11 +28,13 @@ class PGJKontrakController extends Controller
      // Show the form for creating a new resource
      public function create()
      {
+        $employes = Employe::with(['client:id,name', 'user.jabatan:id,name_jabatan'])->latest()->get(['id', 'name', 'no_ktp', 'no_kk', 'ttl', 'img', 'client_id', 'initials', 'date_real', 'numbers']);
+        $employe = EmployeResource::collection($employes);
         $users = User::with(['Jabatan', 'Kerjasama', 'Client'])->get();
         $jabatan = Jabatan::all();
         $client = Client::all();
         $contracts = Contract::latest()->first();
-        return Inertia::render('PGJ_Kontrak/CreateKontrak', compact('contracts', 'client', 'users', 'jabatan'));
+        return Inertia::render('PGJ_Kontrak/CreateKontrak', compact('contracts', 'client', 'users', 'jabatan', 'employe'));
      }
  
      // Store a newly created resource in storage
