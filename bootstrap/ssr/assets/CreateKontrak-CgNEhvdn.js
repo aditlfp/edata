@@ -17,8 +17,8 @@ function CreateKontrak(props) {
     nama_pk_kda: "",
     tempat_lahir_pk_kda: "-",
     tgl_lahir_pk_kda: "1900-01-01",
-    nik_pk_kda: "-",
-    alamat_pk_kda: "-",
+    nik_pk_kda: "",
+    alamat_pk_kda: "",
     jabatan_pk_kda: "",
     status_pk_kda: "",
     unit_pk_kda: "",
@@ -58,19 +58,42 @@ function CreateKontrak(props) {
       }
     });
   };
+  const handleBirthData = (value) => {
+    if (!value || typeof value !== "string" || value.toLowerCase().includes("null")) {
+      return { tempat_lahir: "", tanggal_lahir: "" };
+    }
+    const [place = "", date = ""] = value.split(",").map((str) => str.trim());
+    return {
+      tempat_lahir: place,
+      tanggal_lahir: date
+    };
+  };
   const autoSelect = () => {
-    var _a, _b;
+    var _a, _b, _c;
     const selectedUser = props == null ? void 0 : props.users.find(
       (item) => item.nama_lengkap === data.nama_pk_kda
     );
-    if (selectedUser) {
+    const selectEmploye = (_a = props == null ? void 0 : props.employe) == null ? void 0 : _a.data.find(
+      (item) => item.name === data.nama_pk_kda
+    );
+    const birth = handleBirthData(selectEmploye == null ? void 0 : selectEmploye.ttl);
+    if (selectedUser && selectEmploye) {
       setData({
         ...data,
         // Keep existing fields
-        jabatan_pk_kda: ((_a = selectedUser.jabatan) == null ? void 0 : _a.name_jabatan) || "",
-        unit_pk_kda: ((_b = selectedUser.client) == null ? void 0 : _b.name) || ""
+        jabatan_pk_kda: ((_b = selectedUser.jabatan) == null ? void 0 : _b.name_jabatan) || "",
+        unit_pk_kda: ((_c = selectedUser.client) == null ? void 0 : _c.name) || "",
+        nik_pk_kda: selectEmploye == null ? void 0 : selectEmploye.no_ktp,
+        tempat_lahir_pk_kda: birth.tempat_lahir,
+        tgl_lahir_pk_kda: birth.tanggal_lahir
       });
     }
+  };
+  const convertToDateInputFormat = (value) => {
+    if (!value)
+      return "";
+    const [day, month, year] = value.split("-");
+    return `${year}-${month}-${day}`;
   };
   useEffect(() => {
     autoSelect();
@@ -274,6 +297,76 @@ function CreateKontrak(props) {
                 })
               ] }),
               errors.nama_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.nama_pk_kda })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2", children: [
+              /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
+                /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Tempat : " }),
+                /* @__PURE__ */ jsx(
+                  "input",
+                  {
+                    id: "tempat_lahir_pk_kda",
+                    name: "tempat_lahir_pk_kda",
+                    required: true,
+                    type: "text",
+                    value: data.tempat_lahir_pk_kda,
+                    placeholder: "Masukkan Tempat Lahir Pihak Pertama....",
+                    onChange: (e) => setData("tempat_lahir_pk_kda", e.target.value),
+                    className: "input input-sm rounded-sm input-bordered"
+                  }
+                ),
+                errors.tempat_lahir_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.tempat_lahir_pk_kda })
+              ] }),
+              /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
+                /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Tanggal Lahir : " }),
+                /* @__PURE__ */ jsx(
+                  "input",
+                  {
+                    id: "tgl_lahir_pk_kda",
+                    name: "tgl_lahir_pk_kda",
+                    required: true,
+                    type: "date",
+                    value: convertToDateInputFormat(data.tgl_lahir_pk_kda),
+                    onChange: (e) => setData("tgl_lahir_pk_kda", e.target.value),
+                    className: "input input-sm rounded-sm input-bordered"
+                  }
+                ),
+                errors.tgl_lahir_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.tgl_lahir_pk_kda })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
+              /* @__PURE__ */ jsx("span", { className: "label-text required", children: "NIK : " }),
+              /* @__PURE__ */ jsx(
+                "input",
+                {
+                  id: "nik_pk_kda",
+                  name: "nik_pk_kda",
+                  required: true,
+                  type: "text",
+                  readOnly: true,
+                  value: data.nik_pk_kda,
+                  placeholder: "Masukkan NIK Pihak Pertama....",
+                  onChange: (e) => setData("nik_pk_kda", e.target.value),
+                  className: "input input-sm rounded-sm input-bordered"
+                }
+              ),
+              errors.nik_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.nik_pk_kda })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
+              /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Alamat : " }),
+              /* @__PURE__ */ jsx(
+                "input",
+                {
+                  id: "alamat_pk_kda",
+                  name: "alamat_pk_kda",
+                  required: true,
+                  type: "text",
+                  value: data.alamat_pk_kda,
+                  placeholder: "Masukkan Alamat Pihak Kedua....",
+                  onChange: (e) => setData("alamat_pk_kda", e.target.value),
+                  className: "input input-sm rounded-sm input-bordered"
+                }
+              ),
+              errors.alamat_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.alamat_pk_kda })
             ] }),
             /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
               /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Jabatan : " }),

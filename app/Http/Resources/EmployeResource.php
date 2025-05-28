@@ -36,7 +36,6 @@ class EmployeResource extends JsonResource
                 'date_real' => $this->date_real
                 ? Carbon::createFromFormat('Y-m', $this->date_real)->format('m-Y')
                 : null, // Or provide a default value like 'N/A'
-                'alamat' => $this->alamat,
                 'img' => $this->img,
                 'img_ktp_dpn' => $this->img_ktp_dpn,
                 'jenis_bpjs' => $this->jenis_bpjs,

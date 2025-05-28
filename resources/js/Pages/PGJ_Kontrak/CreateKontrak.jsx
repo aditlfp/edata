@@ -7,6 +7,11 @@ import { useEffect } from 'react'
 
 function CreateKontrak( props ) {
   // console.log(props.employe.data);
+  const convertToDateInputFormat = (value) => {
+    if (!value) return "";
+    const [day, month, year] = value.split("-");
+    return `${year}-${month}-${day}`;
+  };
   
   const {data, setData, processing ,errors, post, reset} = useForm({
     no_srt: "",
@@ -95,17 +100,13 @@ function CreateKontrak( props ) {
         unit_pk_kda: selectedUser.client?.name || "",
         nik_pk_kda: selectEmploye?.no_ktp,
         tempat_lahir_pk_kda: birth.tempat_lahir,
-        tgl_lahir_pk_kda: birth.tanggal_lahir,
+        tgl_lahir_pk_kda: convertToDateInputFormat(birth.tanggal_lahir),
       });
     }
   };
 
 
-  const convertToDateInputFormat = (value) => {
-    if (!value) return "";
-    const [day, month, year] = value.split("-");
-    return `${year}-${month}-${day}`;
-  };
+  
 
   useEffect(() => {
       autoSelect();
@@ -326,7 +327,7 @@ function CreateKontrak( props ) {
                 name="tgl_lahir_pk_kda"
                 required
                 type='date'
-                value={convertToDateInputFormat(data.tgl_lahir_pk_kda)}
+                value={data.tgl_lahir_pk_kda}
                 onChange={(e) => setData("tgl_lahir_pk_kda", e.target.value)}
                 className="input input-sm rounded-sm input-bordered"
                 />
