@@ -5,7 +5,7 @@ import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { useState } from "react";
 import { FaFileUpload } from "react-icons/fa/index.esm.js";
 import { toast } from "react-toastify";
-import { E as EachUtils } from "./EachUtils-sRFHlwPj.js";
+import { E as EachUtils } from "./EachUtils-wF8jK0oN.js";
 import "./Sidebar-DxOhayto.js";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";

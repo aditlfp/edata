@@ -4,7 +4,7 @@ import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { A as AdminLayout } from "./AdminLayout-CQyBQfjp.js";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { toast } from "react-toastify";
-import { E as EachUtils } from "./EachUtils-sRFHlwPj.js";
+import { E as EachUtils } from "./EachUtils-wF8jK0oN.js";
 import "react";
 import "./Sidebar-DxOhayto.js";
 import "react-icons/bi/index.esm.js";
@@ -79,7 +79,7 @@ function CreateSlip(props) {
             props.bulan
           ] })
         ] }),
-        /* @__PURE__ */ jsx("div", { className: "flex justify-start mt-1", children: /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsx("div", { className: "flex justify-start mt-1 mb-8", children: /* @__PURE__ */ jsx(
           Link,
           {
             href: route("slip-gaji.index"),
@@ -89,8 +89,8 @@ function CreateSlip(props) {
         ) })
       ] }),
       /* @__PURE__ */ jsxs("div", { className: "", children: [
-        /* @__PURE__ */ jsx("form", { onSubmit: submit, className: "overflow-x-scroll", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra table-xs my-5 text-center", children: [
-          /* @__PURE__ */ jsxs("thead", { className: "text-[10px]", children: [
+        /* @__PURE__ */ jsx("form", { onSubmit: submit, className: "overflow-x-scroll", children: /* @__PURE__ */ jsx("div", { className: "max-h-[400px] overflow-y-auto", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra table-xs text-center", children: [
+          /* @__PURE__ */ jsxs("thead", { className: "sticky top-0 text-[10px]", children: [
             /* @__PURE__ */ jsxs("tr", { className: "bg-orange-600 text-white capitalize", children: [
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 3, children: "Data Karyawan" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 2, children: "Gaji" }),
@@ -153,7 +153,7 @@ function CreateSlip(props) {
             )),
             /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: /* @__PURE__ */ jsx(FormatRupiah, { value: us.total }) })
           ] }, index) }) })
-        ] }) }),
+        ] }) }) }),
         /* @__PURE__ */ jsx("div", { className: "flex justify-end", children: /* @__PURE__ */ jsx(
           "button",
           {

@@ -7,7 +7,7 @@ import { BiSearchAlt, BiShowAlt, BiEraser, BiSolidEdit } from "react-icons/bi/in
 import Modal from "./Modal-DmMYx0rx.js";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
-import { E as EachUtils } from "./EachUtils-sRFHlwPj.js";
+import { E as EachUtils } from "./EachUtils-wF8jK0oN.js";
 import { RiMailSendFill } from "react-icons/ri/index.esm.js";
 import { FiFilter } from "react-icons/fi/index.esm.js";
 import "./Sidebar-DxOhayto.js";

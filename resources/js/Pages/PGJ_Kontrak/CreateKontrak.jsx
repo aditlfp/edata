@@ -240,6 +240,21 @@ function CreateKontrak( props ) {
         <span className='text-center font-semibold mb-2'>Pihak Kedua</span>
         
         <div className="form-control">
+            <span className="label-text required">Nama : </span>
+            <input
+              id="nama_pk_kda"
+              name="nama_pk_kda"
+              required
+              type='text'
+              value={data.nama_pk_kda}
+              placeholder='Masukkan Nama Pihak Kedua....'
+              onChange={(e) => setData("nama_pk_kda", e.target.value)}
+              className="input input-sm rounded-sm input-bordered"
+            />
+
+            {errors.nama_pk_kda &&<span className="text-red-500">{errors.nama_pk_kda}</span>}
+        </div>
+        <div className="form-control">
             <span className="label-text required">Jabatan : </span>
             <input
               id="jabatan_pk_kda"
