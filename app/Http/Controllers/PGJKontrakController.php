@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PGJKontrakResource;
 use App\Models\Client;
+use App\Models\Jabatan;
 use App\Models\PGJ_Kontrak as Contract;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -24,9 +26,11 @@ class PGJKontrakController extends Controller
      // Show the form for creating a new resource
      public function create()
      {
+        $users = User::with(['Jabatan', 'Kerjasama', 'Client'])->get();
+        $jabatan = Jabatan::all();
         $client = Client::all();
         $contracts = Contract::latest()->first();
-         return Inertia::render('PGJ_Kontrak/CreateKontrak', compact('contracts', 'client'));
+        return Inertia::render('PGJ_Kontrak/CreateKontrak', compact('contracts', 'client', 'users', 'jabatan'));
      }
  
      // Store a newly created resource in storage
@@ -72,7 +76,10 @@ class PGJKontrakController extends Controller
      // Show the form for editing the specified resource
      public function edit(Contract $contract)
      {
-         return Inertia::render('PGJ_Kontrak/EditKontrak', compact('contract'));
+         $users = User::with(['Jabatan', 'Kerjasama', 'Client'])->get();
+         $jabatan = Jabatan::all();
+         $client = Client::all();
+         return Inertia::render('PGJ_Kontrak/EditKontrak', compact('contract', 'client', 'users', 'jabatan'));
      }
  
      // Update the specified resource in storage

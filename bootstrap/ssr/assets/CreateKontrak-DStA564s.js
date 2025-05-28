@@ -14,7 +14,7 @@ function CreateKontrak(props) {
     nama_pk_ptm: "",
     alamat_pk_ptm: "",
     jabatan_pk_ptm: "",
-    nama_pk_kda: "-",
+    nama_pk_kda: "",
     tempat_lahir_pk_kda: "-",
     tgl_lahir_pk_kda: "1900-01-01",
     nik_pk_kda: "-",
@@ -248,6 +248,23 @@ function CreateKontrak(props) {
               errors.jabatan_pk_ptm && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.jabatan_pk_ptm })
             ] }),
             /* @__PURE__ */ jsx("span", { className: "text-center font-semibold mb-2", children: "Pihak Kedua" }),
+            /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
+              /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Nama : " }),
+              /* @__PURE__ */ jsx(
+                "input",
+                {
+                  id: "nama_pk_kda",
+                  name: "nama_pk_kda",
+                  required: true,
+                  type: "text",
+                  value: data.nama_pk_kda,
+                  placeholder: "Masukkan Nama Pihak Kedua....",
+                  onChange: (e) => setData("nama_pk_kda", e.target.value),
+                  className: "input input-sm rounded-sm input-bordered"
+                }
+              ),
+              errors.nama_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.nama_pk_kda })
+            ] }),
             /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
               /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Jabatan : " }),
               /* @__PURE__ */ jsx(

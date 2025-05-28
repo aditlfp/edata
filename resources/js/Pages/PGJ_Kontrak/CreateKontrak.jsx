@@ -3,6 +3,7 @@ import { Head, useForm } from '@inertiajs/react'
 import React from 'react'
 import HeadNavigation from '../Admin/Component/HeadNavigation'
 import { toast } from 'react-toastify'
+import { useEffect } from 'react'
 
 function CreateKontrak( props ) {
   
@@ -12,7 +13,7 @@ function CreateKontrak( props ) {
     nama_pk_ptm: "",
     alamat_pk_ptm: "",
     jabatan_pk_ptm: "",
-    nama_pk_kda: "-",
+    nama_pk_kda: "",
     tempat_lahir_pk_kda: "-",
     tgl_lahir_pk_kda: "1900-01-01",
     nik_pk_kda: "-",
@@ -60,6 +61,24 @@ function CreateKontrak( props ) {
     })
   }
 
+  const autoSelect = () => {
+    const selectedUser = props?.users.find(
+      (item) => item.nama_lengkap === data.nama_pk_kda
+    );
+    
+    if (selectedUser) {
+     setData({
+        ...data, // Keep existing fields
+        jabatan_pk_kda: selectedUser.jabatan?.name_jabatan || "",
+        unit_pk_kda: selectedUser.client?.name || ""
+      });
+    }
+  };
+
+  useEffect(() => {
+      autoSelect();
+  }, [data.nama_pk_kda]);
+
   const cancel = (e) => {
     e.preventDefault();
     window.location.href = route("contracts.index");
@@ -70,6 +89,7 @@ function CreateKontrak( props ) {
       <Head title="Pengajuan Kontrak - Create" />
       <HeadNavigation title={"Pengajuan Kontrak - Create"} />
       <div>
+        {/* <span>{data.unit_pk_kda}</span> */}
         <form
           onSubmit={handleSubmit}
           encType="multipart/form-data"
@@ -241,31 +261,26 @@ function CreateKontrak( props ) {
         
         <div className="form-control">
             <span className="label-text required">Nama : </span>
-            <input
-              id="nama_pk_kda"
-              name="nama_pk_kda"
-              required
-              type='text'
-              value={data.nama_pk_kda}
-              placeholder='Masukkan Nama Pihak Kedua....'
-              onChange={(e) => setData("nama_pk_kda", e.target.value)}
-              className="input input-sm rounded-sm input-bordered"
-            />
-
+            <select name="nama_pk_kda" id="" className='select select-sm rounded-sm input-bordered text-sm' onChange={(e) => setData("nama_pk_kda", e.target.value)}>
+            <option defaultValue={0} disabled selected>Nama Pihak Kedua</option>
+            {props?.users.map((item, index) => {
+              return (
+                <option className={item.nama_lengkap == 'admin' ? 'hidden' : ''} key={index} value={item.nama_lengkap}>{item.nama_lengkap}</option>
+              )
+            })}
+            </select>
             {errors.nama_pk_kda &&<span className="text-red-500">{errors.nama_pk_kda}</span>}
         </div>
         <div className="form-control">
             <span className="label-text required">Jabatan : </span>
-            <input
-              id="jabatan_pk_kda"
-              name="jabatan_pk_kda"
-              required
-              type='text'
-              value={data.jabatan_pk_kda}
-              placeholder='Masukkan Jabatan Pihak Kedua....'
-              onChange={(e) => setData("jabatan_pk_kda", e.target.value)}
-              className="input input-sm rounded-sm input-bordered"
-            />
+            <select name="jabatan_pk_kda" id="jabatan_pk_kda" disabled className='select select-sm rounded-sm input-bordered text-sm' onChange={(e) => setData("jabatan_pk_kda", e.target.value)}>
+            <option defaultValue={0} disabled selected>Jabatan Pihak Kedua</option>
+            {props?.jabatan.map((item, index) => {
+              return (
+                <option key={index} selected={item.name_jabatan == data.jabatan_pk_kda && true} value={item.name_jabatan}>{item.name_jabatan}</option>
+              )
+            })}
+            </select>
 
             {errors.jabatan_pk_kda &&<span className="text-red-500">{errors.jabatan_pk_kda}</span>}
         </div>
@@ -286,11 +301,11 @@ function CreateKontrak( props ) {
         </div>
         <div className="form-control">
             <span className="label-text required">Unit Kerja : </span>
-            <select name="unit_pk_kda" id="unit_pk_kda" required className='input input-sm text-xs rounded-sm input-bordered' onChange={(e) => setData("unit_pk_kda", e.target.value)}>
+            <select name="unit_pk_kda" id="unit_pk_kda" disabled required className='input input-sm text-xs rounded-sm input-bordered' onChange={(e) => setData("unit_pk_kda", e.target.value)}>
               <option defaultValue={0} disabled selected>Unit Kerja</option>
-              {props.client.map((item, index) => {
+              {props?.client.map((item, index) => {
                 return (
-                  <option key={index} value={item.name}>{item.name}</option>
+                  <option key={index} selected={item.name == data.unit_pk_kda && true} value={item.name}>{item.name}</option>
                 )
               })}
             </select>

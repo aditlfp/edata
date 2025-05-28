@@ -3,9 +3,9 @@ import { Head, useForm, router } from '@inertiajs/react'
 import React from 'react'
 import HeadNavigation from '../Admin/Component/HeadNavigation'
 import { toast } from 'react-toastify'
+import { useEffect } from 'react'
 
 function EditKontrak( props ) {
-  console.log(props.contract);
   
   const {data, setData, processing ,errors, patch, reset} = useForm({
     no_srt: props.contract.no_srt,
@@ -59,6 +59,24 @@ function EditKontrak( props ) {
       }
     })
   }
+
+  const autoSelect = () => {
+      const selectedUser = props?.users.find(
+        (item) => item.nama_lengkap === data.nama_pk_kda
+      );
+      
+      if (selectedUser) {
+       setData({
+          ...data, // Keep existing fields
+          jabatan_pk_kda: selectedUser.jabatan?.name_jabatan || "",
+          unit_pk_kda: selectedUser.client?.name || ""
+        });
+      }
+    };
+  
+    useEffect(() => {
+        autoSelect();
+    }, [data.nama_pk_kda]);
 
   const cancel = (e) => {
     e.preventDefault();
@@ -239,21 +257,18 @@ function EditKontrak( props ) {
         </div>
         <div className='flex flex-col gap-y-2'>
         <span className='text-center font-semibold mb-2'>Pihak Kedua</span>
-        <div className="form-control">
+         <div className="form-control">
             <span className="label-text required">Nama : </span>
-            <input
-              id="nama_pk_kda"
-              name="nama_pk_kda"
-              required
-              type='text'
-              value={data.nama_pk_kda}
-              placeholder='Masukkan Nama Pihak Kedua....'
-              onChange={(e) => setData("nama_pk_kda", e.target.value)}
-              className="input input-sm rounded-sm input-bordered"
-            />
-
+            <select name="nama_pk_kda" id="" className='select select-sm rounded-sm input-bordered text-sm' onChange={(e) => setData("nama_pk_kda", e.target.value)}>
+            <option defaultValue={0} disabled selected>Nama Pihak Kedua</option>
+            {props?.users.map((item, index) => {
+              return (
+                <option selected={data.nama_pk_kda == item.nama_lengkap && true} className={item.nama_lengkap == 'admin' ? 'hidden' : ''} key={index} value={item.nama_lengkap}>{item.nama_lengkap}</option>
+              )
+            })}
+            </select>
             {errors.nama_pk_kda &&<span className="text-red-500">{errors.nama_pk_kda}</span>}
-          </div>
+        </div>
           <div className='flex gap-x-2'>
             <div className="form-control">
                 <span className="label-text required">Tempat : </span>
@@ -316,18 +331,16 @@ function EditKontrak( props ) {
 
             {errors.alamat_pk_kda &&<span className="text-red-500">{errors.alamat_pk_kda}</span>}
         </div>
-        <div className="form-control">
+         <div className="form-control">
             <span className="label-text required">Jabatan : </span>
-            <input
-              id="jabatan_pk_kda"
-              name="jabatan_pk_kda"
-              required
-              type='text'
-              value={data.jabatan_pk_kda}
-              placeholder='Masukkan Jabatan Pihak Pertama....'
-              onChange={(e) => setData("jabatan_pk_kda", e.target.value)}
-              className="input input-sm rounded-sm input-bordered"
-            />
+            <select name="jabatan_pk_kda" id="jabatan_pk_kda" disabled className='select select-sm rounded-sm input-bordered text-sm' onChange={(e) => setData("jabatan_pk_kda", e.target.value)}>
+            <option defaultValue={0} disabled selected>Jabatan Pihak Kedua</option>
+            {props?.jabatan.map((item, index) => {
+              return (
+                <option key={index} selected={item.name_jabatan == data.jabatan_pk_kda && true} value={item.name_jabatan}>{item.name_jabatan}</option>
+              )
+            })}
+            </select>
 
             {errors.jabatan_pk_kda &&<span className="text-red-500">{errors.jabatan_pk_kda}</span>}
         </div>
@@ -346,19 +359,16 @@ function EditKontrak( props ) {
 
             {errors.status_pk_kda &&<span className="text-red-500">{errors.status_pk_kda}</span>}
         </div>
-        <div className="form-control">
+         <div className="form-control">
             <span className="label-text required">Unit Kerja : </span>
-            <input
-              id="unit_pk_kda"
-              name="unit_pk_kda"
-              required
-              type='text'
-              value={data.unit_pk_kda}
-              placeholder='Masukkan Unit Kerja Pihak Pertama....'
-              onChange={(e) => setData("unit_pk_kda", e.target.value)}
-              className="input input-sm rounded-sm input-bordered"
-            />
-
+            <select name="unit_pk_kda" id="unit_pk_kda" disabled required className='input input-sm text-xs rounded-sm input-bordered' onChange={(e) => setData("unit_pk_kda", e.target.value)}>
+              <option defaultValue={0} disabled selected>Unit Kerja</option>
+              {props?.client.map((item, index) => {
+                return (
+                  <option key={index} selected={item.name == data.unit_pk_kda && true} value={item.name}>{item.name}</option>
+                )
+              })}
+            </select>
             {errors.unit_pk_kda &&<span className="text-red-500">{errors.unit_pk_kda}</span>}
         </div>
         </div>

@@ -68,12 +68,24 @@ class User extends Authenticatable
 
     public function Jabatan()
     {
-        return $this->belongsTo(Jabatan::class);
+        return $this->setConnection("mysql2connection")->belongsTo(Jabatan::class);
     }
 
     public function Kerjasama()
     {
         return $this->setConnection("mysql2connection")->belongsTo(Kerjasama::class);
+    }
+
+    public function client()
+    {
+        return $this->hasOneThrough(
+            Client::class,
+            Kerjasama::class,
+            'id',       // Foreign key on Kerjasama table
+            'id',       // Foreign key on Client table
+            'kerjasama_id', // Foreign key on User table
+            'client_id'     // Foreign key on Kerjasama table
+        );
     }
 
 
