@@ -58,17 +58,34 @@ function EditKontrak(props) {
       }
     });
   };
+  const handleBirthData = (value) => {
+    if (!value || typeof value !== "string" || value.toLowerCase().includes("null")) {
+      return { tempat_lahir: "", tanggal_lahir: "" };
+    }
+    const [place = "", date = ""] = value.split(",").map((str) => str.trim());
+    return {
+      tempat_lahir: place,
+      tanggal_lahir: date
+    };
+  };
   const autoSelect = () => {
-    var _a, _b;
+    var _a, _b, _c;
     const selectedUser = props == null ? void 0 : props.users.find(
       (item) => item.nama_lengkap === data.nama_pk_kda
     );
-    if (selectedUser) {
+    const selectEmploye = (_a = props == null ? void 0 : props.employe) == null ? void 0 : _a.data.find(
+      (item) => item.name === data.nama_pk_kda
+    );
+    const birth = handleBirthData(selectEmploye == null ? void 0 : selectEmploye.ttl);
+    if (selectedUser && selectEmploye) {
       setData({
         ...data,
         // Keep existing fields
-        jabatan_pk_kda: ((_a = selectedUser.jabatan) == null ? void 0 : _a.name_jabatan) || "",
-        unit_pk_kda: ((_b = selectedUser.client) == null ? void 0 : _b.name) || ""
+        jabatan_pk_kda: ((_b = selectedUser.jabatan) == null ? void 0 : _b.name_jabatan) || "",
+        unit_pk_kda: ((_c = selectedUser.client) == null ? void 0 : _c.name) || "",
+        nik_pk_kda: selectEmploye == null ? void 0 : selectEmploye.no_ktp,
+        tempat_lahir_pk_kda: birth.tempat_lahir,
+        tgl_lahir_pk_kda: birth.tanggal_lahir
       });
     }
   };

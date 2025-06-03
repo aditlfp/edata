@@ -8,6 +8,12 @@ import "./Sidebar-DxOhayto.js";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";
 function CreateKontrak(props) {
+  const convertToDateInputFormat = (value) => {
+    if (!value)
+      return "";
+    const [day, month, year] = value.split("-");
+    return `${year}-${month}-${day}`;
+  };
   const { data, setData, processing, errors, post, reset } = useForm({
     no_srt: "",
     tgl_dibuat: "",
@@ -85,15 +91,9 @@ function CreateKontrak(props) {
         unit_pk_kda: ((_c = selectedUser.client) == null ? void 0 : _c.name) || "",
         nik_pk_kda: selectEmploye == null ? void 0 : selectEmploye.no_ktp,
         tempat_lahir_pk_kda: birth.tempat_lahir,
-        tgl_lahir_pk_kda: birth.tanggal_lahir
+        tgl_lahir_pk_kda: convertToDateInputFormat(birth.tanggal_lahir)
       });
     }
-  };
-  const convertToDateInputFormat = (value) => {
-    if (!value)
-      return "";
-    const [day, month, year] = value.split("-");
-    return `${year}-${month}-${day}`;
   };
   useEffect(() => {
     autoSelect();
@@ -325,7 +325,7 @@ function CreateKontrak(props) {
                     name: "tgl_lahir_pk_kda",
                     required: true,
                     type: "date",
-                    value: convertToDateInputFormat(data.tgl_lahir_pk_kda),
+                    value: data.tgl_lahir_pk_kda,
                     onChange: (e) => setData("tgl_lahir_pk_kda", e.target.value),
                     className: "input input-sm rounded-sm input-bordered"
                   }

@@ -141,7 +141,7 @@ function IndexKontrak(props) {
         )
       ] })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "overflow-y-auto h-[365px] my-5", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra table-xs w-full", children: [
+    /* @__PURE__ */ jsx("div", { className: "overflow-y-auto h-[550px] my-5", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra table-xs w-full", children: [
       /* @__PURE__ */ jsx("thead", { className: "sticky top-0", children: /* @__PURE__ */ jsxs("tr", { className: "bg-orange-600 text-white capitalize", children: [
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "No Surat" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Nama Pihak Kedua" }),

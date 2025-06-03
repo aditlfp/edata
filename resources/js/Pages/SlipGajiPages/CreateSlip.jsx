@@ -110,7 +110,7 @@ export default function CreateSlip(props) {
         <div className="">
           <form onSubmit={submit} className="overflow-x-scroll">
 
-                <div className="max-h-[400px] overflow-y-auto">
+                <div className="max-h-[800px] overflow-y-auto">
                   <table className="table table-zebra table-xs text-center">
                     <thead className="sticky top-0 text-[10px]">
                       <tr className="bg-orange-600 text-white capitalize">

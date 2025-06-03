@@ -60,50 +60,19 @@ function EditKontrak( props ) {
     })
   }
 
- const handleBirthData = (value) => {
-    if (!value || typeof value !== "string" || value.toLowerCase().includes("null")) {
-          return { tempat_lahir: "", tanggal_lahir: "" };
-    }
-
-    const [place = "", date = ""] = value.split(",").map((str) => str.trim());
-
-    return {
-      tempat_lahir: place,
-      tanggal_lahir: date,
-    };
-  };
-
-
   const autoSelect = () => {
-    const selectedUser = props?.users.find(
-      (item) => item.nama_lengkap === data.nama_pk_kda
-    );
-
-    const selectEmploye = props?.employe?.data.find(
-      (item) =>  item.name === data.nama_pk_kda
-    );
-
-    const birth = handleBirthData(selectEmploye?.ttl);
-
-    
-    if (selectedUser && selectEmploye) {
-     setData({
-        ...data, // Keep existing fields
-        jabatan_pk_kda: selectedUser.jabatan?.name_jabatan || "",
-        unit_pk_kda: selectedUser.client?.name || "",
-        nik_pk_kda: selectEmploye?.no_ktp,
-        tempat_lahir_pk_kda: birth.tempat_lahir,
-        tgl_lahir_pk_kda: birth.tanggal_lahir,
-      });
-    }
-  };
-
-
-  const convertToDateInputFormat = (value) => {
-    if (!value) return "";
-    const [day, month, year] = value.split("-");
-    return `${year}-${month}-${day}`;
-  };
+      const selectedUser = props?.users.find(
+        (item) => item.nama_lengkap === data.nama_pk_kda
+      );
+      
+      if (selectedUser) {
+       setData({
+          ...data, // Keep existing fields
+          jabatan_pk_kda: selectedUser.jabatan?.name_jabatan || "",
+          unit_pk_kda: selectedUser.client?.name || ""
+        });
+      }
+    };
   
     useEffect(() => {
         autoSelect();

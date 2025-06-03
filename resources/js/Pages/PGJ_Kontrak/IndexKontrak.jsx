@@ -165,7 +165,7 @@ export default function IndexKontrak(props) {
                     </button>
                 </div>
             </div>
-            <div className="overflow-y-auto h-[365px] my-5">
+            <div className="overflow-y-auto h-[550px] my-5">
                 <table className="table table-zebra table-xs w-full">
                     <thead className="sticky top-0">
                         <tr className="bg-orange-600 text-white capitalize">

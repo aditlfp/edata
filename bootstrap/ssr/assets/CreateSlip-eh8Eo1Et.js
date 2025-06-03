@@ -89,7 +89,7 @@ function CreateSlip(props) {
         ) })
       ] }),
       /* @__PURE__ */ jsxs("div", { className: "", children: [
-        /* @__PURE__ */ jsx("form", { onSubmit: submit, className: "overflow-x-scroll", children: /* @__PURE__ */ jsx("div", { className: "max-h-[400px] overflow-y-auto", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra table-xs text-center", children: [
+        /* @__PURE__ */ jsx("form", { onSubmit: submit, className: "overflow-x-scroll", children: /* @__PURE__ */ jsx("div", { className: "max-h-[800px] overflow-y-auto", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra table-xs text-center", children: [
           /* @__PURE__ */ jsxs("thead", { className: "sticky top-0 text-[10px]", children: [
             /* @__PURE__ */ jsxs("tr", { className: "bg-orange-600 text-white capitalize", children: [
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 3, children: "Data Karyawan" }),

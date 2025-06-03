@@ -80,10 +80,12 @@ class PGJKontrakController extends Controller
      // Show the form for editing the specified resource
      public function edit(Contract $contract)
      {
-         $users = User::with(['Jabatan', 'Kerjasama', 'Client'])->get();
-         $jabatan = Jabatan::all();
-         $client = Client::all();
-         return Inertia::render('PGJ_Kontrak/EditKontrak', compact('contract', 'client', 'users', 'jabatan'));
+        $employes = Employe::with(['client:id,name', 'user.jabatan:id,name_jabatan'])->latest()->get(['id', 'name', 'no_ktp', 'no_kk', 'ttl', 'img', 'client_id', 'initials', 'date_real', 'numbers']);
+        $employe = EmployeResource::collection($employes);
+        $users = User::with(['Jabatan', 'Kerjasama', 'Client'])->get();
+        $jabatan = Jabatan::all();
+        $client = Client::all();
+        return Inertia::render('PGJ_Kontrak/EditKontrak', compact('contract', 'client', 'users', 'jabatan', 'employe'));
      }
  
      // Update the specified resource in storage
