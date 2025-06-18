@@ -105,9 +105,6 @@ function CreateKontrak( props ) {
     }
   };
 
-
-  
-
   useEffect(() => {
       autoSelect();
   }, [data.nama_pk_kda]);
@@ -297,10 +294,20 @@ function CreateKontrak( props ) {
             <select name="nama_pk_kda" id="" className='select select-sm rounded-sm input-bordered text-sm' onChange={(e) => setData("nama_pk_kda", e.target.value)}>
             <option defaultValue={0} disabled selected>Nama Pihak Kedua</option>
             {props?.users.map((item, index) => {
+              const hasActiveContract = props.allContracts?.some(contract =>
+                contract.nama_pk_kda == item.nama_lengkap &&
+                 new Date().toISOString().split('T')[0] <= contract.tgl_selesai_kontrak
+              );
+
+              if (item.nama_lengkap == 'admin' || hasActiveContract) return null;
+
               return (
-                <option className={item.nama_lengkap == 'admin' ? 'hidden' : ''} key={index} value={item.nama_lengkap}>{item.nama_lengkap}</option>
-              )
+                <option key={index} value={item.nama_lengkap}>
+                  {item.nama_lengkap}
+                </option>
+              );
             })}
+
             </select>
             {errors.nama_pk_kda &&<span className="text-red-500">{errors.nama_pk_kda}</span>}
         </div>

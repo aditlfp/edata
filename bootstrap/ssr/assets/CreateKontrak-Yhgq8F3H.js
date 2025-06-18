@@ -293,7 +293,13 @@ function CreateKontrak(props) {
               /* @__PURE__ */ jsxs("select", { name: "nama_pk_kda", id: "", className: "select select-sm rounded-sm input-bordered text-sm", onChange: (e) => setData("nama_pk_kda", e.target.value), children: [
                 /* @__PURE__ */ jsx("option", { defaultValue: 0, disabled: true, selected: true, children: "Nama Pihak Kedua" }),
                 props == null ? void 0 : props.users.map((item, index) => {
-                  return /* @__PURE__ */ jsx("option", { className: item.nama_lengkap == "admin" ? "hidden" : "", value: item.nama_lengkap, children: item.nama_lengkap }, index);
+                  var _a;
+                  const hasActiveContract = (_a = props.allContracts) == null ? void 0 : _a.some(
+                    (contract) => contract.nama_pk_kda == item.nama_lengkap && (/* @__PURE__ */ new Date()).toISOString().split("T")[0] <= contract.tgl_selesai_kontrak
+                  );
+                  if (item.nama_lengkap == "admin" || hasActiveContract)
+                    return null;
+                  return /* @__PURE__ */ jsx("option", { value: item.nama_lengkap, children: item.nama_lengkap }, index);
                 })
               ] }),
               errors.nama_pk_kda && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.nama_pk_kda })

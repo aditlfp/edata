@@ -33,8 +33,10 @@ class PGJKontrakController extends Controller
         $users = User::with(['Jabatan', 'Kerjasama', 'Client'])->get();
         $jabatan = Jabatan::all();
         $client = Client::all();
-        $contracts = Contract::latest()->first();
-        return Inertia::render('PGJ_Kontrak/CreateKontrak', compact('contracts', 'client', 'users', 'jabatan', 'employe'));
+        $query = Contract::query();
+        $contracts = (clone $query)->latest()->first();
+        $allContracts = $query->get();
+        return Inertia::render('PGJ_Kontrak/CreateKontrak', compact('contracts', 'client', 'users', 'jabatan', 'employe', 'allContracts'));
      }
  
      // Store a newly created resource in storage

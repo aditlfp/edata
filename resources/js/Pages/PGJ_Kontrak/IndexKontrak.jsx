@@ -11,7 +11,6 @@ import { RiMailSendFill } from "react-icons/ri";
 import { FiFilter } from "react-icons/fi";
 
 export default function IndexKontrak(props) {
-    console.log(props)
     const [modal, setModal] = useState(false);
     const [dataModal, setDataModal] = useState("");
     const employeesPerPage = 25;
@@ -114,12 +113,11 @@ export default function IndexKontrak(props) {
                     toast.success("Berhasil Mengirim Pengajuan Kontrak!", {
                         theme: "colored",
                     });
-                    setTimeout(() => {
-                        router.get(route("contracts.index"), {
-                            replace: true,
-                            preserveScroll: true,
-                        });
-                    }, 2000);
+                   router.get(route("contracts.index"), {}, {
+                        replace: true,
+                        preserveScroll: true,
+                        preserveState: true,
+                    });
                 },
             }
         );

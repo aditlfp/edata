@@ -13,7 +13,6 @@ import { FiFilter } from "react-icons/fi/index.esm.js";
 import "./Sidebar-DxOhayto.js";
 import "framer-motion";
 function IndexKontrak(props) {
-  console.log(props);
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState("");
   const employeesPerPage = 25;
