@@ -1,14 +1,13 @@
 import { jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-CQyBQfjp.js";
+import { A as AdminLayout } from "./AdminLayout-BmQ_mfkc.js";
 import { Chart } from "chart.js/auto";
 import { useRef, useEffect } from "react";
-import "./Sidebar-DxOhayto.js";
+import "./Sidebar-k6Fk2Fmb.js";
 import "@inertiajs/react";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";
 import "react-toastify";
 function Index(props) {
-  console.log(props.employeesByMonth);
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
   useEffect(() => {

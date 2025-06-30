@@ -7,7 +7,9 @@ use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\PGJKontrakController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SlipGajiController;
+use App\Http\Controllers\TempUsersController;
 use App\Models\Employe;
+use App\Models\TempUsers;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -58,6 +60,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     
     Route::resource('/contracts', PGJKontrakController::class);
     Route::patch('/contracts/send_into/{id}', [PGJKontrakController::class, 'sendToOperator'])->name('sendToOperator');
+
+    Route::resource('/accept-employe', TempUsersController::class)->only(['index', 'update', 'destroy']);
+    Route::post('/accept-employe/bulk-delete', [TempUsersController::class, 'bulkDestroy'])->name('accept-employe.bulk-delete');
 });
 
 

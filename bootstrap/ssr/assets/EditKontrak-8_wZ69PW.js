@@ -1,10 +1,10 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-CQyBQfjp.js";
+import { A as AdminLayout } from "./AdminLayout-BmQ_mfkc.js";
 import { useForm, Head, router } from "@inertiajs/react";
 import { useEffect } from "react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { toast } from "react-toastify";
-import "./Sidebar-DxOhayto.js";
+import "./Sidebar-k6Fk2Fmb.js";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";
 function EditKontrak(props) {
@@ -26,7 +26,8 @@ function EditKontrak(props) {
     tgl_selesai_kontrak: props.contract.tgl_selesai_kontrak,
     g_pok: props.contract.g_pok,
     tj_hadir: props.contract.tj_hadir,
-    kinerja: props.contract.kinerja
+    kinerja: props.contract.kinerja,
+    lain_lain: props.contract.lain_lain
   });
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,7 +50,8 @@ function EditKontrak(props) {
       tgl_selesai_kontrak: data.tgl_selesai_kontrak,
       g_pok: data.g_pok,
       tj_hadir: data.tj_hadir,
-      kinerja: data.kinerja
+      kinerja: data.kinerja,
+      lain_lain: data.lain_lain
     }, {
       onSuccess: () => {
         toast.success("Berhasil Mengupdate Data !", {
@@ -208,6 +210,21 @@ function EditKontrak(props) {
                   }
                 ),
                 errors.kinerja && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.kinerja })
+              ] }),
+              /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
+                /* @__PURE__ */ jsx("span", { className: "label-text", children: "Lain Lain : " }),
+                /* @__PURE__ */ jsx(
+                  "input",
+                  {
+                    id: "lain_lain",
+                    name: "lain_lain",
+                    type: "text",
+                    value: data.lain_lain,
+                    onChange: (e) => setData("lain_lain", e.target.value),
+                    className: "input input-sm rounded-sm input-bordered"
+                  }
+                ),
+                errors.lain_lain && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.lain_lain })
               ] })
             ] })
           ] }),

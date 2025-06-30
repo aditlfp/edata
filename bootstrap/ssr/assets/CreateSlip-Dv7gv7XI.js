@@ -1,12 +1,12 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useForm, Head, Link } from "@inertiajs/react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
-import { A as AdminLayout } from "./AdminLayout-CQyBQfjp.js";
+import { A as AdminLayout } from "./AdminLayout-BmQ_mfkc.js";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { toast } from "react-toastify";
 import { E as EachUtils } from "./EachUtils-wF8jK0oN.js";
 import "react";
-import "./Sidebar-DxOhayto.js";
+import "./Sidebar-k6Fk2Fmb.js";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";
 function CreateSlip(props) {

@@ -1,13 +1,13 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as Authenticated } from "./AuthenticatedLayout-Zsy-tGe_.js";
+import { A as Authenticated } from "./AuthenticatedLayout-Dou5mhQy.js";
 import { Head } from "@inertiajs/react";
-import "./AdminLayout-CQyBQfjp.js";
+import "./AdminLayout-BmQ_mfkc.js";
 import "react";
-import "./Sidebar-DxOhayto.js";
+import "./Sidebar-k6Fk2Fmb.js";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";
 import "react-toastify";
-function Dashboard({ auth }) {
+function Dashboard({ auth, props }) {
   return /* @__PURE__ */ jsxs(
     Authenticated,
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employe;
+use App\Models\TempUsers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ class AdminController extends Controller
 
     public function index()
     {
+
         $authUser = Auth::user()->id;
         $user = User::on('mysql2connection')->where('id', $authUser)->firstOrFail();
         $employeesByMonth = Employe::select(

@@ -1,8 +1,8 @@
 import { jsx, Fragment, jsxs } from "react/jsx-runtime";
 import { useForm, Link } from "@inertiajs/react";
 import "react";
-import { BiCreditCard, BiDetail, BiSolidLockOpenAlt } from "react-icons/bi/index.esm.js";
-function Sidebar({ link, value, children, open }) {
+import { BiUserCheck, BiCreditCard, BiDetail, BiSolidLockOpenAlt } from "react-icons/bi/index.esm.js";
+function Sidebar({ link, value, children, open, props }) {
   const { post } = useForm({});
   const signOut = () => {
     post(route("logout"));
@@ -17,6 +17,22 @@ function Sidebar({ link, value, children, open }) {
         children: [
           /* @__PURE__ */ jsx("div", { className: "text-lg", children }),
           value
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxs(
+      Link,
+      {
+        href: route("accept-employe.index"),
+        className: "bg-orange-300 flex justify-between hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm text-xs sm:text-sm cursor-pointer",
+        children: [
+          /* @__PURE__ */ jsx("div", { className: "text-lg", children: /* @__PURE__ */ jsx(BiUserCheck, {}) }),
+          "Verifikasi Data ",
+          /* @__PURE__ */ jsxs("span", { className: props > 0 ? `badge badge-error text-white flex uppercase gap-x-1 px-2` : `hidden`, children: [
+            props,
+            /* @__PURE__ */ jsx("span", { children: "new" }),
+            " "
+          ] })
         ]
       }
     ),

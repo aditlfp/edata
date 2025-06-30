@@ -1,13 +1,14 @@
 import Footer from "@/Components/Footer";
 import Sidebar from "@/Pages/Admin/Component/Sidebar";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { BiChevronsLeft, BiChevronsRight, BiExtension } from "react-icons/bi";
 import { BiGroup } from "react-icons/bi/index.esm";
 import { ToastContainer } from "react-toastify";
 
-function AdminLayout({ children, overflow }) {
+function AdminLayout({ children, overflow, props }) {
+  const { newCount } = usePage().props;
   const [open, setOpen] = useState(true);
   const [isSm, setIsSm] = useState(window.screen.width);
 
@@ -66,6 +67,7 @@ function AdminLayout({ children, overflow }) {
               className={"relative"}
             >
               <Sidebar
+                props={newCount}
                 link={"employes.index"}
                 value={"Employes Data"}
                 open={open}
@@ -94,7 +96,7 @@ function AdminLayout({ children, overflow }) {
           </motion.div>
         </AnimatePresence>
         <div
-          className={`w-full p-5 py-10 min-h-screen sm:ml-48 overflow-hidden sm:overflow-auto`}
+          className={`w-full p-5 py-10 min-h-screen sm:ml-60 overflow-hidden sm:overflow-auto`}
         >
           <ToastContainer
             position="top-center"

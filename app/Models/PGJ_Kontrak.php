@@ -28,6 +28,7 @@ class PGJ_Kontrak extends Model
         'g_pok',
         'tj_hadir',
         'kinerja',
+        'lain_lain',
         'send_to_operator',
         'send_to_atasan',
         'ttd',

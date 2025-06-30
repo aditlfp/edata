@@ -1,7 +1,7 @@
 import { jsx, Fragment, jsxs } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import Sidebar from "./Sidebar-DxOhayto.js";
-import { Head } from "@inertiajs/react";
+import Sidebar from "./Sidebar-k6Fk2Fmb.js";
+import { usePage, Head } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BiGroup, BiChevronsLeft } from "react-icons/bi/index.esm.js";
 import { ToastContainer } from "react-toastify";
@@ -12,7 +12,8 @@ function Footer(props) {
     " - All right reserved by PT. SAC Ponorogo Design And Code by Aditya & Syafi"
   ] }) }) }) });
 }
-function AdminLayout({ children, overflow }) {
+function AdminLayout({ children, overflow, props }) {
+  const { newCount } = usePage().props;
   const [open, setOpen] = useState(true);
   const [isSm, setIsSm] = useState(window.screen.width);
   useEffect(() => {
@@ -65,6 +66,7 @@ function AdminLayout({ children, overflow }) {
                     children: /* @__PURE__ */ jsx(
                       Sidebar,
                       {
+                        props: newCount,
                         link: "employes.index",
                         value: "Employes Data",
                         open,
@@ -100,7 +102,7 @@ function AdminLayout({ children, overflow }) {
           /* @__PURE__ */ jsxs(
             "div",
             {
-              className: `w-full p-5 py-10 min-h-screen sm:ml-48 overflow-hidden sm:overflow-auto`,
+              className: `w-full p-5 py-10 min-h-screen sm:ml-60 overflow-hidden sm:overflow-auto`,
               children: [
                 /* @__PURE__ */ jsx(
                   ToastContainer,

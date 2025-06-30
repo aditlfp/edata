@@ -64,6 +64,7 @@ class EmployeController extends Controller
         $employes = new Employe();
 
         // dd($request->all());
+       $encrypt = !$request->from_temp;
 
         $employe = [
             'user_id' => $request->user_id,
@@ -73,8 +74,8 @@ class EmployeController extends Controller
             'initials' => $request->initials,
             'numbers' => $request->numbers,
             'date_real' => $request->date_year,
-            'no_kk' => Crypt::encryptString($request->no_kk),
-            'no_ktp' => Crypt::encryptString($request->no_ktp),
+            'no_kk' => $encrypt ? Crypt::encryptString($request->no_kk) : $request->no_kk,
+            'no_ktp' => $encrypt ? Crypt::encryptString($request->no_ktp) : $request->no_ktp,
             'client_id' => $request->client_id,
             'jenis_bpjs' => $request->jenis_bpjs,
             'no_bpjs_kesehatan' => $request->no_bpjs_kesehatan,

@@ -1,10 +1,10 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-CQyBQfjp.js";
+import { A as AdminLayout } from "./AdminLayout-BmQ_mfkc.js";
 import { useForm, Head } from "@inertiajs/react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
-import "./Sidebar-DxOhayto.js";
+import "./Sidebar-k6Fk2Fmb.js";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";
 function CreateCareer(props) {

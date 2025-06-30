@@ -1,16 +1,16 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-CQyBQfjp.js";
+import { A as AdminLayout } from "./AdminLayout-BmQ_mfkc.js";
 import { useForm, Head, router } from "@inertiajs/react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { useState, useMemo } from "react";
 import { BiSearchAlt, BiShowAlt, BiEraser, BiSolidEdit } from "react-icons/bi/index.esm.js";
-import Modal from "./Modal-DmMYx0rx.js";
+import Modal from "./Modal-Br3a30kf.js";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { E as EachUtils } from "./EachUtils-wF8jK0oN.js";
 import { RiMailSendFill } from "react-icons/ri/index.esm.js";
 import { FiFilter } from "react-icons/fi/index.esm.js";
-import "./Sidebar-DxOhayto.js";
+import "./Sidebar-k6Fk2Fmb.js";
 import "framer-motion";
 function IndexKontrak(props) {
   const [modal, setModal] = useState(false);
@@ -94,12 +94,11 @@ function IndexKontrak(props) {
           toast.success("Berhasil Mengirim Pengajuan Kontrak!", {
             theme: "colored"
           });
-          setTimeout(() => {
-            router.get(route("contracts.index"), {
-              replace: true,
-              preserveScroll: true
-            });
-          }, 2e3);
+          router.get(route("contracts.index"), {}, {
+            replace: true,
+            preserveScroll: true,
+            preserveState: true
+          });
         }
       }
     );

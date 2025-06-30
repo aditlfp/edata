@@ -32,6 +32,7 @@ function CreateKontrak( props ) {
     g_pok: "",
     tj_hadir: "",
     kinerja: "",
+    lain_lain: "",
   })
 
   const handleSubmit = (e) => {
@@ -58,7 +59,8 @@ function CreateKontrak( props ) {
           'tgl_selesai_kontrak',
           'g_pok',
           'tj_hadir',
-          'kinerja'
+          'kinerja',
+          'lain_lain'
         ),
           toast.success("Berhasil Menambahkan Data !", {
             theme: "colored",
@@ -236,6 +238,19 @@ function CreateKontrak( props ) {
               />
 
               {errors.kinerja &&<span className="text-red-500">{errors.kinerja}</span>}
+            </div>
+            <div className="form-control">
+              <span className="label-text">Lain Lain : </span>
+              <input
+                id="lain_lain"
+                name="lain_lain"
+                type='text'
+                value={data.lain_lain}
+                onChange={(e) => setData("lain_lain", e.target.value)}
+                className="input input-sm rounded-sm input-bordered"
+              />
+
+              {errors.lain_lain &&<span className="text-red-500">{errors.lain_lain}</span>}
             </div>
           </div>
         </div>

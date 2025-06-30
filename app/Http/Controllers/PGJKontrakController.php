@@ -60,7 +60,8 @@ class PGJKontrakController extends Controller
              'tgl_selesai_kontrak' => 'required|date',
              'g_pok' => 'nullable',
              'tj_hadir' => 'nullable',
-             'kinerja' => 'nullable'
+             'kinerja' => 'nullable',
+             'lain_lain' => 'nullable'
          ]);
  
          Contract::create($validated);
@@ -110,7 +111,8 @@ class PGJKontrakController extends Controller
              'tgl_selesai_kontrak' => 'required|date',
              'g_pok' => 'nullable',
              'tj_hadir' => 'nullable',
-             'kinerja' => 'nullable'
+             'kinerja' => 'nullable',
+             'lain_lain' => 'nullable'
          ]);
  
          $contract->update($validated);

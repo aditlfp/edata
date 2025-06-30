@@ -26,6 +26,7 @@ function EditKontrak( props ) {
     g_pok: props.contract.g_pok,
     tj_hadir: props.contract.tj_hadir,
     kinerja: props.contract.kinerja,
+    lain_lain: props.contract.lain_lain,
   })
 
   const handleSubmit = (e) => {
@@ -51,6 +52,7 @@ function EditKontrak( props ) {
       g_pok: data.g_pok,
       tj_hadir: data.tj_hadir,
       kinerja: data.kinerja,
+      lain_lain: data.lain_lain,
     },{
       onSuccess: () => {
         toast.success("Berhasil Mengupdate Data !", {
@@ -204,6 +206,19 @@ function EditKontrak( props ) {
               />
 
               {errors.kinerja &&<span className="text-red-500">{errors.kinerja}</span>}
+            </div>
+            <div className="form-control">
+              <span className="label-text">Lain Lain : </span>
+              <input
+                id="lain_lain"
+                name="lain_lain"
+                type='text'
+                value={data.lain_lain}
+                onChange={(e) => setData("lain_lain", e.target.value)}
+                className="input input-sm rounded-sm input-bordered"
+              />
+
+              {errors.lain_lain &&<span className="text-red-500">{errors.lain_lain}</span>}
             </div>
           </div>
         </div>

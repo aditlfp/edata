@@ -1,12 +1,12 @@
 import { Link, useForm } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { BiChevronsRight, BiSolidLockOpenAlt } from "react-icons/bi";
+import { BiChevronsRight, BiSolidLockOpenAlt, BiUserCheck } from "react-icons/bi";
 import { BiCreditCard, BiDetail, BiExtension } from "react-icons/bi/index.esm";
 
-function Sidebar({ link, value, children, open }) {
+function Sidebar({ link, value, children, open, props }) {
   const { post } = useForm({});
-
+  
   const signOut = () => {
     post(route("logout"));
   };
@@ -23,6 +23,13 @@ function Sidebar({ link, value, children, open }) {
           >
             <div className="text-lg">{children}</div>
             {value}
+          </Link>
+          <Link
+            href={route("accept-employe.index")}
+            className="bg-orange-300 flex justify-between hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm text-xs sm:text-sm cursor-pointer"
+          >
+            <div className="text-lg">{<BiUserCheck />}</div>
+            Verifikasi Data <span className={props > 0 ? `badge badge-error text-white flex uppercase gap-x-1 px-2` : `hidden`}>{props}<span>new</span> </span>
           </Link>
           <Link
             href={route("slip-gaji.index")}

@@ -3,7 +3,7 @@ import { Chart } from 'chart.js/auto';
 import { useEffect, useRef } from "react";
 
 function Index(props) {
-  console.log(props.employeesByMonth);
+ 
   
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null); // To store the chart instance
@@ -48,7 +48,7 @@ function Index(props) {
     };
   }, []);
   return <AdminLayout overflow={"overflow-hidden"}>
-          <canvas ref={chartRef}></canvas>
+         <canvas ref={chartRef}></canvas>
   </AdminLayout>;
 }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\TempUsers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,9 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 // $authUser = Auth::user() ? Auth::user()->id : "",
                 'user' => $user,
+                
             ],
+            'newCount' => TempUsers::class::where('status', '0')->count(),
             'api_key' => config('app.private_api_key'),
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
