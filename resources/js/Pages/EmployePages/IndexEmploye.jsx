@@ -1,10 +1,19 @@
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm } from "@inertiajs/react";
-import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from "react";
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  lazy,
+  Suspense,
+} from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
-import makeAnimated from 'react-select/animated';
-import Select from 'react-select';
-const NoImageComponent = lazy(() => import("../../Components/NoImageComponent"));
+import makeAnimated from "react-select/animated";
+import Select from "react-select";
+const NoImageComponent = lazy(() =>
+  import("../../Components/NoImageComponent")
+);
 import {
   BiSolidCog,
   BiSolidExtension,
@@ -19,27 +28,40 @@ import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import debounce from "lodash/debounce";
 import EachUtils from "@/lib/utils/EachUtils";
+import { Kapital } from "@/lib/utils/Helpers";
 
-function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, errors }) {
+function IndexEmploye({
+  employe,
+  clients,
+  auth,
+  users,
+  emploCount,
+  jabatan,
+  errors,
+}) {
   const [sortOrder, setSortOrder] = useState(false);
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSelect, setFilter] = useState("");
-  const [filterjabatan, setFilterJabatan] = useState(null)
+  const [filterjabatan, setFilterJabatan] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const employeesPerPage = 25;
   const animatedComponents = makeAnimated();
   const [options, setOptions] = useState([]);
-  
-  // console.log(errors.message);
-  
 
-  const { data, setData, delete: destroy, get } = useForm({
+  // console.log(errors.message);
+
+  const {
+    data,
+    setData,
+    delete: destroy,
+    get,
+  } = useForm({
     id: "",
     name: "",
     jbt_name: [],
-    jbt_str: []
+    jbt_str: [],
   });
 
   const handleDelete = (id) => {
@@ -53,10 +75,12 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
   };
 
   const getJabatanOnEmploye = (employee) => {
-    const user = users.find(us => us.nama_lengkap.toLowerCase() === employee.name.toLowerCase());
+    const user = users.find(
+      (us) => us.nama_lengkap.toLowerCase() === employee.name.toLowerCase()
+    );
     // console.log(user);
-    
-    return user ? user.jabatan.name_jabatan : 'Data NotFound In Absensi';
+
+    return user ? user.jabatan.name_jabatan : "Data NotFound In Absensi";
   };
 
   const combinedFilteredEmployees = useMemo(() => {
@@ -65,29 +89,31 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
       const matchesSearchQuery =
         employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         employee.no_ktp.includes(searchQuery);
-  
+
       // Check if the employee matches the client filter
       const matchesFilterSelect =
         filterSelect.toLowerCase() === "all" ||
-        employee.client?.name.toLowerCase().includes(filterSelect.toLowerCase());
-  
+        employee.client?.name
+          .toLowerCase()
+          .includes(filterSelect.toLowerCase());
+
       // Check if the employee matches the job title filter (filterjabatan)
       const matchesFilterJabatan =
         !filterjabatan || // If no filterjabatan selected, all employees match
         filterjabatan.some((fjbt) => {
           return (
             fjbt.value.toLowerCase() === "all" ||
-            getJabatanOnEmploye(employee).toLowerCase().includes(fjbt.value.toLowerCase())
+            getJabatanOnEmploye(employee)
+              .toLowerCase()
+              .includes(fjbt.value.toLowerCase())
           );
         });
-  
+
       // Return true if the employee matches all filters
       return matchesSearchQuery && matchesFilterSelect && matchesFilterJabatan;
     });
   }, [searchQuery, filterSelect, employe.data, filterjabatan]);
-  
 
-  
   const currentEmployees = useMemo(() => {
     const sortedEmployees = [...combinedFilteredEmployees].sort((a, b) =>
       sortOrder ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
@@ -129,9 +155,9 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
 
   const formatDate = (date) => {
     const d = new Date(date);
-    const month = String(d.getMonth() + 1).padStart(2, '0'); // Pads month with leading 0 (months are zero-indexed)
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Pads month with leading 0 (months are zero-indexed)
     const year = d.getFullYear();
-    
+
     return `${month}-${year}`;
   };
 
@@ -206,42 +232,43 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
       value: `${jbt.name_jabatan}`,
       label: `${jbt.name_jabatan}`,
     }));
-    setOptions([...staticOptions, ...newOptions]); 
-  }
+    setOptions([...staticOptions, ...newOptions]);
+  };
   useEffect(() => {
-    insertDataOption()
-  }, [])
+    insertDataOption();
+  }, []);
 
   const handleChange = (selected) => {
     if (!selected || selected.length === 0) {
       // If nothing is selected, reset to show all data
       setFilterJabatan(null);
       setData("jbt_name", []);
-      setData('jbt_str', []);
+      setData("jbt_str", []);
     } else {
       // Update the selected filters
       setFilterJabatan(selected);
       setData("jbt_name", selected);
-      setData("jbt_str", selected.filter((item) => item.value).map((item) => item.value));
+      setData(
+        "jbt_str",
+        selected.filter((item) => item.value).map((item) => item.value)
+      );
     }
   };
-  
+
   const updatedOptions = options.map((option) => ({
     ...option,
     isDisabled:
-    data.jbt_str != null &&
+      data.jbt_str != null &&
       data.jbt_str.some((upjbt) => {
-        return (
-          (upjbt === "All" || upjbt === "Data NotFound In Absensi")
-        )})
-    }));
-    
+        return upjbt === "All" || upjbt === "Data NotFound In Absensi";
+      }),
+  }));
 
   useEffect(() => {
     if (errors.message) {
       toast.error(errors.message);
     }
-  }, [errors])
+  }, [errors]);
 
   return (
     <AdminLayout overflow={modal ? "overflow-hidden" : "overflow-auto"}>
@@ -250,19 +277,17 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
       <div className="flex flex-col sm:flex-row justify-end gap-2 my-4 items-start sm:items-center">
         <div className="flex flex-row gap-x-5">
           {/* Select Divisi */}
-          <div
-             className="text-sm rounded-sm"
-          >
+          <div className="text-sm rounded-sm">
             <Select
-                  required
-                  closeMenuOnSelect={false}
-                  components={animatedComponents}
-                  isMulti
-                  onChange={handleChange}
-                  options={updatedOptions}
-                  isOptionDisabled={(option) => option.isDisabled}
-                  placeholder="Select an option"
-                />
+              required
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              isMulti
+              onChange={handleChange}
+              options={updatedOptions}
+              isOptionDisabled={(option) => option.isDisabled}
+              placeholder="Select an option"
+            />
           </div>
 
           {/* End Select Divisi */}
@@ -281,7 +306,7 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
             <option value="All">Semua</option>
             {clients?.map((client, index) => (
               <option key={index} value={client.name}>
-                {client.name}
+                {Kapital(client.name)}
               </option>
             ))}
           </select>
@@ -337,14 +362,19 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
               <th className="border-x-[1px] border-orange-300">No. KK</th>
               <th className="border-x-[1px] border-orange-300">No. KTP</th>
               <th className="border-x-[1px] border-orange-300">Mitra</th>
-              <th className="border-x-[1px] border-orange-300">No Induk Karyawan</th>
+              <th className="border-x-[1px] border-orange-300">
+                No Induk Karyawan
+              </th>
               {auth?.user.role_id == 2 && (
                 <th className="border-x-[1px] border-orange-300">Aksi</th>
               )}
             </tr>
           </thead>
           <tbody>
-             <EachUtils colspan={10} of={currentEmployees} render={(emplo,index) => (           
+            <EachUtils
+              colspan={10}
+              of={currentEmployees}
+              render={(emplo, index) => (
                 <tr key={index} className="border-[1px] border-orange-300">
                   <td className="border-[1px] border-orange-300">
                     {currentPage * employeesPerPage + index + 1}
@@ -353,13 +383,19 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
                     <EmployeeImage img={emplo.img} />
                   </td>
                   <td className="border-[1px] border-orange-300">
-                    {emplo?.name}
+                    {Kapital(emplo?.name)}
                   </td>
-                  <td className={`border-[1px] border-orange-300 ${getJabatanOnEmploye(emplo) === "Data NotFound In Absensi" ? 'text-red-500 font-semibold' : ''}`}>
-                    {getJabatanOnEmploye(emplo)}
+                  <td
+                    className={`border-[1px] border-orange-300 ${
+                      getJabatanOnEmploye(emplo) === "Data NotFound In Absensi"
+                        ? "text-red-500 font-semibold"
+                        : ""
+                    }`}
+                  >
+                    {Kapital(getJabatanOnEmploye(emplo))}
                   </td>
                   <td className="border-[1px] border-orange-300">
-                    {emplo.ttl}
+                    {Kapital(emplo.ttl)}
                   </td>
                   <td className="border-[1px] border-orange-300">
                     {emplo.no_kk}
@@ -368,18 +404,20 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
                     {emplo.no_ktp}
                   </td>
                   <td className="border-[1px] border-orange-300">
-                    {emplo.client?.name}
+                    {Kapital(emplo.client?.name)}
                   </td>
                   <td className="border-[1px] border-orange-300">
-                    {emplo.initials && emplo.numbers && emplo.date_real ?
-                      (
-                        emplo.initials + ' ' + emplo.numbers + '-' + emplo.date_real
-                      )
-                      : 
+                    {emplo.initials && emplo.numbers && emplo.date_real ? (
+                      emplo.initials +
+                      " " +
+                      emplo.numbers +
+                      "-" +
+                      emplo.date_real
+                    ) : (
                       <span className="italic text-red-600">
-                          Kode Tidak Ditemukan 
+                        Kode Tidak Ditemukan
                       </span>
-                    }
+                    )}
                   </td>
                   {auth?.user.role_id == 2 && (
                     <td className="border-[1px] border-orange-300">
@@ -436,7 +474,8 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
                     </td>
                   )}
                 </tr>
-              )} />
+              )}
+            />
           </tbody>
         </table>
       </div>

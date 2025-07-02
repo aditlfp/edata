@@ -45,7 +45,6 @@ function AdminLayout({ children, overflow, props }) {
           overflow ? overflow : "overflow-auto"
         } w-full bg-gray-200 gap-2`}
       >
-
         <AnimatePresence>
           <motion.div
             initial={{ width: "0%" }}
@@ -96,7 +95,7 @@ function AdminLayout({ children, overflow, props }) {
           </motion.div>
         </AnimatePresence>
         <div
-          className={`w-full p-5 py-10 min-h-screen sm:ml-60 overflow-hidden sm:overflow-auto`}
+          className={`w-full p-5 min-h-screen max-h-screen sm:ml-48 overflow-hidden sm:overflow-auto`}
         >
           <ToastContainer
             position="top-center"
