@@ -102,7 +102,7 @@ function AdminLayout({ children, overflow, props }) {
           /* @__PURE__ */ jsxs(
             "div",
             {
-              className: `w-full p-5 py-10 min-h-screen max-h-screen sm:ml-48 overflow-hidden sm:overflow-auto`,
+              className: `w-full p-5 min-h-screen max-h-screen sm:ml-48 overflow-hidden sm:overflow-auto`,
               children: [
                 /* @__PURE__ */ jsx(
                   ToastContainer,

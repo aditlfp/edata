@@ -1,10 +1,10 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as Authenticated } from "./AuthenticatedLayout-Dijcu3ja.js";
+import { A as Authenticated } from "./AuthenticatedLayout-CCB1uMDF.js";
 import DeleteUserForm from "./DeleteUserForm-ChEnN-Yb.js";
 import UpdatePasswordForm from "./UpdatePasswordForm-Dv4fd9xr.js";
 import UpdateProfileInformation from "./UpdateProfileInformationForm-Ck5ORd2C.js";
 import { Head } from "@inertiajs/react";
-import "./AdminLayout-CvSKtEe9.js";
+import "./AdminLayout-oLkvHzfQ.js";
 import "react";
 import "./Sidebar-Cm1FAR-6.js";
 import "react-icons/bi/index.esm.js";

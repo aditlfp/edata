@@ -1,5 +1,5 @@
 import { jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-CvSKtEe9.js";
+import { A as AdminLayout } from "./AdminLayout-oLkvHzfQ.js";
 import { Chart } from "chart.js/auto";
 import { useRef, useEffect } from "react";
 import "./Sidebar-Cm1FAR-6.js";

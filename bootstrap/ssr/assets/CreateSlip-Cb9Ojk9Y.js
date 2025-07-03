@@ -1,7 +1,7 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useForm, Head, Link } from "@inertiajs/react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
-import { A as AdminLayout } from "./AdminLayout-CvSKtEe9.js";
+import { A as AdminLayout } from "./AdminLayout-oLkvHzfQ.js";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { toast } from "react-toastify";
 import { E as EachUtils } from "./EachUtils-Buu20C5d.js";

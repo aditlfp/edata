@@ -224,6 +224,9 @@ export default function IndexKontrak(props) {
               <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
                 Tanggal Kontrak
               </th>
+              <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
+                TTD
+              </th>
               <th className="text-center">Action</th>
             </tr>
           </thead>
@@ -269,6 +272,10 @@ export default function IndexKontrak(props) {
                     <td className="border-[1px] border-orange-300">
                       {formatDate(items.data.tgl_mulai_kontrak)} -{" "}
                       {formatDate(items.data.tgl_selesai_kontrak)}
+                    </td>
+                    <td className="border-[1px] border-orange-300">
+                      {items.data.ttd_atasan ? "Pihak 1 |" : ""}
+                      {items.data.ttd ? "Pihak 2" : ""}
                     </td>
                     <td>
                       <div className="flex gap-x-2 justify-start items-center">

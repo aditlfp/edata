@@ -1,5 +1,5 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-CvSKtEe9.js";
+import { A as AdminLayout } from "./AdminLayout-oLkvHzfQ.js";
 import { useForm, Head, router } from "@inertiajs/react";
 import { useState, useMemo, useEffect } from "react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
@@ -29,7 +29,16 @@ function IndexTempUsers(props) {
     const year = d.getFullYear();
     return `${year}-${month}`;
   };
-  const { data, setData, post, get, processing, errors, reset, delete: destroy } = useForm({
+  const {
+    data,
+    setData,
+    post,
+    get,
+    processing,
+    errors,
+    reset,
+    delete: destroy
+  } = useForm({
     from_temp: true,
     user_id: "",
     name: "",
@@ -229,13 +238,10 @@ function IndexTempUsers(props) {
       if (user.id === id) {
         console.log("User found:", user);
         try {
-          router.post(
-            route("accept-employe.update", user.id),
-            {
-              _method: "PATCH",
-              status: 2
-            }
-          );
+          router.post(route("accept-employe.update", user.id), {
+            _method: "PATCH",
+            status: 2
+          });
         } catch (error) {
           console.error("Error updating user status:", error);
         }
@@ -254,7 +260,9 @@ function IndexTempUsers(props) {
       (prev) => prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
   };
-  const isChackedAll = paginatedData.every((item) => checkedItems.includes(item.id));
+  const isChackedAll = paginatedData.every(
+    (item) => checkedItems.includes(item.id)
+  );
   const bulkDelete = () => {
     if (checkedItems.length === 0) {
       toast.error("Please select at least one user to delete.", {
@@ -333,31 +341,133 @@ function IndexTempUsers(props) {
     ] }),
     /* @__PURE__ */ jsxs("table", { className: "table table-zebra table-xs w-full mb-5", children: [
       /* @__PURE__ */ jsx("thead", { className: "sticky top-0", children: /* @__PURE__ */ jsxs("tr", { className: "bg-orange-600 text-white capitalize", children: [
-        /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: /* @__PURE__ */ jsx("input", { type: "checkbox", className: "checkbox checkbox-warning checkbox-sm", checked: isChackedAll, onChange: (e) => handleCheckboxChange(e) }) }),
+        /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: /* @__PURE__ */ jsx(
+          "input",
+          {
+            type: "checkbox",
+            className: "checkbox checkbox-warning checkbox-sm",
+            checked: isChackedAll,
+            onChange: (e) => handleCheckboxChange(e)
+          }
+        ) }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "#" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Foto Profil" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Nama Lengkap" }),
+        /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Password" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "No HP (Aktif)" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Email" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Status" }),
         /* @__PURE__ */ jsx("th", { className: "text-center", children: "Action" })
       ] }) }),
-      /* @__PURE__ */ jsx("tbody", { children: /* @__PURE__ */ jsx(EachUtils, { colspan: 8, of: paginatedData, render: (item, i) => {
-        return /* @__PURE__ */ jsxs("tr", { children: [
-          /* @__PURE__ */ jsx("td", { className: "border-x-[1px] border-orange-300 text-center", children: /* @__PURE__ */ jsx("input", { type: "checkbox", className: "checkbox checkbox-warning checkbox-sm", checked: checkedItems.includes(item.id), onChange: () => handleCheck(item.id) }) }),
-          /* @__PURE__ */ jsx("td", { className: "border-x-[1px] border-orange-300 text-center", children: i + 1 }),
-          /* @__PURE__ */ jsx("td", { className: "border-x-[1px] border-orange-300 text-center", children: /* @__PURE__ */ jsx("div", { className: "ml-6", children: /* @__PURE__ */ jsx("img", { src: `https://absensi-sac.sac-po.com/public/storage/user/` + item.image, alt: item.nama_lengkap, className: "w-10 h-10 rounded-full" }) }) }),
-          /* @__PURE__ */ jsx("td", { className: "border-x-[1px] border-orange-300 text-center", children: item.nama_lengkap }),
-          /* @__PURE__ */ jsx("td", { className: "border-x-[1px] border-orange-300 text-center", children: item.no_hp }),
-          /* @__PURE__ */ jsx("td", { className: "border-x-[1px] border-orange-300 text-center", children: item.email }),
-          /* @__PURE__ */ jsx("td", { className: "border-x-[1px] border-orange-300 text-center", children: item.status == 0 ? /* @__PURE__ */ jsx("span", { className: "badge badge-sm rounded-sm badge-warning text-white p-2", children: "Pending" }) : item.status == 1 ? /* @__PURE__ */ jsx("span", { className: "badge badge-sm rounded-sm badge-success text-white p-2", children: "Approve" }) : /* @__PURE__ */ jsx("span", { className: "badge badge-sm rounded-sm badge-error text-white p-2", children: "Rejected" }) }),
-          /* @__PURE__ */ jsxs("td", { className: "text-center flex justify-center items-center gap-2", children: [
-            /* @__PURE__ */ jsx("button", { disabled: item.status === 1, onClick: () => accept(item.id), className: "btn btn-sm btn-success rounded-sm text-white text-xl", children: /* @__PURE__ */ jsx(BiCheckDouble, {}) }),
-            /* @__PURE__ */ jsx("button", { disabled: item.status === 1 || item.status === 2, onClick: () => reject(item.id), className: "btn btn-sm btn-warning rounded-sm text-white text-xl", children: /* @__PURE__ */ jsx(MdCancel, {}) }),
-            /* @__PURE__ */ jsx("button", { onClick: () => removeUser(item), className: "btn btn-sm btn-error rounded-sm text-white text-lg", children: /* @__PURE__ */ jsx(FaTrashCan, {}) })
-          ] })
-        ] }, i);
-      } }) })
+      /* @__PURE__ */ jsx("tbody", { children: /* @__PURE__ */ jsx(
+        EachUtils,
+        {
+          colspan: 8,
+          of: paginatedData,
+          render: (item, i) => {
+            return /* @__PURE__ */ jsxs("tr", { children: [
+              " ",
+              /* @__PURE__ */ jsxs("td", { className: "border-x-[1px] border-orange-300 text-center", children: [
+                " ",
+                /* @__PURE__ */ jsx(
+                  "input",
+                  {
+                    type: "checkbox",
+                    className: "checkbox checkbox-warning checkbox-sm",
+                    checked: checkedItems.includes(item.id),
+                    onChange: () => handleCheck(item.id)
+                  }
+                ),
+                " "
+              ] }),
+              " ",
+              /* @__PURE__ */ jsxs("td", { className: "border-x-[1px] border-orange-300 text-center", children: [
+                i + 1,
+                " "
+              ] }),
+              " ",
+              /* @__PURE__ */ jsxs("td", { className: "border-x-[1px] border-orange-300 text-center", children: [
+                " ",
+                /* @__PURE__ */ jsxs("div", { className: "ml-6", children: [
+                  " ",
+                  /* @__PURE__ */ jsx(
+                    "img",
+                    {
+                      src: `https://absensi-sac.sac-po.com/public/storage/user/` + item.image,
+                      alt: item.nama_lengkap,
+                      className: "w-10 h-10 rounded-full"
+                    }
+                  ),
+                  " "
+                ] }),
+                " "
+              ] }),
+              " ",
+              /* @__PURE__ */ jsxs("td", { className: "border-x-[1px] border-orange-300 text-center", children: [
+                item.nama_lengkap,
+                " "
+              ] }),
+              " ",
+              /* @__PURE__ */ jsxs("td", { className: "border-x-[1px] border-orange-300 text-center", children: [
+                " ",
+                item.pw ? item.pw : "Kosong",
+                " "
+              ] }),
+              " ",
+              /* @__PURE__ */ jsxs("td", { className: "border-x-[1px] border-orange-300 text-center", children: [
+                item.no_hp,
+                " "
+              ] }),
+              " ",
+              /* @__PURE__ */ jsxs("td", { className: "border-x-[1px] border-orange-300 text-center", children: [
+                item.email,
+                " "
+              ] }),
+              " ",
+              /* @__PURE__ */ jsxs("td", { className: "border-x-[1px] border-orange-300 text-center", children: [
+                " ",
+                item.status == 0 ? /* @__PURE__ */ jsx("span", { className: "badge badge-sm rounded-sm badge-warning text-white p-2", children: "Pending" }) : item.status == 1 ? /* @__PURE__ */ jsx("span", { className: "badge badge-sm rounded-sm badge-success text-white p-2", children: "Approve" }) : /* @__PURE__ */ jsx("span", { className: "badge badge-sm rounded-sm badge-error text-white p-2", children: "Rejected" }),
+                " "
+              ] }),
+              " ",
+              /* @__PURE__ */ jsxs("td", { className: "text-center flex justify-center items-center gap-2", children: [
+                " ",
+                " ",
+                /* @__PURE__ */ jsx(
+                  "button",
+                  {
+                    disabled: item.status === 1,
+                    onClick: () => accept(item.id),
+                    className: "btn btn-sm btn-success rounded-sm text-white text-xl",
+                    children: /* @__PURE__ */ jsx(BiCheckDouble, {})
+                  }
+                ),
+                " ",
+                /* @__PURE__ */ jsx(
+                  "button",
+                  {
+                    disabled: item.status === 1 || item.status === 2,
+                    onClick: () => reject(item.id),
+                    className: "btn btn-sm btn-warning rounded-sm text-white text-xl",
+                    children: /* @__PURE__ */ jsx(MdCancel, {})
+                  }
+                ),
+                " ",
+                /* @__PURE__ */ jsx(
+                  "button",
+                  {
+                    onClick: () => removeUser(item),
+                    className: "btn btn-sm btn-error rounded-sm text-white text-lg",
+                    children: /* @__PURE__ */ jsx(FaTrashCan, {})
+                  }
+                ),
+                " "
+              ] }),
+              " "
+            ] }, i);
+          }
+        }
+      ) })
     ] }),
     /* @__PURE__ */ jsx(
       ReactPaginate,
@@ -383,7 +493,6 @@ function IndexTempUsers(props) {
     modal && /* @__PURE__ */ jsx(Modal, { props: modal, children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col", children: [
       /* @__PURE__ */ jsxs("h2", { className: "text-lg text-gray-900 font-extrabold", children: [
         title ? title : "Apakah Anda Yakin Untuk Memverifikasi Akun ?",
-        " ",
         " ",
         /* @__PURE__ */ jsx("div", { className: "bg-sky-100 p-5 rounded-sm mt-2", children: content ? content : /* @__PURE__ */ jsx("table", { children: /* @__PURE__ */ jsxs("tbody", { children: [
           /* @__PURE__ */ jsxs("tr", { children: [

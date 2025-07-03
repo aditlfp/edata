@@ -1,5 +1,5 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-CvSKtEe9.js";
+import { A as AdminLayout } from "./AdminLayout-oLkvHzfQ.js";
 import { useForm, Head, router } from "@inertiajs/react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { useState, useMemo } from "react";
@@ -188,6 +188,7 @@ function IndexKontrak(props) {
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Unit Kerja" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Status" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Tanggal Kontrak" }),
+        /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "TTD" }),
         /* @__PURE__ */ jsx("th", { className: "text-center", children: "Action" })
       ] }) }),
       /* @__PURE__ */ jsx(
@@ -220,6 +221,10 @@ function IndexKontrak(props) {
                         " -",
                         " ",
                         formatDate(items.data.tgl_selesai_kontrak)
+                      ] }),
+                      /* @__PURE__ */ jsxs("td", { className: "border-[1px] border-orange-300", children: [
+                        items.data.ttd_atasan ? "Pihak 1 |" : "",
+                        items.data.ttd ? "Pihak 2" : ""
                       ] }),
                       /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2 justify-start items-center", children: [
                         /* @__PURE__ */ jsx(
