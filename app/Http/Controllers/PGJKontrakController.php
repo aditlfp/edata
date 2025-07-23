@@ -9,8 +9,12 @@ use App\Models\Employe;
 use App\Models\Jabatan;
 use App\Models\PGJ_Kontrak as Contract;
 use App\Models\User;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\View;
 use Inertia\Inertia;
 
 class PGJKontrakController extends Controller
@@ -71,13 +75,43 @@ class PGJKontrakController extends Controller
      // Display the specified resource
      public function show(Contract $contract)
      {
-        
-        $day = Carbon::parse($contract->tgl_dibuat, 'Asia/Jakarta')->translatedFormat('l') . " tanggal " . Carbon::parse($contract->tgl_dibuat, 'Asia/Jakarta')->translatedFormat('d') . " Bulan " . Carbon::parse($contract->tgl_dibuat, 'Asia/Jakarta')->translatedFormat('F') . " Tahun " . Carbon::parse($contract->tgl_dibuat, 'Asia/Jakarta')->translatedFormat('Y');
-        // Sabtu tanggal 1 Bulan Juni Tahun 2024
-        // tanggal 1 Juni 2024 dan berakhir tanggal 31 Mei 2025
-        $day_contract = "tanggal " . Carbon::parse($contract->tgl_dibuat, 'Asia/Jakarta')->translatedFormat('d F Y') . " dan berakhir tanggal " . Carbon::parse($contract->tgl_selesai_kontrak, 'Asia/Jakarta')->translatedFormat('d F Y');
-        // dd($day_contract);
-        return Inertia::render('PGJ_Kontrak/ShowKontrak', compact('contract', 'day', 'day_contract'));
+        $kontrak = $contract;
+        static $dompdfOptions = null;
+        if (!$dompdfOptions) {
+            $dompdfOptions = new Options();
+            $dompdfOptions->set('isHtml5ParserEnabled', true);
+            $dompdfOptions->set('isRemoteEnabled', false); // disable if not needed
+            $dompdfOptions->set('defaultFont', 'Times New Roman');
+            $dompdfOptions->set('isPhpEnabled', false); // security & speed
+            $dompdfOptions->set('chroot', public_path()); // restrict file access
+        }
+
+        $pdf = new Dompdf($dompdfOptions);
+
+        // ✅ Avoid unnecessary rendering logic
+        $html = View::make('pdf.kontrak', compact('kontrak'))->render();
+        $pdf->loadHtml($html);
+
+        $pdf->setPaper('Letter', 'portrait');
+
+        // ✅ Optimize rendering
+        $pdf->render();
+
+        // ✅ Reduce memory usage on large PDFs
+        $output = $pdf->output(['compress' => 1]);
+
+        $filename = strtoupper('Kontrak ' . $kontrak->nama_pk_kda . ' Dibuat Pada ' .
+            Carbon::createFromFormat('Y-m-d', $kontrak->tgl_dibuat)->translatedFormat('j F Y')) . '.pdf';
+
+        return Response::make($output, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$filename.'"',
+            'Content-Length' => strlen($output),
+            'Cache-Control' => 'private, max-age=0, must-revalidate',
+            'Pragma' => 'public',
+        ]);
+        // dd($pdf);
+        // return $pdf->stream('kontrak_'.$kontrak->id.'.pdf');
      }
  
      // Show the form for editing the specified resource

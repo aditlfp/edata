@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Divisi;
 use App\Models\TempUsers;
+use App\Models\User;
+use App\Notifications\AccEmploye;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 
 class TempUsersController extends Controller
@@ -27,6 +30,7 @@ class TempUsersController extends Controller
             $allDatas[] = [
                 'id'         => $tempUser->id,
                 'nama_lengkap' => $tempUser->data['nama_lengkap'] ?? '',
+                'pw' => $tempUser->data['pw'] ?? '',
                 'no_hp'     => $tempUser->data['no_hp'] ?? '',
                 'email'     => $tempUser->data['email'] ?? '',
                 'image'     => $tempUser->data['image'] ?? '',
@@ -39,9 +43,6 @@ class TempUsersController extends Controller
             ];
         }
 
-
-        // dd($allDatas);
-
         return Inertia::render('Admin/TempUsers/IndexTempUsers', 
             [
                 'tempUsers' => $allDatas,
@@ -53,11 +54,22 @@ class TempUsersController extends Controller
     public function update(Request $request, $id)
     {
         $tempUser = TempUsers::findOrFail($id);
+        $user = User::firstWhere('nama_lengkap',$tempUser->data['nama_lengkap']);
 
+        // dd($user);
+        
         try {
             $tempUser->update([
                 'status' => $request->status,
             ]);
+            if($user) {
+                $user->update([
+                    'status_id' => null,
+                ]);
+            }
+            Notification::route('mail', 'syafimq00@gmail.com')
+            ->notify(new AccEmploye($tempUser->data['username'] ?? '', $tempUser->data['pw'] ?? ''));
+            
         } catch (\Exception $th) {
             throw $th;
         }

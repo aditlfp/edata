@@ -1,14 +1,18 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
-import Footer from "./Footer-DSnh824x.js";
+import Footer from "./Footer-Dcgp9gxy.js";
 import { H as Header } from "./header-BmokhI03.js";
+const Tapak = "/build/assets/tapak-R-nMoqyR.png";
+const Stampel = "/build/assets/Stampel-Cfhw-vWn.png";
 function encodeSVG(svg) {
   return encodeURIComponent(svg).replace(/'/g, "%27").replace(/"/g, "%22");
 }
 function Readable({ props }) {
   const dataUri = `data:image/svg+xml;utf8,${encodeSVG(props.ttd)}`;
-  const dataUri2 = `data:image/svg+xml;utf8,${encodeSVG(props.ttd_atasan)}`;
+  const formatName = (str) => {
+    return str == null ? void 0 : str.toLowerCase().trim().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  };
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col", children: [
+    /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col page", children: [
       /* @__PURE__ */ jsx("img", { src: Header, alt: "header", className: "mt-[-6pt] px-[20pt]" }),
       /* @__PURE__ */ jsxs("div", { className: "mx-[70pt] leading-tight flex-grow", children: [
         /* @__PURE__ */ jsxs("p", { className: "font-bold text-center", children: [
@@ -24,7 +28,7 @@ function Readable({ props }) {
               /* @__PURE__ */ jsx("br", {}),
               "PIHAK KEDUA berhak atas THR sebesar 1 (satu) bulan Gaji Pokok apabila telah bekerja selama 12 (dua belas) bulan berturut –turut. Apabila kurang dari 12 (dua belas) bulan setelah masa percobaan ",
               /* @__PURE__ */ jsx("i", { children: "(training)" }),
-              " maka perhitungan THR dilakukan secara prorata dan pembayaran THR akan diberikan selambat- lambatnya 10 (sepuluh) hari sebelum Hari Raya."
+              " maka perhitungan THR dilakukan secara prorata."
             ] })
           ] }),
           /* @__PURE__ */ jsxs("tr", { children: [
@@ -119,7 +123,7 @@ function Readable({ props }) {
       ] }),
       /* @__PURE__ */ jsx(Footer, {})
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col", children: [
+    /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col page", children: [
       /* @__PURE__ */ jsx("img", { src: Header, alt: "header", className: "mt-[-6pt] px-[20pt]" }),
       /* @__PURE__ */ jsxs("div", { className: "mx-[70pt] leading-tight flex-grow", children: [
         /* @__PURE__ */ jsxs("p", { className: "font-bold text-center", children: [
@@ -220,7 +224,7 @@ function Readable({ props }) {
       ] }),
       /* @__PURE__ */ jsx(Footer, {})
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col", children: [
+    /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col page", children: [
       /* @__PURE__ */ jsx("img", { src: Header, alt: "header", className: "mt-[-6pt] px-[20pt]" }),
       /* @__PURE__ */ jsxs("div", { className: "mx-[70pt] leading-tight flex-grow", children: [
         /* @__PURE__ */ jsxs("p", { className: "font-bold text-center", children: [
@@ -241,14 +245,31 @@ function Readable({ props }) {
         /* @__PURE__ */ jsx("p", { className: "", children: "Surat Perjanjian ini dibuat dan ditandatangani oleh KEDUA PIHAK di PONOROGO pada tanggal, bulan dan tahun tersebut di atas dalam rangkap 2 (dua) yang memiliki kekuatan hukum yang sama dan dipegang oleh masing – masing pihak" }),
         /* @__PURE__ */ jsxs("div", { className: "flex justify-around mt-[70pt]", children: [
           /* @__PURE__ */ jsxs("div", { className: "text-center", children: [
-            /* @__PURE__ */ jsx("p", { children: "PIHAK PERTAMA" }),
+            /* @__PURE__ */ jsx("p", { className: "pb-[60pt]", children: "PIHAK PERTAMA" }),
             /* @__PURE__ */ jsxs(
               "p",
               {
                 className: "font-bold underline underline-offset-[2.7pt]",
-                style: { textDecorationThickness: "2pt" },
+                style: { textDecorationThickness: "1pt" },
                 children: [
-                  /* @__PURE__ */ jsx("img", { src: dataUri2, alt: "Tanda Tangan Atasan", className: "w-[180px] h-auto" }),
+                  props.ttd_atasan && /* @__PURE__ */ jsxs(Fragment, { children: [
+                    /* @__PURE__ */ jsx(
+                      "img",
+                      {
+                        src: Tapak,
+                        alt: "Tanda Tangan Atasan",
+                        className: "w-[125px] h-auto absolute z-[2] top-[445%] "
+                      }
+                    ),
+                    /* @__PURE__ */ jsx(
+                      "img",
+                      {
+                        src: Stampel,
+                        alt: "Tanda Tangan Atasan",
+                        className: "w-[3cm] h-auto opacity-60 absolute z-[2] top-[444%] left-[20%]"
+                      }
+                    )
+                  ] }),
                   props.nama_pk_ptm,
                   ". ",
                   /* @__PURE__ */ jsx("br", {})
@@ -258,15 +279,23 @@ function Readable({ props }) {
             /* @__PURE__ */ jsx("span", { className: "no-underline font-bold", children: props.jabatan_pk_ptm })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "text-center", children: [
-            /* @__PURE__ */ jsx("p", { children: "PIHAK KEDUA" }),
+            /* @__PURE__ */ jsx("p", { className: "pb-[60pt]", children: "PIHAK KEDUA" }),
             /* @__PURE__ */ jsxs(
               "p",
               {
                 className: "font-bold underline underline-offset-[2.7pt]",
-                style: { textDecorationThickness: "2pt" },
+                style: { textDecorationThickness: "1pt" },
                 children: [
-                  /* @__PURE__ */ jsx("img", { src: dataUri, alt: "Tanda Tangan", className: "w-[180px] h-auto" }),
-                  props.nama_pk_kda
+                  /* @__PURE__ */ jsx(
+                    "img",
+                    {
+                      src: dataUri,
+                      alt: "Tanda Tangan",
+                      style: { pageBreakInside: "avoid" },
+                      className: "w-[240pt] h-auto absolute top-[445%] mx-auto"
+                    }
+                  ),
+                  formatName(props.nama_pk_kda)
                 ]
               }
             )

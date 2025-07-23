@@ -1,36 +1,38 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
-import { useForm, Head, Link, router } from "@inertiajs/react";
+import { useForm, Head, Link } from "@inertiajs/react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
-import { A as AdminLayout } from "./AdminLayout-BmQ_mfkc.js";
+import { A as AdminLayout } from "./AdminLayout-oLkvHzfQ.js";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { toast } from "react-toastify";
-import { MdDeleteForever, MdFileDownload } from "react-icons/md/index.esm.js";
+import { E as EachUtils } from "./EachUtils-Buu20C5d.js";
 import "react";
-import "./Sidebar-k6Fk2Fmb.js";
+import "./Sidebar-Cm1FAR-6.js";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";
 function CreateSlip(props) {
-  const { data, setData, post, get, processing, errors, reset, delete: destroy } = useForm({
-    users: props.slip.map((slip) => ({
-      nama_lengkap: slip.user.nama_lengkap,
-      devisi_id: slip.user.devisi_id,
-      formasi: slip.formasi,
-      id: slip.id,
-      user_id: slip.user.id,
-      bulan_tahun: props.bulan,
-      gaji_pokok: slip.gaji_pokok,
-      gaji_lembur: slip.gaji_lembur,
-      tj_jabatan: slip.tj_jabatan,
-      tj_kehadiran: slip.tj_kehadiran,
-      tj_kinerja: slip.tj_kinerja,
-      tj_lain: slip.tj_lain,
-      bpjs: slip.bpjs,
-      pinjaman: slip.pinjaman,
-      lain_lain: slip.lain_lain,
-      mk: slip.mk,
-      absen: slip.absen,
-      total: (parseFloat(slip.gaji_pokok) || 0) + (parseFloat(slip.gaji_lembur) || 0) + (parseFloat(slip.tj_jabatan) || 0) + (parseFloat(slip.tj_kehadiran) || 0) + (parseFloat(slip.tj_kinerja) || 0) + (parseFloat(slip.tj_lain) || 0) + (parseFloat(slip.absen) || 0) + (parseFloat(slip.bpjs) || 0) + (parseFloat(slip.pinjaman) || 0) + (parseFloat(slip.lain_lain) || 0)
-    }))
+  const { data, setData, post, get, processing, errors, reset } = useForm({
+    users: props.users.map((us) => {
+      var _a, _b, _c, _d, _e;
+      return {
+        nama_lengkap: (_a = us.user) == null ? void 0 : _a.nama_lengkap,
+        devisi_id: (_b = us.user) == null ? void 0 : _b.devisi_id,
+        formasi: (_d = (_c = us.user) == null ? void 0 : _c.divisi) == null ? void 0 : _d.name,
+        user_id: (_e = us.user) == null ? void 0 : _e.id,
+        bulan_tahun: props.bulan,
+        gaji_pokok: "",
+        gaji_lembur: "",
+        tj_jabatan: "",
+        tj_kehadiran: "",
+        tj_kinerja: "",
+        tj_lain: "",
+        absen: "",
+        bpjs: "",
+        pinjaman: "",
+        lain_lain: "",
+        mk: "",
+        total: 0
+      };
+    })
   });
   const calculateTotal = (user) => {
     const {
@@ -55,28 +57,10 @@ function CreateSlip(props) {
   };
   const submit = (e) => {
     e.preventDefault();
-    router.post(route("slip-gaji.update", props.mitra), {
-      _method: "PATCH",
-      users: data.users,
+    post(route("slip-gaji.store"), {
       onSuccess: () => toast.success("Berhasil Menambahkan Data !", {
         theme: "colored"
       })
-    });
-  };
-  const confirmDelete = (id) => {
-    router.delete(route(`slip-gaji.destroy`, id), {
-      onSuccess: () => {
-        toast.warning("Berhasil Menghapus Data Slip!", {
-          theme: "colored"
-        });
-        window.location.reload();
-      }
-    });
-  };
-  const downloadUserSlip = (params) => {
-    window.location.href = route("downUserSlip", {
-      id: params.id,
-      bulan_tahun: params.bulan_tahun
     });
   };
   return /* @__PURE__ */ jsxs(Fragment, { children: [
@@ -95,7 +79,7 @@ function CreateSlip(props) {
             props.bulan
           ] })
         ] }),
-        /* @__PURE__ */ jsx("div", { className: "flex justify-start mt-1", children: /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsx("div", { className: "flex justify-start mt-1 mb-8", children: /* @__PURE__ */ jsx(
           Link,
           {
             href: route("slip-gaji.index"),
@@ -105,10 +89,9 @@ function CreateSlip(props) {
         ) })
       ] }),
       /* @__PURE__ */ jsxs("div", { className: "", children: [
-        /* @__PURE__ */ jsx("form", { onSubmit: submit, className: "overflow-x-scroll", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra table-xs my-5 text-center", children: [
-          /* @__PURE__ */ jsxs("thead", { className: "text-[10px]", children: [
+        /* @__PURE__ */ jsx("form", { onSubmit: submit, className: "overflow-x-scroll", children: /* @__PURE__ */ jsx("div", { className: "max-h-[800px] overflow-y-auto", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra table-xs text-center", children: [
+          /* @__PURE__ */ jsxs("thead", { className: "sticky top-0 text-[10px]", children: [
             /* @__PURE__ */ jsxs("tr", { className: "bg-orange-600 text-white capitalize", children: [
-              /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", rowSpan: 2, children: "Action" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 3, children: "Data Karyawan" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 2, children: "Gaji" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 4, children: "Tunjangan" }),
@@ -132,59 +115,45 @@ function CreateSlip(props) {
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Total" })
             ] })
           ] }),
-          /* @__PURE__ */ jsx("tbody", { className: "text-[10px]", children: data.users.map((us, index) => {
-            return /* @__PURE__ */ jsxs("tr", { className: "border-[1px] border-orange-300 ", children: [
-              /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsxs("div", { className: "flex gap-y-1 flex-col", children: [
-                /* @__PURE__ */ jsx(
-                  "button",
-                  {
-                    type: "button",
-                    className: "btn btn-error btn-sm rounded-sm text-white hover:text-red-900 hover:bg-red-600 hover:bg-opacity-20 hover:border-0",
-                    onClick: () => confirmDelete(us.id),
-                    children: /* @__PURE__ */ jsx(MdDeleteForever, { className: "text-xl" })
-                  }
-                ),
-                /* @__PURE__ */ jsx("button", { className: "btn btn-sm rounded-sm bg-green-600 hover:bg-green-500 text-white hover:text-green-800 hover:bg-opacity-20 hover:border-0 border-green-500", onClick: () => downloadUserSlip(us), children: /* @__PURE__ */ jsx(MdFileDownload, { className: "text-xl" }) })
-              ] }) }),
-              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: us.nama_lengkap }),
-              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: us.formasi }),
-              [
-                "mk",
-                "gaji_pokok",
-                "gaji_lembur",
-                "tj_jabatan",
-                "tj_kehadiran",
-                "tj_kinerja",
-                "tj_lain",
-                "bpjs",
-                "pinjaman",
-                "absen",
-                "lain_lain"
-              ].map((field) => /* @__PURE__ */ jsxs(
-                "td",
-                {
-                  className: "border-[1px] border-orange-300 min-w-[95px]",
-                  children: [
-                    /* @__PURE__ */ jsx(
-                      "input",
-                      {
-                        id: us[field],
-                        type: "number",
-                        className: "input input-xs input-bordered w-full",
-                        value: us[field],
-                        inputMode: "numeric",
-                        onChange: (e) => handleChange(index, field, e.target.value)
-                      }
-                    ),
-                    errors[field] && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors[field] })
-                  ]
-                },
-                field
-              )),
-              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: /* @__PURE__ */ jsx(FormatRupiah, { value: us.total }) })
-            ] }, index);
-          }) })
-        ] }) }),
+          /* @__PURE__ */ jsx("tbody", { className: "text-[10px]", children: /* @__PURE__ */ jsx(EachUtils, { colspan: 14, of: data.users, render: (us, index) => /* @__PURE__ */ jsxs("tr", { className: "border-[1px] border-orange-300 ", children: [
+            /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: us.nama_lengkap }),
+            /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: /* @__PURE__ */ jsx("span", { children: us.formasi }) }),
+            [
+              "mk",
+              "gaji_pokok",
+              "gaji_lembur",
+              "tj_jabatan",
+              "tj_kehadiran",
+              "tj_kinerja",
+              "tj_lain",
+              "bpjs",
+              "pinjaman",
+              "absen",
+              "lain_lain"
+            ].map((field) => /* @__PURE__ */ jsxs(
+              "td",
+              {
+                className: "border-[1px] border-orange-300 min-w-[95px]",
+                children: [
+                  /* @__PURE__ */ jsx(
+                    "input",
+                    {
+                      id: us[field],
+                      type: "number",
+                      className: "input input-xs input-bordered w-full",
+                      value: us[field],
+                      inputMode: "numeric",
+                      onChange: (e) => handleChange(index, field, e.target.value)
+                    }
+                  ),
+                  errors[field] && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors[field] })
+                ]
+              },
+              field
+            )),
+            /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: /* @__PURE__ */ jsx(FormatRupiah, { value: us.total }) })
+          ] }, index) }) })
+        ] }) }) }),
         /* @__PURE__ */ jsx("div", { className: "flex justify-end", children: /* @__PURE__ */ jsx(
           "button",
           {

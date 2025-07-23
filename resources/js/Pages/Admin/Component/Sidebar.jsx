@@ -1,12 +1,16 @@
 import { Link, useForm } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { BiChevronsRight, BiSolidLockOpenAlt, BiUserCheck } from "react-icons/bi";
+import {
+  BiChevronsRight,
+  BiSolidLockOpenAlt,
+  BiUserCheck,
+} from "react-icons/bi";
 import { BiCreditCard, BiDetail, BiExtension } from "react-icons/bi/index.esm";
 
 function Sidebar({ link, value, children, open, props }) {
   const { post } = useForm({});
-  
+
   const signOut = () => {
     post(route("logout"));
   };
@@ -26,11 +30,23 @@ function Sidebar({ link, value, children, open, props }) {
           </Link>
           <Link
             href={route("accept-employe.index")}
-            className="bg-orange-300 flex justify-between hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm text-xs sm:text-sm cursor-pointer"
+            className="relative flex items-center justify-between bg-orange-300 hover:bg-orange-400 transition-all ease-in-out duration-150 rounded-md px-4 py-3 gap-x-4 text-sm font-semibold text-gray-800 hover:text-white"
           >
-            <div className="text-lg">{<BiUserCheck />}</div>
-            Verifikasi Data <span className={props > 0 ? `badge badge-error text-white flex uppercase gap-x-1 px-2` : `hidden`}>{props}<span>new</span> </span>
+            <div className="flex items-center gap-x-2">
+              <BiUserCheck className="text-xl" />
+              <div className="flex flex-col leading-tight">
+                <span>Verifikasi</span>
+                <span className="-mt-1">Data</span>
+              </div>
+            </div>
+
+            {props > 0 && (
+              <span className="absolute -top-2 -right-2 px-2 py-0.5 text-[10px] font-bold uppercase text-white bg-rose-500 rounded-full shadow">
+                {props} New
+              </span>
+            )}
           </Link>
+
           <Link
             href={route("slip-gaji.index")}
             className="bg-orange-300 flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm justify-between text-xs sm:text-sm cursor-pointer"

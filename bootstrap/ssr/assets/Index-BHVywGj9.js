@@ -1,8 +1,8 @@
 import { jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-BmQ_mfkc.js";
+import { A as AdminLayout } from "./AdminLayout-oLkvHzfQ.js";
 import { Chart } from "chart.js/auto";
 import { useRef, useEffect } from "react";
-import "./Sidebar-k6Fk2Fmb.js";
+import "./Sidebar-Cm1FAR-6.js";
 import "@inertiajs/react";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";

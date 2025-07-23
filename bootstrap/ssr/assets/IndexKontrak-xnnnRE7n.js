@@ -1,5 +1,5 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-BmQ_mfkc.js";
+import { A as AdminLayout } from "./AdminLayout-oLkvHzfQ.js";
 import { useForm, Head, router } from "@inertiajs/react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { useState, useMemo } from "react";
@@ -7,17 +7,22 @@ import { BiSearchAlt, BiShowAlt, BiEraser, BiSolidEdit } from "react-icons/bi/in
 import Modal from "./Modal-Br3a30kf.js";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
-import { E as EachUtils } from "./EachUtils-wF8jK0oN.js";
+import { E as EachUtils } from "./EachUtils-Buu20C5d.js";
 import { RiMailSendFill } from "react-icons/ri/index.esm.js";
 import { FiFilter } from "react-icons/fi/index.esm.js";
-import "./Sidebar-k6Fk2Fmb.js";
+import "./Sidebar-Cm1FAR-6.js";
 import "framer-motion";
 function IndexKontrak(props) {
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState("");
   const employeesPerPage = 25;
   const [currentPage, setCurrentPage] = useState(0);
-  const { data, setData, delete: destroy, get } = useForm({
+  const {
+    data,
+    setData,
+    delete: destroy,
+    get
+  } = useForm({
     id: "",
     name: "",
     jbt_name: "",
@@ -35,7 +40,8 @@ function IndexKontrak(props) {
     get(route("contracts.create"));
   };
   const showContract = (id) => {
-    get(route("contracts.show", id));
+    const url = `/contracts/${id}`;
+    window.open(url, "_blank");
   };
   const pageCount = useMemo(() => {
     return Math.ceil(props.contract.data.length / employeesPerPage);
@@ -94,11 +100,15 @@ function IndexKontrak(props) {
           toast.success("Berhasil Mengirim Pengajuan Kontrak!", {
             theme: "colored"
           });
-          router.get(route("contracts.index"), {}, {
-            replace: true,
-            preserveScroll: true,
-            preserveState: true
-          });
+          router.get(
+            route("contracts.index"),
+            {},
+            {
+              replace: true,
+              preserveScroll: true,
+              preserveState: true
+            }
+          );
         }
       }
     );
@@ -113,21 +123,51 @@ function IndexKontrak(props) {
     /* @__PURE__ */ jsxs("div", { className: "flex justify-between items-center", children: [
       /* @__PURE__ */ jsx("div", { className: "flex", children: /* @__PURE__ */ jsxs("div", { children: [
         /* @__PURE__ */ jsx("span", { className: "px-2.5 bg-red-600 rounded-full mr-2" }),
-        " : Contracts Experied "
+        " : Contracts Experied",
+        " "
       ] }) }),
       /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2", children: [
         /* @__PURE__ */ jsxs("form", { onSubmit: searchSubmit, className: "flex items-center gap-x-2", children: [
-          /* @__PURE__ */ jsxs("select", { onChange: (e) => setData("search", e.target.value), className: "select select-sm rounded-sm text-sm border-orange-600 focus:border-orange-600 focus:outline-orange-600/50", children: [
-            /* @__PURE__ */ jsx("option", { defaultValue: 0, disabled: true, selected: true, children: "Filter" }),
-            props.client.map((item, i) => {
-              return /* @__PURE__ */ jsx("option", { value: item.name, children: item.name }, i);
-            })
-          ] }),
-          /* @__PURE__ */ jsx("button", { type: "submit", className: "btn btn-sm rounded-sm bg-sky-600 text-white hover:text-sky-600 text-lg", children: /* @__PURE__ */ jsx(FiFilter, {}) })
+          /* @__PURE__ */ jsxs(
+            "select",
+            {
+              onChange: (e) => setData("search", e.target.value),
+              className: "select select-sm rounded-sm text-sm border-orange-600 focus:border-orange-600 focus:outline-orange-600/50",
+              children: [
+                /* @__PURE__ */ jsx("option", { defaultValue: 0, disabled: true, selected: true, children: "Filter" }),
+                props.client.map((item, i) => {
+                  return /* @__PURE__ */ jsx("option", { value: item.name, children: item.name }, i);
+                })
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsx(
+            "button",
+            {
+              type: "submit",
+              className: "btn btn-sm rounded-sm bg-sky-600 text-white hover:text-sky-600 text-lg",
+              children: /* @__PURE__ */ jsx(FiFilter, {})
+            }
+          )
         ] }),
         /* @__PURE__ */ jsxs("form", { onSubmit: searchSubmit, className: "flex items-center gap-x-2", children: [
-          /* @__PURE__ */ jsx("input", { onChange: (e) => setData("search", e.target.value), type: "text", placeholder: "Search...", className: "input input-bordered input-sm rounded-sm border-orange-600 focus:border-orange-600 focus:outline-orange-600/50" }),
-          /* @__PURE__ */ jsx("button", { type: "submit", className: "btn btn-sm rounded-sm bg-sky-600 text-white hover:text-sky-600 text-lg", children: /* @__PURE__ */ jsx(BiSearchAlt, {}) })
+          /* @__PURE__ */ jsx(
+            "input",
+            {
+              onChange: (e) => setData("search", e.target.value),
+              type: "text",
+              placeholder: "Search...",
+              className: "input input-bordered input-sm rounded-sm border-orange-600 focus:border-orange-600 focus:outline-orange-600/50"
+            }
+          ),
+          /* @__PURE__ */ jsx(
+            "button",
+            {
+              type: "submit",
+              className: "btn btn-sm rounded-sm bg-sky-600 text-white hover:text-sky-600 text-lg",
+              children: /* @__PURE__ */ jsx(BiSearchAlt, {})
+            }
+          )
         ] }),
         /* @__PURE__ */ jsx(
           "button",
@@ -148,67 +188,94 @@ function IndexKontrak(props) {
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Unit Kerja" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Status" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "Tanggal Kontrak" }),
+        /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300 sticky top-0 text-center", children: "TTD" }),
         /* @__PURE__ */ jsx("th", { className: "text-center", children: "Action" })
       ] }) }),
-      /* @__PURE__ */ jsx("tbody", { className: "text-center", style: { maxHeight: "calc(100vh - 200px)", overflowY: "auto" }, children: /* @__PURE__ */ jsx(EachUtils, { colspan: 8, of: paginatedData, render: (items, i) => {
-        const a = convertToDate(day.toLocaleDateString("en-GB"));
-        const b = new Date(paginatedData[0].data.tgl_selesai_kontrak);
-        const hasSend = items.data.send_to_atasan === "0" && items.data.send_to_operator === "0";
-        return /* @__PURE__ */ jsxs("tr", { className: `border-[1px] border-orange-300 ${a.getTime() >= b.getTime() && "text-red-600 font-semibold"}`, children: [
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.no_srt }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.nama_pk_kda }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.nik_pk_kda }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.jabatan_pk_kda }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.unit_pk_kda }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.status_pk_kda }),
-          /* @__PURE__ */ jsxs("td", { className: "border-[1px] border-orange-300", children: [
-            formatDate(items.data.tgl_mulai_kontrak),
-            " - ",
-            formatDate(items.data.tgl_selesai_kontrak)
-          ] }),
-          /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2 justify-start items-center", children: [
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                onClick: () => showContract(items.data.id),
-                className: "btn btn-sm rounded-sm text-2xl bg-sky-500/20 hover:bg-sky-500 hover:text-white border-0 text-sky-500",
-                children: /* @__PURE__ */ jsx(BiShowAlt, {})
+      /* @__PURE__ */ jsx(
+        "tbody",
+        {
+          className: "text-center",
+          style: { maxHeight: "calc(100vh - 200px)", overflowY: "auto" },
+          children: /* @__PURE__ */ jsx(
+            EachUtils,
+            {
+              colspan: 8,
+              of: paginatedData,
+              render: (items, i) => {
+                const a = convertToDate(day.toLocaleDateString("en-GB"));
+                const b = new Date(paginatedData[0].data.tgl_selesai_kontrak);
+                const hasSend = items.data.send_to_atasan === "0" && items.data.send_to_operator === "0";
+                return /* @__PURE__ */ jsxs(
+                  "tr",
+                  {
+                    className: `border-[1px] border-orange-300 ${a.getTime() >= b.getTime() && "text-red-600 font-semibold"}`,
+                    children: [
+                      /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.no_srt }),
+                      /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.nama_pk_kda }),
+                      /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.nik_pk_kda }),
+                      /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.jabatan_pk_kda }),
+                      /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.unit_pk_kda }),
+                      /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: items.data.status_pk_kda }),
+                      /* @__PURE__ */ jsxs("td", { className: "border-[1px] border-orange-300", children: [
+                        formatDate(items.data.tgl_mulai_kontrak),
+                        " -",
+                        " ",
+                        formatDate(items.data.tgl_selesai_kontrak)
+                      ] }),
+                      /* @__PURE__ */ jsxs("td", { className: "border-[1px] border-orange-300", children: [
+                        items.data.ttd_atasan ? "Pihak 1 |" : "",
+                        items.data.ttd ? "Pihak 2" : ""
+                      ] }),
+                      /* @__PURE__ */ jsx("td", { children: /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2 justify-start items-center", children: [
+                        /* @__PURE__ */ jsx(
+                          "button",
+                          {
+                            onClick: () => showContract(items.data.id),
+                            className: "btn btn-sm rounded-sm text-2xl bg-sky-500/20 hover:bg-sky-500 hover:text-white border-0 text-sky-500",
+                            children: /* @__PURE__ */ jsx(BiShowAlt, {})
+                          }
+                        ),
+                        /* @__PURE__ */ jsx(
+                          "button",
+                          {
+                            onClick: () => handleDelete(items.data.id),
+                            className: "btn btn-sm rounded-sm text-2xl bg-red-500/20 hover:bg-red-500 hover:text-white border-0 text-red-500",
+                            children: /* @__PURE__ */ jsx(BiEraser, {})
+                          }
+                        ),
+                        /* @__PURE__ */ jsx(
+                          "button",
+                          {
+                            onClick: () => handleEdit(items.data.id),
+                            className: "btn btn-sm rounded-sm text-2xl bg-amber-500/20 hover:bg-amber-500 hover:text-white border-0 text-amber-500",
+                            children: /* @__PURE__ */ jsx(BiSolidEdit, {})
+                          }
+                        ),
+                        hasSend ? /* @__PURE__ */ jsx(
+                          "button",
+                          {
+                            onClick: () => handleSendToOperator(items.data.id),
+                            className: "btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500",
+                            children: /* @__PURE__ */ jsx(RiMailSendFill, {})
+                          }
+                        ) : /* @__PURE__ */ jsx(
+                          "button",
+                          {
+                            disabled: true,
+                            className: "btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500 hover:cursor-not-allowed",
+                            children: /* @__PURE__ */ jsx(RiMailSendFill, {})
+                          }
+                        )
+                      ] }) })
+                    ]
+                  },
+                  i
+                );
               }
-            ),
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                onClick: () => handleDelete(items.data.id),
-                className: "btn btn-sm rounded-sm text-2xl bg-red-500/20 hover:bg-red-500 hover:text-white border-0 text-red-500",
-                children: /* @__PURE__ */ jsx(BiEraser, {})
-              }
-            ),
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                onClick: () => handleEdit(items.data.id),
-                className: "btn btn-sm rounded-sm text-2xl bg-amber-500/20 hover:bg-amber-500 hover:text-white border-0 text-amber-500",
-                children: /* @__PURE__ */ jsx(BiSolidEdit, {})
-              }
-            ),
-            hasSend ? /* @__PURE__ */ jsx(
-              "button",
-              {
-                onClick: () => handleSendToOperator(items.data.id),
-                className: "btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500",
-                children: /* @__PURE__ */ jsx(RiMailSendFill, {})
-              }
-            ) : /* @__PURE__ */ jsx(
-              "button",
-              {
-                disabled: true,
-                className: "btn btn-sm rounded-sm text-2xl bg-green-500/20 hover:bg-green-500 hover:text-white border-0 text-green-500 hover:cursor-not-allowed",
-                children: /* @__PURE__ */ jsx(RiMailSendFill, {})
-              }
-            )
-          ] }) })
-        ] }, i);
-      } }) })
+            }
+          )
+        }
+      )
     ] }) }),
     modal && /* @__PURE__ */ jsx(Modal, { children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col", children: [
       /* @__PURE__ */ jsxs("h2", { className: "text-lg font-medium text-gray-900", children: [

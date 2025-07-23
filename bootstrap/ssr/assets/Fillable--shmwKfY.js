@@ -1,23 +1,19 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { H as Header } from "./header-BmokhI03.js";
-import Footer from "./Footer-DSnh824x.js";
+import Footer from "./Footer-Dcgp9gxy.js";
 function Fillable({ props, day, dateContract }) {
+  const formatName = (str) => {
+    return str == null ? void 0 : str.toLowerCase().trim().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  };
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col", children: [
-      /* @__PURE__ */ jsx("img", { src: Header, alt: "header", className: "mt-[-6pt] px-[20pt]" }),
-      /* @__PURE__ */ jsxs("div", { className: "mx-[70pt] leading-tight flex-grow", children: [
-        /* @__PURE__ */ jsxs(
-          "p",
-          {
-            className: "text-center font-bold underline underline-offset-[2.64pt]",
-            style: { textDecorationThickness: "1.5pt" },
-            children: [
-              "SURAT PERJANJIAN KERJA WAKTU ",
-              /* @__PURE__ */ jsx("br", {}),
-              " TERTENTU (KONTRAK)"
-            ]
-          }
-        ),
+    /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col page", children: [
+      /* @__PURE__ */ jsx("img", { src: Header, alt: "header", className: "mt-[-6pt] pl-[20pt]" }),
+      /* @__PURE__ */ jsxs("div", { className: "mx-[70pt] leading-tight", children: [
+        /* @__PURE__ */ jsxs("p", { className: "text-center font-bold underline underline-offset-[2pt] decoration-[1pt]", children: [
+          "SURAT PERJANJIAN KERJA WAKTU ",
+          /* @__PURE__ */ jsx("br", {}),
+          " TERTENTU (KONTRAK)"
+        ] }),
         /* @__PURE__ */ jsxs("p", { className: "text-center", children: [
           "Nomor : ",
           props.no_srt
@@ -29,7 +25,7 @@ function Fillable({ props, day, dateContract }) {
             ", telah dibuat dan disepakati perjanjian kerja antara:"
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "ml-[10pt]", children: [
-            /* @__PURE__ */ jsx("table", { className: "table-auto w-full", children: /* @__PURE__ */ jsxs("tbody", { children: [
+            /* @__PURE__ */ jsx("table", { className: "table-auto", children: /* @__PURE__ */ jsxs("tbody", { children: [
               /* @__PURE__ */ jsxs("tr", { className: "table-row", children: [
                 /* @__PURE__ */ jsx("td", { className: "w-[16pt]", children: "I." }),
                 /* @__PURE__ */ jsx("td", { className: "w-[120pt]", children: "Nama" }),
@@ -71,7 +67,7 @@ function Fillable({ props, day, dateContract }) {
                 /* @__PURE__ */ jsx("td", { className: "w-[120pt]", children: "Nama" }),
                 /* @__PURE__ */ jsxs("td", { children: [
                   ": ",
-                  props.nama_pk_kda
+                  formatName(props.nama_pk_kda)
                 ] })
               ] }),
               /* @__PURE__ */ jsxs("tr", { className: "table-row", children: [
@@ -119,10 +115,10 @@ function Fillable({ props, day, dateContract }) {
             /* @__PURE__ */ jsx("br", {}),
             "LATAR BELAKANG"
           ] }),
-          /* @__PURE__ */ jsx("table", { className: " table-fixed", children: /* @__PURE__ */ jsxs("tbody", { children: [
+          /* @__PURE__ */ jsx("table", { className: "w-full border-collapse", children: /* @__PURE__ */ jsxs("tbody", { children: [
             /* @__PURE__ */ jsxs("tr", { children: [
               /* @__PURE__ */ jsx("td", { style: { verticalAlign: "top", width: "22pt" }, children: "1.1" }),
-              /* @__PURE__ */ jsx("td", { children: "PIHAK PETAMA merupakan perusahan yang bergerak dibidang perdagangan dan pelayanan umum" })
+              /* @__PURE__ */ jsx("td", { className: "whitespace-normal text-justify break-normal", children: "PIHAK PETAMA merupakan perusahan yang bergerak dibidang perdagangan dan pelayanan umum" })
             ] }),
             /* @__PURE__ */ jsxs("tr", { children: [
               /* @__PURE__ */ jsx("td", { style: { verticalAlign: "top" }, children: "1.2" }),
@@ -142,7 +138,7 @@ function Fillable({ props, day, dateContract }) {
       ] }),
       /* @__PURE__ */ jsx(Footer, {})
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col", children: [
+    /* @__PURE__ */ jsxs("div", { className: "w-[8.5in] min-h-[11in] bg-white flex flex-col page", children: [
       /* @__PURE__ */ jsx("img", { src: Header, alt: "header", className: "mt-[-6pt] px-[20pt]" }),
       /* @__PURE__ */ jsxs("div", { className: "mx-[70pt] leading-tight flex-grow", children: [
         /* @__PURE__ */ jsxs("p", { className: "font-bold text-center", children: [
@@ -150,10 +146,10 @@ function Fillable({ props, day, dateContract }) {
           /* @__PURE__ */ jsx("br", {}),
           "RUANG LINGKUP PEKERJAAN DAN PENEMPATAN"
         ] }),
-        /* @__PURE__ */ jsx("table", { className: " table-fixed", children: /* @__PURE__ */ jsxs("tbody", { children: [
+        /* @__PURE__ */ jsx("table", { className: "w-full border-collapse", children: /* @__PURE__ */ jsxs("tbody", { children: [
           /* @__PURE__ */ jsxs("tr", { children: [
             /* @__PURE__ */ jsx("td", { style: { verticalAlign: "top", width: "22pt" }, children: "2.1" }),
-            /* @__PURE__ */ jsxs("td", { children: [
+            /* @__PURE__ */ jsxs("td", { className: "whitespace-normal text-justify break-normal", children: [
               "PIHAK PERTAMA menetapkan PIHAK KEDUA untuk bekerja di PT Surya Amanah Cendekia Ponorogo sebagai:",
               /* @__PURE__ */ jsx("table", { children: /* @__PURE__ */ jsxs("tbody", { children: [
                 /* @__PURE__ */ jsxs("tr", { children: [
@@ -161,7 +157,7 @@ function Fillable({ props, day, dateContract }) {
                   /* @__PURE__ */ jsx("td", { className: "w-[94pt]", children: "Jabatan" }),
                   /* @__PURE__ */ jsxs("td", { children: [
                     ": ",
-                    props.jabatan_pk_kda
+                    formatName(props.jabatan_pk_kda)
                   ] })
                 ] }),
                 /* @__PURE__ */ jsxs("tr", { children: [
@@ -201,10 +197,10 @@ function Fillable({ props, day, dateContract }) {
           /* @__PURE__ */ jsx("br", {}),
           "TUGAS DAN TANGGUNGJAWAB"
         ] }),
-        /* @__PURE__ */ jsx("table", { className: " table-fixed", children: /* @__PURE__ */ jsxs("tbody", { children: [
+        /* @__PURE__ */ jsx("table", { className: " w-full border-collapse", children: /* @__PURE__ */ jsxs("tbody", { children: [
           /* @__PURE__ */ jsxs("tr", { children: [
             /* @__PURE__ */ jsx("td", { style: { verticalAlign: "top", width: "22pt" }, children: "3.1." }),
-            /* @__PURE__ */ jsx("td", { children: "PIHAK PERTAMA menempatkan PIHAK KEDUA sebagai tenaga PERUSAHAAN dengan rincian tugas sebagaimana yang diatur oleh PERUSAHAAN." })
+            /* @__PURE__ */ jsx("td", { className: "whitespace-normal text-justify break-normal", children: "PIHAK PERTAMA menempatkan PIHAK KEDUA sebagai tenaga PERUSAHAAN dengan rincian tugas sebagaimana yang diatur oleh PERUSAHAAN." })
           ] }),
           /* @__PURE__ */ jsxs("tr", { children: [
             /* @__PURE__ */ jsx("td", { style: { verticalAlign: "top" }, children: "3.2." }),
@@ -236,39 +232,71 @@ function Fillable({ props, day, dateContract }) {
           /* @__PURE__ */ jsx("br", {}),
           "KOMPENSASI"
         ] }),
-        /* @__PURE__ */ jsx("table", { className: " table-fixed", children: /* @__PURE__ */ jsxs("tbody", { children: [
+        /* @__PURE__ */ jsx("table", { className: " w-full border-collapse", children: /* @__PURE__ */ jsxs("tbody", { children: [
           /* @__PURE__ */ jsxs("tr", { children: [
             /* @__PURE__ */ jsx("td", { style: { verticalAlign: "top", width: "22pt" }, children: "4.1." }),
-            /* @__PURE__ */ jsxs("td", { children: [
+            /* @__PURE__ */ jsxs("td", { className: "whitespace-normal text-justify break-normal", children: [
               "Atas pekerjaan ini PIHAK KEDUA berhak untuk memperoleh Kompensasi sebagai berikut:",
               /* @__PURE__ */ jsx("table", { className: "ml-[12pt]", children: /* @__PURE__ */ jsxs("tbody", { children: [
                 /* @__PURE__ */ jsxs("tr", { children: [
                   /* @__PURE__ */ jsx("td", { className: "w-[20pt]", children: "a." }),
-                  /* @__PURE__ */ jsx("td", { children: "Gaji Pokok" }),
-                  /* @__PURE__ */ jsx("td", { children: ": Rp" }),
-                  /* @__PURE__ */ jsxs("td", { className: "text-end", children: [
-                    " ",
-                    props.g_pok,
-                    ",- / bulan"
-                  ] })
+                  /* @__PURE__ */ jsx(
+                    "td",
+                    {
+                      className: props.tj_hadir == 0 || props.kinerja == 0 ? "w-[100pt]" : "",
+                      children: "Gaji Pokok"
+                    }
+                  ),
+                  /* @__PURE__ */ jsx(
+                    "td",
+                    {
+                      className: props.tj_hadir == 0 || props.kinerja == 0 ? "w-[24pt]" : "",
+                      children: ": Rp"
+                    }
+                  ),
+                  /* @__PURE__ */ jsxs(
+                    "td",
+                    {
+                      className: props.tj_hadir == 0 || props.kinerja == 0 ? "text-start" : "text-end",
+                      children: [
+                        " ",
+                        props.g_pok,
+                        ",- / bulan"
+                      ]
+                    }
+                  )
                 ] }),
-                /* @__PURE__ */ jsxs("tr", { children: [
+                props.tj_hadir == 0 || props.kinerja == 0 ? /* @__PURE__ */ jsxs("tr", { children: [
                   /* @__PURE__ */ jsx("td", { children: "b." }),
-                  /* @__PURE__ */ jsx("td", { children: "Tunjangan Kehadiran" }),
-                  /* @__PURE__ */ jsx("td", { children: ": Rp" }),
-                  /* @__PURE__ */ jsxs("td", { className: "text-end", children: [
-                    " ",
-                    props.tj_hadir,
-                    ",- / bulan"
+                  /* @__PURE__ */ jsx("td", { colSpan: 3, children: "Lembur dan insentif dengan perhitungan mengikuti ketentuan yang ditetapkan perusahaan." })
+                ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
+                  props.tj_hadir && /* @__PURE__ */ jsxs("tr", { children: [
+                    /* @__PURE__ */ jsx("td", { children: "b." }),
+                    /* @__PURE__ */ jsx("td", { children: "Tunjangan Kehadiran" }),
+                    /* @__PURE__ */ jsx("td", { children: ": Rp" }),
+                    /* @__PURE__ */ jsxs("td", { className: "text-start", children: [
+                      " ",
+                      props.tj_hadir,
+                      ",- / bulan"
+                    ] })
+                  ] }),
+                  props.kinerja && /* @__PURE__ */ jsxs("tr", { children: [
+                    /* @__PURE__ */ jsx("td", { children: "c." }),
+                    /* @__PURE__ */ jsx("td", { children: "Kinerja" }),
+                    /* @__PURE__ */ jsx("td", { children: ": Rp" }),
+                    /* @__PURE__ */ jsxs("td", { className: "text-start", children: [
+                      " ",
+                      props.kinerja,
+                      ",- / bulan"
+                    ] })
                   ] })
                 ] }),
-                /* @__PURE__ */ jsxs("tr", { children: [
-                  /* @__PURE__ */ jsx("td", { children: "c." }),
-                  /* @__PURE__ */ jsx("td", { children: "Kinerja" }),
+                props.lain_lain && /* @__PURE__ */ jsxs("tr", { children: [
+                  /* @__PURE__ */ jsx("td", { children: "d." }),
+                  /* @__PURE__ */ jsx("td", { children: "Lain - Lain" }),
                   /* @__PURE__ */ jsx("td", { children: ": Rp" }),
-                  /* @__PURE__ */ jsxs("td", { className: "text-end", children: [
-                    " ",
-                    props.kinerja,
+                  /* @__PURE__ */ jsxs("td", { className: "text-start", children: [
+                    props.lain_lain,
                     ",- / bulan"
                   ] })
                 ] })

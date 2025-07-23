@@ -6,7 +6,6 @@ const EachUtils = ({ of, render, colspan }) => {
   }
   return Children.toArray(of.map((item, index) => render(item, index)));
 };
-const EachUtils$1 = EachUtils;
 export {
-  EachUtils$1 as E
+  EachUtils as E
 };

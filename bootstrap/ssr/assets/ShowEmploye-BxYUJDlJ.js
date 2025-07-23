@@ -1,16 +1,16 @@
 import { jsxs, jsx, Fragment } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-BmQ_mfkc.js";
+import { A as AdminLayout } from "./AdminLayout-oLkvHzfQ.js";
 import { useForm, Head, Link } from "@inertiajs/react";
 import React, { useState } from "react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { BiSolidDownload } from "react-icons/bi/index.esm.js";
 import ShowEmployeCareer from "./ShowEmployeCareer-CQuEBZPv.js";
 import { N as NoImage } from "./no-image-lUO9SVn2.js";
-import "./Sidebar-k6Fk2Fmb.js";
+import "./Sidebar-Cm1FAR-6.js";
 import "framer-motion";
 import "react-toastify";
 function ShowEmploye(props) {
-  useForm({});
+  const { get } = useForm({});
   const [nowUrl, setNowUrl] = useState("employeRoute");
   const [showKarir, setShowKarir] = useState(false);
   const karirRoute = (id) => {

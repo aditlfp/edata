@@ -1,5 +1,5 @@
 import { jsx, jsxs } from "react/jsx-runtime";
-import { StyleSheet, Document, Page, View, Text } from "@react-pdf/renderer";
+import { Document, Page, StyleSheet, View, Text } from "@react-pdf/renderer";
 import { useState, useEffect } from "react";
 const styles = StyleSheet.create({
   page: {

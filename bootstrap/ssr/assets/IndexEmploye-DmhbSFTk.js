@@ -1,7 +1,7 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-BmQ_mfkc.js";
+import { A as AdminLayout } from "./AdminLayout-oLkvHzfQ.js";
 import { useForm, Head } from "@inertiajs/react";
-import { lazy, useState, useMemo, useEffect, Suspense } from "react";
+import { useState, useMemo, useEffect, Suspense, lazy } from "react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import makeAnimated from "react-select/animated";
 import Select from "react-select";
@@ -10,11 +10,24 @@ import Modal from "./Modal-Br3a30kf.js";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import debounce from "lodash/debounce.js";
-import { E as EachUtils } from "./EachUtils-wF8jK0oN.js";
-import "./Sidebar-k6Fk2Fmb.js";
+import { E as EachUtils } from "./EachUtils-Buu20C5d.js";
+import "./Sidebar-Cm1FAR-6.js";
 import "framer-motion";
-const NoImageComponent = lazy(() => import("./NoImageComponent-Dusf2B3Q.js"));
-function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, errors }) {
+function Kapital(props) {
+  return props == null ? void 0 : props.toLowerCase().trim().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+const NoImageComponent = lazy(
+  () => import("./NoImageComponent-Dusf2B3Q.js")
+);
+function IndexEmploye({
+  employe,
+  clients,
+  auth,
+  users,
+  emploCount,
+  jabatan,
+  errors
+}) {
   const [sortOrder, setSortOrder] = useState(false);
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState();
@@ -25,7 +38,12 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
   const employeesPerPage = 25;
   const animatedComponents = makeAnimated();
   const [options, setOptions] = useState([]);
-  const { data, setData, delete: destroy, get } = useForm({
+  const {
+    data,
+    setData,
+    delete: destroy,
+    get
+  } = useForm({
     id: "",
     name: "",
     jbt_name: [],
@@ -40,7 +58,9 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
     setModal(!modal);
   };
   const getJabatanOnEmploye = (employee) => {
-    const user = users.find((us) => us.nama_lengkap.toLowerCase() === employee.name.toLowerCase());
+    const user = users.find(
+      (us) => us.nama_lengkap.toLowerCase() === employee.name.toLowerCase()
+    );
     return user ? user.jabatan.name_jabatan : "Data NotFound In Absensi";
   };
   const combinedFilteredEmployees = useMemo(() => {
@@ -151,7 +171,10 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
     } else {
       setFilterJabatan(selected);
       setData("jbt_name", selected);
-      setData("jbt_str", selected.filter((item) => item.value).map((item) => item.value));
+      setData(
+        "jbt_str",
+        selected.filter((item) => item.value).map((item) => item.value)
+      );
     }
   };
   const updatedOptions = options.map((option) => ({
@@ -170,25 +193,19 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
     /* @__PURE__ */ jsx(HeadNavigation, { title: "Employe - Home" }),
     /* @__PURE__ */ jsxs("div", { className: "flex flex-col sm:flex-row justify-end gap-2 my-4 items-start sm:items-center", children: [
       /* @__PURE__ */ jsxs("div", { className: "flex flex-row gap-x-5", children: [
-        /* @__PURE__ */ jsx(
-          "div",
+        /* @__PURE__ */ jsx("div", { className: "text-sm rounded-sm", children: /* @__PURE__ */ jsx(
+          Select,
           {
-            className: "text-sm rounded-sm",
-            children: /* @__PURE__ */ jsx(
-              Select,
-              {
-                required: true,
-                closeMenuOnSelect: false,
-                components: animatedComponents,
-                isMulti: true,
-                onChange: handleChange,
-                options: updatedOptions,
-                isOptionDisabled: (option) => option.isDisabled,
-                placeholder: "Select an option"
-              }
-            )
+            required: true,
+            closeMenuOnSelect: false,
+            components: animatedComponents,
+            isMulti: true,
+            onChange: handleChange,
+            options: updatedOptions,
+            isOptionDisabled: (option) => option.isDisabled,
+            placeholder: "Select an option"
           }
-        ),
+        ) }),
         /* @__PURE__ */ jsxs(
           "select",
           {
@@ -202,7 +219,7 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
             children: [
               /* @__PURE__ */ jsx("option", { value: 0, disabled: true, children: "Filter Mitra" }),
               /* @__PURE__ */ jsx("option", { value: "All", children: "Semua" }),
-              clients == null ? void 0 : clients.map((client, index) => /* @__PURE__ */ jsx("option", { value: client.name, children: client.name }, index))
+              clients == null ? void 0 : clients.map((client, index) => /* @__PURE__ */ jsx("option", { value: client.name, children: Kapital(client.name) }, index))
             ]
           }
         )
@@ -263,86 +280,99 @@ function IndexEmploye({ employe, clients, auth, users, emploCount, jabatan, erro
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "No Induk Karyawan" }),
         (auth == null ? void 0 : auth.user.role_id) == 2 && /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Aksi" })
       ] }) }),
-      /* @__PURE__ */ jsx("tbody", { children: /* @__PURE__ */ jsx(EachUtils, { colspan: 10, of: currentEmployees, render: (emplo, index) => {
-        var _a;
-        return /* @__PURE__ */ jsxs("tr", { className: "border-[1px] border-orange-300", children: [
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: currentPage * employeesPerPage + index + 1 }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: /* @__PURE__ */ jsx(EmployeeImage, { img: emplo.img }) }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo == null ? void 0 : emplo.name }),
-          /* @__PURE__ */ jsx("td", { className: `border-[1px] border-orange-300 ${getJabatanOnEmploye(emplo) === "Data NotFound In Absensi" ? "text-red-500 font-semibold" : ""}`, children: getJabatanOnEmploye(emplo) }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.ttl }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.no_kk }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.no_ktp }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: (_a = emplo.client) == null ? void 0 : _a.name }),
-          /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.initials && emplo.numbers && emplo.date_real ? emplo.initials + " " + emplo.numbers + "-" + emplo.date_real : /* @__PURE__ */ jsx("span", { className: "italic text-red-600", children: "Kode Tidak Ditemukan" }) }),
-          (auth == null ? void 0 : auth.user.role_id) == 2 && /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: /* @__PURE__ */ jsxs("div", { className: "flex justify-center gap-x-1 items-center", children: [
-            /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-y-1", children: [
+      /* @__PURE__ */ jsx("tbody", { children: /* @__PURE__ */ jsx(
+        EachUtils,
+        {
+          colspan: 10,
+          of: currentEmployees,
+          render: (emplo, index) => {
+            var _a;
+            return /* @__PURE__ */ jsxs("tr", { className: "border-[1px] border-orange-300", children: [
+              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: currentPage * employeesPerPage + index + 1 }),
+              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: /* @__PURE__ */ jsx(EmployeeImage, { img: emplo.img }) }),
+              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: Kapital(emplo == null ? void 0 : emplo.name) }),
               /* @__PURE__ */ jsx(
-                "div",
+                "td",
                 {
-                  className: "hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150",
-                  "data-tip": "Edit",
-                  children: /* @__PURE__ */ jsx(
-                    "button",
-                    {
-                      onClick: () => editEmploye(emplo.id),
-                      className: "btn btn-xs rounded-sm hover:text-yellow-500 border-0 text-white bg-yellow-500",
-                      children: /* @__PURE__ */ jsx(BiSolidCog, {})
-                    }
-                  )
+                  className: `border-[1px] border-orange-300 ${getJabatanOnEmploye(emplo) === "Data NotFound In Absensi" ? "text-red-500 font-semibold" : ""}`,
+                  children: Kapital(getJabatanOnEmploye(emplo))
                 }
               ),
-              /* @__PURE__ */ jsx(
-                "div",
-                {
-                  className: "hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150",
-                  "data-tip": "Delete",
-                  children: /* @__PURE__ */ jsx(
-                    "button",
+              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: Kapital(emplo.ttl) }),
+              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.no_kk }),
+              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.no_ktp }),
+              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: Kapital((_a = emplo.client) == null ? void 0 : _a.name) }),
+              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.initials && emplo.numbers && emplo.date_real ? emplo.initials + " " + emplo.numbers + "-" + emplo.date_real : /* @__PURE__ */ jsx("span", { className: "italic text-red-600", children: "Kode Tidak Ditemukan" }) }),
+              (auth == null ? void 0 : auth.user.role_id) == 2 && /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: /* @__PURE__ */ jsxs("div", { className: "flex justify-center gap-x-1 items-center", children: [
+                /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-y-1", children: [
+                  /* @__PURE__ */ jsx(
+                    "div",
                     {
-                      onClick: () => handleDelete(emplo.id),
-                      className: "btn btn-xs rounded-sm hover:text-red-500 border-0 text-white bg-red-500",
-                      children: /* @__PURE__ */ jsx(BiSolidTrash, {})
+                      className: "hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150",
+                      "data-tip": "Edit",
+                      children: /* @__PURE__ */ jsx(
+                        "button",
+                        {
+                          onClick: () => editEmploye(emplo.id),
+                          className: "btn btn-xs rounded-sm hover:text-yellow-500 border-0 text-white bg-yellow-500",
+                          children: /* @__PURE__ */ jsx(BiSolidCog, {})
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ jsx(
+                    "div",
+                    {
+                      className: "hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150",
+                      "data-tip": "Delete",
+                      children: /* @__PURE__ */ jsx(
+                        "button",
+                        {
+                          onClick: () => handleDelete(emplo.id),
+                          className: "btn btn-xs rounded-sm hover:text-red-500 border-0 text-white bg-red-500",
+                          children: /* @__PURE__ */ jsx(BiSolidTrash, {})
+                        }
+                      )
                     }
                   )
-                }
-              )
-            ] }),
-            /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-y-1", children: [
-              /* @__PURE__ */ jsx(
-                "div",
-                {
-                  className: "hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150",
-                  "data-tip": "Details",
-                  children: /* @__PURE__ */ jsx(
-                    "button",
+                ] }),
+                /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-y-1", children: [
+                  /* @__PURE__ */ jsx(
+                    "div",
                     {
-                      onClick: () => showEmploye(emplo.id),
-                      className: "btn btn-xs rounded-sm hover:text-blue-500 border-0 text-white bg-blue-500",
-                      children: /* @__PURE__ */ jsx(BiSolidFileFind, {})
+                      className: "hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150",
+                      "data-tip": "Details",
+                      children: /* @__PURE__ */ jsx(
+                        "button",
+                        {
+                          onClick: () => showEmploye(emplo.id),
+                          className: "btn btn-xs rounded-sm hover:text-blue-500 border-0 text-white bg-blue-500",
+                          children: /* @__PURE__ */ jsx(BiSolidFileFind, {})
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ jsx(
+                    "div",
+                    {
+                      className: "hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150",
+                      "data-tip": "Career",
+                      children: /* @__PURE__ */ jsx(
+                        "button",
+                        {
+                          onClick: () => createCareer(emplo.id),
+                          className: "btn btn-xs rounded-sm hover:text-green-500 border-0 text-white bg-green-500",
+                          children: /* @__PURE__ */ jsx(BiSolidExtension, {})
+                        }
+                      )
                     }
                   )
-                }
-              ),
-              /* @__PURE__ */ jsx(
-                "div",
-                {
-                  className: "hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150",
-                  "data-tip": "Career",
-                  children: /* @__PURE__ */ jsx(
-                    "button",
-                    {
-                      onClick: () => createCareer(emplo.id),
-                      className: "btn btn-xs rounded-sm hover:text-green-500 border-0 text-white bg-green-500",
-                      children: /* @__PURE__ */ jsx(BiSolidExtension, {})
-                    }
-                  )
-                }
-              )
-            ] })
-          ] }) })
-        ] }, index);
-      } }) })
+                ] })
+              ] }) })
+            ] }, index);
+          }
+        }
+      ) })
     ] }) }),
     /* @__PURE__ */ jsx(
       ReactPaginate,

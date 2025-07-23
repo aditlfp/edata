@@ -6,8 +6,7 @@ function ExportSlip({ slip, base64 }) {
   const totalPotongan = (parseFloat(slip.bpjs) || 0) + (parseFloat(slip.pinjaman) || 0) + (parseFloat(slip.absen) || 0) + (parseFloat(slip.lain_lain) || 0);
   const totalBersih = totalPotongan > 0 ? totalPenghasilan - totalPotongan : totalPenghasilan + totalPotongan;
   const toRupiah = (angka) => {
-    if (!angka)
-      return "Rp. 0";
+    if (!angka) return "Rp. 0";
     return `Rp. ${Number(angka).toLocaleString("id-ID", {
       style: "decimal",
       maximumFractionDigits: 2
