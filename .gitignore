@@ -3,6 +3,7 @@ vendor/
 node_modules/
 build/
 dist/
+boostrap/ssr/assets/*
 .cache/
 .env
 .env.local
