@@ -273,8 +273,7 @@
                 <tr>
                   <td style="vertical-align: top;">2.2</td>
                   <td>
-                    Perjanjian ini dibuat untuk jangka waktu {{ $jangkaKontrak > 6 ? '1 (satu) tahun' : '6 (enam) bulan' }} 
-                    terhitung mulai dari {{ $strKontrak }} dan berakhir tanggal {{ $endKontrak }}. Perjanjian ini dapat diperpanjang lagi
+                    Perjanjian ini dibuat untuk jangka waktu yang dimulai pada tanggal {{ $strKontrak }} dan berakhir pada tanggal {{ $endKontrak }}. Perjanjian ini dapat diperpanjang kembali
                     sesuai dengan ketentuan yang berlaku.
                   </td>
                 </tr>
@@ -467,7 +466,7 @@
                     Jaminan Sosial <br />
                     Program jaminan sosial yang diberikan sebagai fasilitas tenaga
                     kerja adalah jaminan sosial yang diberikan oleh Badan
-                    Penyelenggara Jaminan Sosial (BPJS) Kesehatan dan BPJS
+                    Penyelenggara Jaminan Sosial (BPJS) Kesehatan dan/atau BPJS
                     Ketenagakerjaan.
                   </td>
                 </tr>
