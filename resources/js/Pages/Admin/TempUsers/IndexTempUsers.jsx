@@ -423,6 +423,9 @@ function IndexTempUsers(props) {
               Email
             </th>
             <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
+              Tgl. Input
+            </th>
+            <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
               Status
             </th>
             <th className="text-center">Action</th>
@@ -435,27 +438,23 @@ function IndexTempUsers(props) {
             render={(item, i) => {
               return (
                 <tr key={i}>
-                                                 {" "}
+                  {" "}
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                       {" "}
+                    {" "}
                     <input
                       type="checkbox"
                       className="checkbox checkbox-warning checkbox-sm"
                       checked={checkedItems.includes(item.id)}
                       onChange={() => handleCheck(item.id)}
-                    />
-                                                   {" "}
-                  </td>
-                                                 {" "}
+                    />{" "}
+                  </td>{" "}
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                        {i + 1}                 
-                                 {" "}
-                  </td>
-                                                 {" "}
+                    {i + 1}    {" "}
+                  </td>{" "}
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                       {" "}
+                    {" "}
                     <div className="ml-6">
-                                                             {" "}
+                      {" "}
                       <img
                         src={
                           `https://absensi-sac.sac-po.com/public/storage/user/` +
@@ -463,35 +462,33 @@ function IndexTempUsers(props) {
                         }
                         alt={item.nama_lengkap}
                         className="w-10 h-10 rounded-full"
-                      />
-                                                         {" "}
-                    </div>
-                                                   {" "}
-                  </td>
-                                                 {" "}
+                      />{" "}
+                    </div>{" "}
+                  </td>{" "}
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                        {item.nama_lengkap}     
-                                             {" "}
-                  </td>
-                                                 {" "}
+                    {item.nama_lengkap}    {" "}
+                  </td>{" "}
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                       {" "}
-                    {item.pw ? item.pw : "Kosong"}                             
-                     {" "}
-                  </td>
-                                                 {" "}
+                    {" "}
+                    {item.pw ? item.pw : "Kosong"}    {" "}
+                  </td>{" "}
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                        {item.no_hp}           
-                                       {" "}
-                  </td>
-                                                 {" "}
+                    {item.no_hp}{" "}
+                  </td>{" "}
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                        {item.email}           
-                                       {" "}
+                    {item.email}{" "}
                   </td>
-                                                 {" "}
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                       {" "}
+                    {item.created_at
+                      ? new Date(item.created_at).toLocaleDateString("id-ID", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                      : "Tidak Tersedia"}
+                  </td>{" "}
+                  <td className="border-x-[1px] border-orange-300 text-center">
+                    {" "}
                     {item.status == 0 ? (
                       <span className="badge badge-sm rounded-sm badge-warning text-white p-2">
                         Pending
@@ -504,39 +501,32 @@ function IndexTempUsers(props) {
                       <span className="badge badge-sm rounded-sm badge-error text-white p-2">
                         Rejected
                       </span>
-                    )}
-                                                   {" "}
-                  </td>
-                                                 {" "}
+                    )}{" "}
+                  </td>{" "}
                   <td className="text-center flex justify-center items-center gap-2">
-                                                       {" "}
-                    {/* Add your action buttons here */}                       
-                               {" "}
+                    {" "}
+                    {/* Add your action buttons here */}{" "}
                     <button
                       disabled={item.status === 1}
                       onClick={() => accept(item.id)}
                       className="btn btn-sm btn-success rounded-sm text-white text-xl"
                     >
                       <BiCheckDouble />
-                    </button>
-                                                       {" "}
+                    </button>{" "}
                     <button
                       disabled={item.status === 1 || item.status === 2}
                       onClick={() => reject(item.id)}
                       className="btn btn-sm btn-warning rounded-sm text-white text-xl"
                     >
                       <MdCancel />
-                    </button>
-                                                       {" "}
+                    </button>{" "}
                     <button
                       onClick={() => removeUser(item)}
                       className="btn btn-sm btn-error rounded-sm text-white text-lg"
                     >
                       <FaTrashCan />
-                    </button>
-                                                   {" "}
-                  </td>
-                                             {" "}
+                    </button>{" "}
+                  </td>{" "}
                 </tr>
               );
             }}
@@ -608,7 +598,7 @@ function IndexTempUsers(props) {
                 }
                 onClick={(e) => (button ? remove(e) : submit(e))}
               >
-                CONFIRM
+                Confirm
               </button>
               <button
                 onClick={() => closeModal()}
