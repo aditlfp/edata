@@ -21,7 +21,7 @@ class TempUsersController extends Controller
         $tempUsers = TempUsers::with(['Client', 'Devisi'])->latest()->get();
         $clients = Client::query();
         $devisis = Divisi::query();
-        $key = base64_decode((str_replace('base64:', '', env('APP_PREVIOUS_KEYS')))); // OR hardcode it here for testing
+        $key = base64_decode((str_replace('base64:', '', config('app.previous_keys')))); // OR hardcode it here for testing
         $cipher = 'AES-256-CBC';
 
         $encrypter = new Encrypter($key, $cipher);
@@ -40,6 +40,7 @@ class TempUsersController extends Controller
                 'client'  => $clients->where('id', $tempUser->data['client_id'])->first(),
                 'devisi'  => $devisis->where('id', $tempUser->data['devisi_id'])->first(),
                 'status'    => $tempUser->status,
+                'created_at' => $tempUser->created_at ? $tempUser->created_at->format('d-m-Y') : 'Tidak Tersedia',
             ];
         }
 

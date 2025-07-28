@@ -314,6 +314,7 @@ function IndexTempUsers(props) {
 
     // Set the data for bulk deletion
   };
+  // console.log("Checked Items:", props);
 
   return (
     <AdminLayout>
@@ -479,13 +480,7 @@ function IndexTempUsers(props) {
                     {item.email}{" "}
                   </td>
                   <td className="border-x-[1px] border-orange-300 text-center">
-                    {item.created_at
-                      ? new Date(item.created_at).toLocaleDateString("id-ID", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })
-                      : "Tidak Tersedia"}
+                    {item.created_at}
                   </td>{" "}
                   <td className="border-x-[1px] border-orange-300 text-center">
                     {" "}
