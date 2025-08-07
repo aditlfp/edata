@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-
+    'previous_keys' => env('APP_PREVIOUS_KEYS'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

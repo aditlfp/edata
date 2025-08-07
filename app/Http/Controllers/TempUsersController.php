@@ -40,6 +40,7 @@ class TempUsersController extends Controller
                 'client'  => $clients->where('id', $tempUser->data['client_id'])->first(),
                 'devisi'  => $devisis->where('id', $tempUser->data['devisi_id'])->first(),
                 'status'    => $tempUser->status,
+                'created_at' => $tempUser->created_at ? $tempUser->created_at->format('d-m-Y') : 'Tidak Tersedia',
             ];
         }
 
