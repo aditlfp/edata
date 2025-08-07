@@ -315,78 +315,82 @@ function IndexTempUsers(props) {
     // Set the data for bulk deletion
   };
   // console.log("Checked Items:", props);
+  const statusOptions = ["all", "pending", "approved", "rejected"];
+
+  const renderStatusButton = (status) => {
+    const isActive = statusFilter === status;
+    const label = status.charAt(0).toUpperCase() + status.slice(1);
+    const baseStyle = "btn btn-sm";
+    const activeStyle = "btn-warning";
+    const inactiveStyle =
+      "btn-outline border-amber-500 hover:border-amber-600 hover:bg-amber-500 hover:text-white";
+
+    return (
+      <button
+        key={status}
+        className={`${baseStyle} ${
+          status === "all"
+            ? "rounded-sm border-r-0 rounded-r-none"
+            : status === "rejected"
+            ? "rounded-sm border-l-0 rounded-l-none"
+            : "rounded-none border-x-0"
+        } ${isActive ? activeStyle : inactiveStyle}`}
+        onClick={() => {
+          setStatusFilter(status);
+          setCurrentPage(0);
+        }}
+      >
+        {label}
+      </button>
+    );
+  };
+
+  const ActionButtons = ({ item }) => (
+    <td className="text-center flex justify-center items-center gap-2">
+      <button
+        disabled={item.status === 1}
+        onClick={() => accept(item.id)}
+        className="btn btn-sm btn-success rounded-sm text-white text-xl"
+      >
+        <BiCheckDouble />
+      </button>
+      <button
+        disabled={item.status === 1 || item.status === 2}
+        onClick={() => reject(item.id)}
+        className="btn btn-sm btn-warning rounded-sm text-white text-xl"
+      >
+        <MdCancel />
+      </button>
+      <button
+        onClick={() => removeUser(item)}
+        className="btn btn-sm btn-error rounded-sm text-white text-lg"
+      >
+        <FaTrashCan />
+      </button>
+    </td>
+  );
 
   return (
     <AdminLayout>
       <Head title="Konfirmasi Karyawan Baru - Home" />
-      <HeadNavigation title={"Konfirmasi Karyawan Baru - Home"} />
-      <h2 className="font-bold text-lg my-5">
-        Confirmation New Employes Data !
-      </h2>
+      <HeadNavigation title="Konfirmasi Karyawan Baru - Home" />
+
+      <h2 className="font-bold text-lg my-5">Confirmation New Employes Data!</h2>
+
       <div className="flex items-center mb-4 gap-x-2">
         <div className="btn-group mb-4">
-          <button
-            className={`btn btn-sm rounded-sm border-r-0 rounded-r-none ${
-              statusFilter === "all"
-                ? "btn-warning"
-                : "border-r-0 outline-r-none rounded-r-none btn-outline border-amber-500 hover:border-amber-600 hover:bg-amber-500 hover:text-white"
-            }`}
-            onClick={() => {
-              setStatusFilter("all");
-              setCurrentPage(0);
-            }}
-          >
-            All
-          </button>
-          <button
-            className={`btn btn-sm rounded-none border-r-0 border-l-0 ${
-              statusFilter === "pending"
-                ? "btn-warning"
-                : "btn-outline border-amber-500 hover:border-amber-600 hover:bg-amber-500 hover:text-white"
-            }`}
-            onClick={() => {
-              setStatusFilter("pending");
-              setCurrentPage(0);
-            }}
-          >
-            Pending
-          </button>
-          <button
-            className={`btn btn-sm rounded-none border-r-0 border-l-0 ${
-              statusFilter === "approved"
-                ? "btn-warning"
-                : "btn-outline border-amber-500 hover:border-amber-600 hover:bg-amber-500 hover:text-white"
-            }`}
-            onClick={() => {
-              setStatusFilter("approved");
-              setCurrentPage(0);
-            }}
-          >
-            Approved
-          </button>
-          <button
-            className={`btn btn-sm rounded-sm border-l-0 rounded-l-none ${
-              statusFilter === "rejected"
-                ? "btn-warning"
-                : "btn-outline border-amber-500 hover:border-amber-600 hover:bg-amber-500 hover:text-white"
-            }`}
-            onClick={() => {
-              setStatusFilter("rejected");
-              setCurrentPage(0);
-            }}
-          >
-            Rejected
-          </button>
+          {statusOptions.map(renderStatusButton)}
         </div>
+
         <div className="mb-4">
           <button
             disabled={checkedItems.length <= 0}
+            onClick={bulkDelete}
             className={`btn btn-sm rounded-sm border-amber-500 ${
               checkedItems.length > 0
                 ? "btn-outline hover:border-amber-600 hover:bg-amber-500 hover:text-white"
                 : "btn-outline"
             }`}
-            onClick={() => bulkDelete()}
           >
             <FaTrashCan />
             Remove
@@ -397,155 +401,87 @@ function IndexTempUsers(props) {
       <table className="table table-zebra table-xs w-full mb-5">
         <thead className="sticky top-0">
           <tr className="bg-orange-600 text-white capitalize">
-            <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
-              <input
-                type="checkbox"
-                className="checkbox checkbox-warning checkbox-sm"
-                checked={isChackedAll}
-                onChange={(e) => handleCheckboxChange(e)}
-              />
-            </th>
-            <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
-              #
-            </th>
-            <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
-              Foto Profil
-            </th>
-            <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
-              Nama Lengkap
-            </th>
-            <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
-              Password
-            </th>
-            <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
-              No HP (Aktif)
-            </th>
-            <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
-              Email
-            </th>
-            <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
-              Tgl. Input
-            </th>
-            <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
-              Status
-            </th>
-            <th className="text-center">Action</th>
+            {[
+              "",
+              "#",
+              "Foto Profil",
+              "Nama Lengkap",
+              "Password",
+              "No HP (Aktif)",
+              "Email",
+              "Tgl. Input",
+              "Status",
+              "Action",
+            ].map((th, i) => (
+              <th
+                key={i}
+                className="border-x-[1px] border-orange-300 sticky top-0 text-center"
+              >
+                {th === "" ? (
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-warning checkbox-sm"
+                    checked={isChackedAll}
+                    onChange={handleCheckboxChange}
+                  />
+                ) : (
+                  th
+                )}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           <EachUtils
             colspan={8}
             of={paginatedData}
-            render={(item, i) => {
-              return (
-                <tr key={i}>
-                                                
-                  {" "}
-                  <td className="border-x-[1px] border-orange-300 text-center">
-                                                      
-                    {" "}
-                    <input
-                      type="checkbox"
-                      className="checkbox checkbox-warning checkbox-sm"
-                      checked={checkedItems.includes(item.id)}
-                      onChange={() => handleCheck(item.id)}
+            render={(item, i) => (
+              <tr key={i}>
+                <td className="text-center">
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-warning checkbox-sm"
+                    checked={checkedItems.includes(item.id)}
+                    onChange={() => handleCheck(item.id)}
+                  />
+                </td>
+                <td className="text-center">{i + 1}</td>
+                <td className="text-center">
+                  <div className="ml-6">
+                    <img
+                      src={`https://absensi-sac.sac-po.com/public/storage/user/${item.image}`}
+                      alt={item.nama_lengkap}
+                      className="w-10 h-10 rounded-full"
                     />
-                                                  
-                  </td>
-                                                
-                    />{" "}
-                  </td>{" "}
-                  <td className="border-x-[1px] border-orange-300 text-center">
-                    {i + 1}    {" "}
-                  </td>{" "}
-                  <td className="border-x-[1px] border-orange-300 text-center">
-                                                      
-                    {" "}
-                    <div className="ml-6">
-                                                            
-                      {" "}
-                      <img
-                        src={
-                          `https://absensi-sac.sac-po.com/public/storage/user/` +
-                          item.image
-                        }
-                        alt={item.nama_lengkap}
-                        className="w-10 h-10 rounded-full"
-                      />
-                                                        
-                    </div>
-                                                  
-                  </td>
-                                                
-                      />{" "}
-                    </div>{" "}
-                  </td>{" "}
-                  <td className="border-x-[1px] border-orange-300 text-center">
-                                                        {item.nama_lengkap}     
-                                            
-                  </td>
-                                                
-                    {item.nama_lengkap}    {" "}
-                  </td>{" "}
-                  <td className="border-x-[1px] border-orange-300 text-center">
-                    {" "}
-                    {item.pw ? item.pw : "Kosong"}    {" "}
-                  </td>{" "}
-                  <td className="border-x-[1px] border-orange-300 text-center">
-                    {item.no_hp}{" "}
-                  </td>{" "}
-                  <td className="border-x-[1px] border-orange-300 text-center">
-                    {item.email}{" "}
-                  </td>
-                  <td className="border-x-[1px] border-orange-300 text-center">
-                    {item.created_at}
-                  </td>{" "}
-                  <td className="border-x-[1px] border-orange-300 text-center">
-                    {" "}
-                    {item.status == 0 ? (
-                      <span className="badge badge-sm rounded-sm badge-warning text-white p-2">
-                        Pending
-                      </span>
-                    ) : item.status == 1 ? (
-                      <span className="badge badge-sm rounded-sm badge-success text-white p-2">
-                        Approve
-                      </span>
-                    ) : (
-                      <span className="badge badge-sm rounded-sm badge-error text-white p-2">
-                        Rejected
-                      </span>
-                    )}{" "}
-                  </td>{" "}
-                  <td className="text-center flex justify-center items-center gap-2">
-                    {" "}
-                    {/* Add your action buttons here */}{" "}
-                    <button
-                      disabled={item.status == 1}
-                      onClick={() => accept(item.id)}
-                      className="btn btn-sm btn-success rounded-sm text-white text-xl"
-                    >
-                      <BiCheckDouble />
-                    </button>{" "}
-                    <button
-                      disabled={item.status == 1 || item.status == 2}
-                      onClick={() => reject(item.id)}
-                      className="btn btn-sm btn-warning rounded-sm text-white text-xl"
-                    >
-                      <MdCancel />
-                    </button>{" "}
-                    <button
-                      onClick={() => removeUser(item)}
-                      className="btn btn-sm btn-error rounded-sm text-white text-lg"
-                    >
-                      <FaTrashCan />
-                    </button>{" "}
-                  </td>{" "}
-                </tr>
-              );
-            }}
+                  </div>
+                </td>
+                <td className="text-center">{item.nama_lengkap}</td>
+                <td className="text-center">{item.pw || "Kosong"}</td>
+                <td className="text-center">{item.no_hp}</td>
+                <td className="text-center">{item.email}</td>
+                <td className="text-center">{item.created_at}</td>
+                <td className="text-center">
+                  {item.status === 0 ? (
+                    <span className="badge badge-sm rounded-sm badge-warning text-white p-2">
+                      Pending
+                    </span>
+                  ) : item.status === 1 ? (
+                    <span className="badge badge-sm rounded-sm badge-success text-white p-2">
+                      Approve
+                    </span>
+                  ) : (
+                    <span className="badge badge-sm rounded-sm badge-error text-white p-2">
+                      Rejected
+                    </span>
+                  )}
+                </td>
+                <ActionButtons item={item} />
+              </tr>
+            )}
           />
         </tbody>
       </table>
+
       <ReactPaginate
         containerClassName="join shadow-md mb-10"
         previousLinkClassName="join-item btn btn-sm rounded-sm bg-orange-600 hover:bg-orange-800 text-white"
@@ -569,52 +505,43 @@ function IndexTempUsers(props) {
         <Modal props={modal}>
           <div className="flex flex-col">
             <h2 className="text-lg text-gray-900 font-extrabold">
-              {title ? title : "Apakah Anda Yakin Untuk Memverifikasi Akun ?"}
+              {title ?? "Apakah Anda Yakin Untuk Memverifikasi Akun ?"}
               <div className="bg-sky-100 p-5 rounded-sm mt-2">
-                {content ? (
-                  content
-                ) : (
+                {content ?? (
                   <table>
                     <tbody>
-                      <tr>
-                        <td className="font-bold">Nama Lengkap</td>
-                        <td className="px-2">:</td>
-                        <td>{data.name}</td>
-                      </tr>
-                      <tr>
-                        <td className="font-bold">TTL</td>
-                        <td className="px-2">:</td>
-                        <td>{data.ttl}</td>
-                      </tr>
-                      <tr>
-                        <td className="font-bold">No KTP</td>
-                        <td className="px-2">:</td>
-                        <td>{data.no_ktp}</td>
-                      </tr>
-                      <tr>
-                        <td className="font-bold">No KK</td>
-                        <td className="px-2">:</td>
-                        <td>{data.no_kk}</td>
-                      </tr>
+                      {[
+                        ["Nama Lengkap", data.name],
+                        ["TTL", data.ttl],
+                        ["No KTP", data.no_ktp],
+                        ["No KK", data.no_kk],
+                      ].map(([label, value], i) => (
+                        <tr key={i}>
+                          <td className="font-bold">{label}</td>
+                          <td className="px-2">:</td>
+                          <td>{value}</td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 )}
               </div>
             </h2>
-            <div className="flex justify-end gap-x-1 mt-5  items-center">
+
+            <div className="flex justify-end gap-x-1 mt-5 items-center">
               <button
                 disabled={processing}
+                onClick={(e) => (button ? remove(e) : submit(e))}
                 className={
                   processing
                     ? "btn btn-disabled hover:cursor-not-allowed btn-sm rounded-sm"
                     : "btn btn-primary btn-sm rounded-sm"
                 }
-                onClick={(e) => (button ? remove(e) : submit(e))}
               >
                 Confirm
               </button>
               <button
-                onClick={() => closeModal()}
+                onClick={closeModal}
                 className="btn uppercase btn-error btn-sm rounded-sm"
               >
                 Cancel

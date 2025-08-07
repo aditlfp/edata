@@ -204,6 +204,9 @@ export default function IndexKontrak(props) {
           <thead className="sticky top-0">
             <tr className="bg-orange-600 text-white capitalize">
               <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
+                No
+              </th>
+              <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
                 No Surat
               </th>
               <th className="border-x-[1px] border-orange-300 sticky top-0 text-center">
@@ -251,6 +254,9 @@ export default function IndexKontrak(props) {
                     }`}
                     key={i}
                   >
+                    <td className="border-[1px] border-orange-300">
+                      {i+1}
+                    </td>
                     <td className="border-[1px] border-orange-300">
                       {items.data.no_srt}
                     </td>

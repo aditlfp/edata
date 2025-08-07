@@ -30,7 +30,7 @@ function Sidebar({ link, value, children, open, props }) {
           </Link>
           <Link
             href={route("accept-employe.index")}
-            className="relative flex items-center justify-between bg-orange-300 hover:bg-orange-400 transition-all ease-in-out duration-150 rounded-md px-4 py-3 gap-x-4 text-sm font-semibold text-gray-800 hover:text-white"
+            className="relative flex items-center justify-between bg-orange-300 hover:bg-orange-400 transition-all ease-in-out duration-150 rounded-sm px-4 py-3 gap-x-4 text-sm font-semibold text-gray-800 hover:text-white"
           >
             <div className="flex items-center gap-x-2">
               <BiUserCheck className="text-xl" />
