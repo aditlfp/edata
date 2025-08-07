@@ -135,6 +135,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Previous Encryption Keys
+    |--------------------------------------------------------------------------
+    |
+    | This array contains the previous encryption keys used by the application.
+    | These keys are used to decrypt data that was encrypted with older keys.
+    | You can add more keys here as needed, but ensure they are base64 encoded.
+    | */
+
+    'previous_keys' => env('APP_PREVIOUS_KEYS', 'base64:YOUR_OLD_ENCRYPTION_KEY'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Maintenance Mode Driver
     |--------------------------------------------------------------------------
     |

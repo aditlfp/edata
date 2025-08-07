@@ -21,7 +21,7 @@ class TempUsersController extends Controller
         $tempUsers = TempUsers::with(['Client', 'Devisi'])->latest()->get();
         $clients = Client::query();
         $devisis = Divisi::query();
-        $key = base64_decode((str_replace('base64:', '', env('APP_PREVIOUS_KEYS')))); // OR hardcode it here for testing
+        $key = base64_decode((str_replace('base64:', '', config('app.previous_keys')))); // OR hardcode it here for testing
         $cipher = 'AES-256-CBC';
 
         $encrypter = new Encrypter($key, $cipher);
@@ -56,7 +56,6 @@ class TempUsersController extends Controller
         $tempUser = TempUsers::findOrFail($id);
         $user = User::firstWhere('nama_lengkap',$tempUser->data['nama_lengkap']);
 
-        // dd($user);
         
         try {
             $tempUser->update([
@@ -67,8 +66,10 @@ class TempUsersController extends Controller
                     'status_id' => null,
                 ]);
             }
-            Notification::route('mail', 'syafimq00@gmail.com')
-            ->notify(new AccEmploye($tempUser->data['username'] ?? '', $tempUser->data['pw'] ?? ''));
+
+            dd($user);
+            // Notification::route('mail', $tempUser->data['email'])
+            // ->notify(new AccEmploye($tempUser->data['username'] ?? '', $tempUser->data['pw'] ?? ''));
             
         } catch (\Exception $th) {
             throw $th;

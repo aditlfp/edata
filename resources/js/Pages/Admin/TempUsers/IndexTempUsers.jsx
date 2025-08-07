@@ -435,27 +435,27 @@ function IndexTempUsers(props) {
             render={(item, i) => {
               return (
                 <tr key={i}>
-                                                 {" "}
+                                                
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                       {" "}
+                                                      
                     <input
                       type="checkbox"
                       className="checkbox checkbox-warning checkbox-sm"
                       checked={checkedItems.includes(item.id)}
                       onChange={() => handleCheck(item.id)}
                     />
-                                                   {" "}
+                                                  
                   </td>
-                                                 {" "}
+                                                
                   <td className="border-x-[1px] border-orange-300 text-center">
                                                         {i + 1}                 
-                                 {" "}
+                                
                   </td>
-                                                 {" "}
+                                                
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                       {" "}
+                                                      
                     <div className="ml-6">
-                                                             {" "}
+                                                            
                       <img
                         src={
                           `https://absensi-sac.sac-po.com/public/storage/user/` +
@@ -464,34 +464,34 @@ function IndexTempUsers(props) {
                         alt={item.nama_lengkap}
                         className="w-10 h-10 rounded-full"
                       />
-                                                         {" "}
+                                                        
                     </div>
-                                                   {" "}
+                                                  
                   </td>
-                                                 {" "}
+                                                
                   <td className="border-x-[1px] border-orange-300 text-center">
                                                         {item.nama_lengkap}     
-                                             {" "}
+                                            
                   </td>
-                                                 {" "}
+                                                
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                       {" "}
+                                                      
                     {item.pw ? item.pw : "Kosong"}                             
-                     {" "}
+                    
                   </td>
-                                                 {" "}
+                                                
                   <td className="border-x-[1px] border-orange-300 text-center">
                                                         {item.no_hp}           
-                                       {" "}
+                                      
                   </td>
-                                                 {" "}
+                                                
                   <td className="border-x-[1px] border-orange-300 text-center">
                                                         {item.email}           
-                                       {" "}
+                                      
                   </td>
-                                                 {" "}
+                                                
                   <td className="border-x-[1px] border-orange-300 text-center">
-                                                       {" "}
+                                                      
                     {item.status == 0 ? (
                       <span className="badge badge-sm rounded-sm badge-warning text-white p-2">
                         Pending
@@ -505,38 +505,38 @@ function IndexTempUsers(props) {
                         Rejected
                       </span>
                     )}
-                                                   {" "}
+                                                  
                   </td>
-                                                 {" "}
+                                                
                   <td className="text-center flex justify-center items-center gap-2">
-                                                       {" "}
+                                                      
                     {/* Add your action buttons here */}                       
-                               {" "}
+                              
                     <button
-                      disabled={item.status === 1}
+                      disabled={item.status == 1}
                       onClick={() => accept(item.id)}
                       className="btn btn-sm btn-success rounded-sm text-white text-xl"
                     >
                       <BiCheckDouble />
                     </button>
-                                                       {" "}
+                                                      
                     <button
-                      disabled={item.status === 1 || item.status === 2}
+                      disabled={item.status == 1 || item.status == 2}
                       onClick={() => reject(item.id)}
                       className="btn btn-sm btn-warning rounded-sm text-white text-xl"
                     >
                       <MdCancel />
                     </button>
-                                                       {" "}
+                                                      
                     <button
                       onClick={() => removeUser(item)}
                       className="btn btn-sm btn-error rounded-sm text-white text-lg"
                     >
                       <FaTrashCan />
                     </button>
-                                                   {" "}
+                                                  
                   </td>
-                                             {" "}
+                                            
                 </tr>
               );
             }}
@@ -566,7 +566,7 @@ function IndexTempUsers(props) {
         <Modal props={modal}>
           <div className="flex flex-col">
             <h2 className="text-lg text-gray-900 font-extrabold">
-              {title ? title : "Apakah Anda Yakin Untuk Memverifikasi Akun ?"}{" "}
+              {title ? title : "Apakah Anda Yakin Untuk Memverifikasi Akun ?"}
               <div className="bg-sky-100 p-5 rounded-sm mt-2">
                 {content ? (
                   content
