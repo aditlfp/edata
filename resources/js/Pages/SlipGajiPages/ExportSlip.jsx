@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
+import { Head } from '@inertiajs/react';
 
 function ExportSlip({ slip, base64 }) {
     const totalPenghasilan =
@@ -41,8 +42,10 @@ function ExportSlip({ slip, base64 }) {
 
 
   return (
+    <>
+    <Head title={`Slip Gaji - ${slip?.karyawan || ''}`} />
     <div
-    className="rounded-md relative"
+    className="relative mx-auto max-w-5xl rounded-md bg-white shadow-sm"
     style={{ userSelect: "none", position: "relative" }}
   >
     <img
@@ -277,6 +280,7 @@ function ExportSlip({ slip, base64 }) {
       </p>
     </div>
   </div>
+  </>
   )
 }
 

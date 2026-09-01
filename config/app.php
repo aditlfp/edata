@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-    'previous_keys' => env('APP_PREVIOUS_KEYS'),
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -143,7 +142,7 @@ return [
     | You can add more keys here as needed, but ensure they are base64 encoded.
     | */
 
-    'previous_keys' => env('APP_PREVIOUS_KEYS', 'base64:YOUR_OLD_ENCRYPTION_KEY'),
+    'previous_keys' => array_filter(explode(',', (string) env('APP_PREVIOUS_KEYS', ''))),
 
     /*
     |--------------------------------------------------------------------------

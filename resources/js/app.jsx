@@ -14,10 +14,9 @@ createInertiaApp({
     resolvePageComponent(
       `./Pages/${name}.jsx`,
       import.meta.glob("./Pages/**/*.jsx")
-    ),
+    ).then((module) => module.default ?? module),
   setup({ el, App, props }) {
-    const root = createRoot(el);
-    root.render(<App {...props} />);
+    createRoot(el).render(<App {...props} />);
   },
   progress: {
     color: "#4B5563",

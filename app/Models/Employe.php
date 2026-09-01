@@ -48,4 +48,9 @@ class Employe extends Model
     {
         return $this->hasOne(SlipGaji::class, 'karyawan', 'name')->latest();
     }
+
+    public function latestSlipGaji()
+    {
+        return $this->hasOne(SlipGaji::class, 'karyawan', 'name')->latestOfMany('bulan_tahun');
+    }
 }

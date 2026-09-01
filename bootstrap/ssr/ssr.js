@@ -1,449 +1,733 @@
-import { jsx } from "react/jsx-runtime";
 import ReactDOMServer from "react-dom/server";
 import { createInertiaApp } from "@inertiajs/react";
 import createServer from "@inertiajs/react/server";
+import { jsx } from "react/jsx-runtime";
+//#region node_modules/laravel-vite-plugin/inertia-helpers/index.js
 async function resolvePageComponent(path, pages) {
-  for (const p2 of Array.isArray(path) ? path : [path]) {
-    const page = pages[p2];
-    if (typeof page === "undefined") {
-      continue;
-    }
-    return typeof page === "function" ? page() : page;
-  }
-  throw new Error(`Page not found: ${path}`);
+	for (const p of Array.isArray(path) ? path : [path]) {
+		const page = pages[p];
+		if (typeof page === "undefined") continue;
+		return typeof page === "function" ? page() : page;
+	}
+	throw new Error(`Page not found: ${path}`);
 }
-function t(t4, r2) {
-  for (var e2 = 0; e2 < r2.length; e2++) {
-    var n2 = r2[e2];
-    n2.enumerable = n2.enumerable || false, n2.configurable = true, "value" in n2 && (n2.writable = true), Object.defineProperty(t4, "symbol" == typeof (o2 = function(t5, r3) {
-      if ("object" != typeof t5 || null === t5) return t5;
-      var e3 = t5[Symbol.toPrimitive];
-      if (void 0 !== e3) {
-        var n3 = e3.call(t5, "string");
-        if ("object" != typeof n3) return n3;
-        throw new TypeError("@@toPrimitive must return a primitive value.");
-      }
-      return String(t5);
-    }(n2.key)) ? o2 : String(o2), n2);
-  }
-  var o2;
+//#endregion
+//#region vendor/tightenco/ziggy/dist/index.esm.js
+function t(t, e) {
+	for (var n = 0; n < e.length; n++) {
+		var r = e[n];
+		r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object.defineProperty(t, u(r.key), r);
+	}
 }
-function r(r2, e2, n2) {
-  return e2 && t(r2.prototype, e2), Object.defineProperty(r2, "prototype", { writable: false }), r2;
+function e(e, n, r) {
+	return n && t(e.prototype, n), r && t(e, r), Object.defineProperty(e, "prototype", { writable: !1 }), e;
 }
-function e() {
-  return e = Object.assign ? Object.assign.bind() : function(t4) {
-    for (var r2 = 1; r2 < arguments.length; r2++) {
-      var e2 = arguments[r2];
-      for (var n2 in e2) Object.prototype.hasOwnProperty.call(e2, n2) && (t4[n2] = e2[n2]);
-    }
-    return t4;
-  }, e.apply(this, arguments);
+function n() {
+	return n = Object.assign ? Object.assign.bind() : function(t) {
+		for (var e = 1; e < arguments.length; e++) {
+			var n = arguments[e];
+			for (var r in n) ({}).hasOwnProperty.call(n, r) && (t[r] = n[r]);
+		}
+		return t;
+	}, n.apply(null, arguments);
 }
-function n(t4) {
-  return n = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function(t5) {
-    return t5.__proto__ || Object.getPrototypeOf(t5);
-  }, n(t4);
+function r(t) {
+	return r = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function(t) {
+		return t.__proto__ || Object.getPrototypeOf(t);
+	}, r(t);
 }
-function o(t4, r2) {
-  return o = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t5, r3) {
-    return t5.__proto__ = r3, t5;
-  }, o(t4, r2);
+function o() {
+	try {
+		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+	} catch (t) {}
+	return (o = function() {
+		return !!t;
+	})();
 }
-function i(t4, r2, e2) {
-  return i = function() {
-    if ("undefined" == typeof Reflect || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if ("function" == typeof Proxy) return true;
-    try {
-      return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-      })), true;
-    } catch (t5) {
-      return false;
-    }
-  }() ? Reflect.construct.bind() : function(t5, r3, e3) {
-    var n2 = [null];
-    n2.push.apply(n2, r3);
-    var i2 = new (Function.bind.apply(t5, n2))();
-    return e3 && o(i2, e3.prototype), i2;
-  }, i.apply(null, arguments);
+function i(t, e) {
+	return i = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t, e) {
+		return t.__proto__ = e, t;
+	}, i(t, e);
 }
-function u(t4) {
-  var r2 = "function" == typeof Map ? /* @__PURE__ */ new Map() : void 0;
-  return u = function(t5) {
-    if (null === t5 || -1 === Function.toString.call(t5).indexOf("[native code]")) return t5;
-    if ("function" != typeof t5) throw new TypeError("Super expression must either be null or a function");
-    if (void 0 !== r2) {
-      if (r2.has(t5)) return r2.get(t5);
-      r2.set(t5, e2);
-    }
-    function e2() {
-      return i(t5, arguments, n(this).constructor);
-    }
-    return e2.prototype = Object.create(t5.prototype, { constructor: { value: e2, enumerable: false, writable: true, configurable: true } }), o(e2, t5);
-  }, u(t4);
+function u(t) {
+	var e = function(t) {
+		if ("object" != typeof t || !t) return t;
+		var e = t[Symbol.toPrimitive];
+		if (void 0 !== e) {
+			var n = e.call(t, "string");
+			if ("object" != typeof n) return n;
+			throw new TypeError("@@toPrimitive must return a primitive value.");
+		}
+		return String(t);
+	}(t);
+	return "symbol" == typeof e ? e : e + "";
 }
-var f = String.prototype.replace, a = /%20/g, c = "RFC3986", l = { default: c, formatters: { RFC1738: function(t4) {
-  return f.call(t4, a, "+");
-}, RFC3986: function(t4) {
-  return String(t4);
-} }, RFC1738: "RFC1738" }, s = Object.prototype.hasOwnProperty, v = Array.isArray, p = function() {
-  for (var t4 = [], r2 = 0; r2 < 256; ++r2) t4.push("%" + ((r2 < 16 ? "0" : "") + r2.toString(16)).toUpperCase());
-  return t4;
-}(), y = function(t4, r2) {
-  for (var e2 = r2 && r2.plainObjects ? /* @__PURE__ */ Object.create(null) : {}, n2 = 0; n2 < t4.length; ++n2) void 0 !== t4[n2] && (e2[n2] = t4[n2]);
-  return e2;
-}, d = { arrayToObject: y, assign: function(t4, r2) {
-  return Object.keys(r2).reduce(function(t5, e2) {
-    return t5[e2] = r2[e2], t5;
-  }, t4);
-}, combine: function(t4, r2) {
-  return [].concat(t4, r2);
-}, compact: function(t4) {
-  for (var r2 = [{ obj: { o: t4 }, prop: "o" }], e2 = [], n2 = 0; n2 < r2.length; ++n2) for (var o2 = r2[n2], i2 = o2.obj[o2.prop], u2 = Object.keys(i2), f2 = 0; f2 < u2.length; ++f2) {
-    var a2 = u2[f2], c2 = i2[a2];
-    "object" == typeof c2 && null !== c2 && -1 === e2.indexOf(c2) && (r2.push({ obj: i2, prop: a2 }), e2.push(c2));
-  }
-  return function(t5) {
-    for (; t5.length > 1; ) {
-      var r3 = t5.pop(), e3 = r3.obj[r3.prop];
-      if (v(e3)) {
-        for (var n3 = [], o3 = 0; o3 < e3.length; ++o3) void 0 !== e3[o3] && n3.push(e3[o3]);
-        r3.obj[r3.prop] = n3;
-      }
-    }
-  }(r2), t4;
-}, decode: function(t4, r2, e2) {
-  var n2 = t4.replace(/\+/g, " ");
-  if ("iso-8859-1" === e2) return n2.replace(/%[0-9a-f]{2}/gi, unescape);
-  try {
-    return decodeURIComponent(n2);
-  } catch (t5) {
-    return n2;
-  }
-}, encode: function(t4, r2, e2, n2, o2) {
-  if (0 === t4.length) return t4;
-  var i2 = t4;
-  if ("symbol" == typeof t4 ? i2 = Symbol.prototype.toString.call(t4) : "string" != typeof t4 && (i2 = String(t4)), "iso-8859-1" === e2) return escape(i2).replace(/%u[0-9a-f]{4}/gi, function(t5) {
-    return "%26%23" + parseInt(t5.slice(2), 16) + "%3B";
-  });
-  for (var u2 = "", f2 = 0; f2 < i2.length; ++f2) {
-    var a2 = i2.charCodeAt(f2);
-    45 === a2 || 46 === a2 || 95 === a2 || 126 === a2 || a2 >= 48 && a2 <= 57 || a2 >= 65 && a2 <= 90 || a2 >= 97 && a2 <= 122 || o2 === l.RFC1738 && (40 === a2 || 41 === a2) ? u2 += i2.charAt(f2) : a2 < 128 ? u2 += p[a2] : a2 < 2048 ? u2 += p[192 | a2 >> 6] + p[128 | 63 & a2] : a2 < 55296 || a2 >= 57344 ? u2 += p[224 | a2 >> 12] + p[128 | a2 >> 6 & 63] + p[128 | 63 & a2] : (a2 = 65536 + ((1023 & a2) << 10 | 1023 & i2.charCodeAt(f2 += 1)), u2 += p[240 | a2 >> 18] + p[128 | a2 >> 12 & 63] + p[128 | a2 >> 6 & 63] + p[128 | 63 & a2]);
-  }
-  return u2;
-}, isBuffer: function(t4) {
-  return !(!t4 || "object" != typeof t4 || !(t4.constructor && t4.constructor.isBuffer && t4.constructor.isBuffer(t4)));
-}, isRegExp: function(t4) {
-  return "[object RegExp]" === Object.prototype.toString.call(t4);
-}, maybeMap: function(t4, r2) {
-  if (v(t4)) {
-    for (var e2 = [], n2 = 0; n2 < t4.length; n2 += 1) e2.push(r2(t4[n2]));
-    return e2;
-  }
-  return r2(t4);
-}, merge: function t2(r2, e2, n2) {
-  if (!e2) return r2;
-  if ("object" != typeof e2) {
-    if (v(r2)) r2.push(e2);
-    else {
-      if (!r2 || "object" != typeof r2) return [r2, e2];
-      (n2 && (n2.plainObjects || n2.allowPrototypes) || !s.call(Object.prototype, e2)) && (r2[e2] = true);
-    }
-    return r2;
-  }
-  if (!r2 || "object" != typeof r2) return [r2].concat(e2);
-  var o2 = r2;
-  return v(r2) && !v(e2) && (o2 = y(r2, n2)), v(r2) && v(e2) ? (e2.forEach(function(e3, o3) {
-    if (s.call(r2, o3)) {
-      var i2 = r2[o3];
-      i2 && "object" == typeof i2 && e3 && "object" == typeof e3 ? r2[o3] = t2(i2, e3, n2) : r2.push(e3);
-    } else r2[o3] = e3;
-  }), r2) : Object.keys(e2).reduce(function(r3, o3) {
-    var i2 = e2[o3];
-    return r3[o3] = s.call(r3, o3) ? t2(r3[o3], i2, n2) : i2, r3;
-  }, o2);
-} }, b = Object.prototype.hasOwnProperty, h = { brackets: function(t4) {
-  return t4 + "[]";
-}, comma: "comma", indices: function(t4, r2) {
-  return t4 + "[" + r2 + "]";
-}, repeat: function(t4) {
-  return t4;
-} }, g = Array.isArray, m = String.prototype.split, j = Array.prototype.push, w = function(t4, r2) {
-  j.apply(t4, g(r2) ? r2 : [r2]);
-}, O = Date.prototype.toISOString, E = l.default, R = { addQueryPrefix: false, allowDots: false, charset: "utf-8", charsetSentinel: false, delimiter: "&", encode: true, encoder: d.encode, encodeValuesOnly: false, format: E, formatter: l.formatters[E], indices: false, serializeDate: function(t4) {
-  return O.call(t4);
-}, skipNulls: false, strictNullHandling: false }, S = function t3(r2, e2, n2, o2, i2, u2, f2, a2, c2, l2, s2, v2, p2, y2) {
-  var b2, h2 = r2;
-  if ("function" == typeof f2 ? h2 = f2(e2, h2) : h2 instanceof Date ? h2 = l2(h2) : "comma" === n2 && g(h2) && (h2 = d.maybeMap(h2, function(t4) {
-    return t4 instanceof Date ? l2(t4) : t4;
-  })), null === h2) {
-    if (o2) return u2 && !p2 ? u2(e2, R.encoder, y2, "key", s2) : e2;
-    h2 = "";
-  }
-  if ("string" == typeof (b2 = h2) || "number" == typeof b2 || "boolean" == typeof b2 || "symbol" == typeof b2 || "bigint" == typeof b2 || d.isBuffer(h2)) {
-    if (u2) {
-      var j2 = p2 ? e2 : u2(e2, R.encoder, y2, "key", s2);
-      if ("comma" === n2 && p2) {
-        for (var O2 = m.call(String(h2), ","), E2 = "", S2 = 0; S2 < O2.length; ++S2) E2 += (0 === S2 ? "" : ",") + v2(u2(O2[S2], R.encoder, y2, "value", s2));
-        return [v2(j2) + "=" + E2];
-      }
-      return [v2(j2) + "=" + v2(u2(h2, R.encoder, y2, "value", s2))];
-    }
-    return [v2(e2) + "=" + v2(String(h2))];
-  }
-  var k2, x2 = [];
-  if (void 0 === h2) return x2;
-  if ("comma" === n2 && g(h2)) k2 = [{ value: h2.length > 0 ? h2.join(",") || null : void 0 }];
-  else if (g(f2)) k2 = f2;
-  else {
-    var T2 = Object.keys(h2);
-    k2 = a2 ? T2.sort(a2) : T2;
-  }
-  for (var N2 = 0; N2 < k2.length; ++N2) {
-    var C2 = k2[N2], A2 = "object" == typeof C2 && void 0 !== C2.value ? C2.value : h2[C2];
-    if (!i2 || null !== A2) {
-      var D2 = g(h2) ? "function" == typeof n2 ? n2(e2, C2) : e2 : e2 + (c2 ? "." + C2 : "[" + C2 + "]");
-      w(x2, t3(A2, D2, n2, o2, i2, u2, f2, a2, c2, l2, s2, v2, p2, y2));
-    }
-  }
-  return x2;
-}, k = Object.prototype.hasOwnProperty, x = Array.isArray, T = { allowDots: false, allowPrototypes: false, arrayLimit: 20, charset: "utf-8", charsetSentinel: false, comma: false, decoder: d.decode, delimiter: "&", depth: 5, ignoreQueryPrefix: false, interpretNumericEntities: false, parameterLimit: 1e3, parseArrays: true, plainObjects: false, strictNullHandling: false }, N = function(t4) {
-  return t4.replace(/&#(\d+);/g, function(t5, r2) {
-    return String.fromCharCode(parseInt(r2, 10));
-  });
-}, C = function(t4, r2) {
-  return t4 && "string" == typeof t4 && r2.comma && t4.indexOf(",") > -1 ? t4.split(",") : t4;
-}, A = function(t4, r2, e2, n2) {
-  if (t4) {
-    var o2 = e2.allowDots ? t4.replace(/\.([^.[]+)/g, "[$1]") : t4, i2 = /(\[[^[\]]*])/g, u2 = e2.depth > 0 && /(\[[^[\]]*])/.exec(o2), f2 = u2 ? o2.slice(0, u2.index) : o2, a2 = [];
-    if (f2) {
-      if (!e2.plainObjects && k.call(Object.prototype, f2) && !e2.allowPrototypes) return;
-      a2.push(f2);
-    }
-    for (var c2 = 0; e2.depth > 0 && null !== (u2 = i2.exec(o2)) && c2 < e2.depth; ) {
-      if (c2 += 1, !e2.plainObjects && k.call(Object.prototype, u2[1].slice(1, -1)) && !e2.allowPrototypes) return;
-      a2.push(u2[1]);
-    }
-    return u2 && a2.push("[" + o2.slice(u2.index) + "]"), function(t5, r3, e3, n3) {
-      for (var o3 = n3 ? r3 : C(r3, e3), i3 = t5.length - 1; i3 >= 0; --i3) {
-        var u3, f3 = t5[i3];
-        if ("[]" === f3 && e3.parseArrays) u3 = [].concat(o3);
-        else {
-          u3 = e3.plainObjects ? /* @__PURE__ */ Object.create(null) : {};
-          var a3 = "[" === f3.charAt(0) && "]" === f3.charAt(f3.length - 1) ? f3.slice(1, -1) : f3, c3 = parseInt(a3, 10);
-          e3.parseArrays || "" !== a3 ? !isNaN(c3) && f3 !== a3 && String(c3) === a3 && c3 >= 0 && e3.parseArrays && c3 <= e3.arrayLimit ? (u3 = [])[c3] = o3 : "__proto__" !== a3 && (u3[a3] = o3) : u3 = { 0: o3 };
-        }
-        o3 = u3;
-      }
-      return o3;
-    }(a2, r2, e2, n2);
-  }
-}, D = function(t4, r2) {
-  var e2 = /* @__PURE__ */ function(t5) {
-    return T;
-  }();
-  if ("" === t4 || null == t4) return e2.plainObjects ? /* @__PURE__ */ Object.create(null) : {};
-  for (var n2 = "string" == typeof t4 ? function(t5, r3) {
-    var e3, n3 = {}, o3 = (r3.ignoreQueryPrefix ? t5.replace(/^\?/, "") : t5).split(r3.delimiter, Infinity === r3.parameterLimit ? void 0 : r3.parameterLimit), i3 = -1, u3 = r3.charset;
-    if (r3.charsetSentinel) for (e3 = 0; e3 < o3.length; ++e3) 0 === o3[e3].indexOf("utf8=") && ("utf8=%E2%9C%93" === o3[e3] ? u3 = "utf-8" : "utf8=%26%2310003%3B" === o3[e3] && (u3 = "iso-8859-1"), i3 = e3, e3 = o3.length);
-    for (e3 = 0; e3 < o3.length; ++e3) if (e3 !== i3) {
-      var f3, a3, c2 = o3[e3], l2 = c2.indexOf("]="), s2 = -1 === l2 ? c2.indexOf("=") : l2 + 1;
-      -1 === s2 ? (f3 = r3.decoder(c2, T.decoder, u3, "key"), a3 = r3.strictNullHandling ? null : "") : (f3 = r3.decoder(c2.slice(0, s2), T.decoder, u3, "key"), a3 = d.maybeMap(C(c2.slice(s2 + 1), r3), function(t6) {
-        return r3.decoder(t6, T.decoder, u3, "value");
-      })), a3 && r3.interpretNumericEntities && "iso-8859-1" === u3 && (a3 = N(a3)), c2.indexOf("[]=") > -1 && (a3 = x(a3) ? [a3] : a3), n3[f3] = k.call(n3, f3) ? d.combine(n3[f3], a3) : a3;
-    }
-    return n3;
-  }(t4, e2) : t4, o2 = e2.plainObjects ? /* @__PURE__ */ Object.create(null) : {}, i2 = Object.keys(n2), u2 = 0; u2 < i2.length; ++u2) {
-    var f2 = i2[u2], a2 = A(f2, n2[f2], e2, "string" == typeof t4);
-    o2 = d.merge(o2, a2, e2);
-  }
-  return d.compact(o2);
-}, $ = /* @__PURE__ */ function() {
-  function t4(t5, r2, e3) {
-    var n2, o2;
-    this.name = t5, this.definition = r2, this.bindings = null != (n2 = r2.bindings) ? n2 : {}, this.wheres = null != (o2 = r2.wheres) ? o2 : {}, this.config = e3;
-  }
-  var e2 = t4.prototype;
-  return e2.matchesUrl = function(t5) {
-    var r2 = this;
-    if (!this.definition.methods.includes("GET")) return false;
-    var e3 = this.template.replace(/(\/?){([^}?]*)(\??)}/g, function(t6, e4, n3, o3) {
-      var i3, u3 = "(?<" + n3 + ">" + ((null == (i3 = r2.wheres[n3]) ? void 0 : i3.replace(/(^\^)|(\$$)/g, "")) || "[^/?]+") + ")";
-      return o3 ? "(" + e4 + u3 + ")?" : "" + e4 + u3;
-    }).replace(/^\w+:\/\//, ""), n2 = t5.replace(/^\w+:\/\//, "").split("?"), o2 = n2[0], i2 = n2[1], u2 = new RegExp("^" + e3 + "/?$").exec(decodeURI(o2));
-    if (u2) {
-      for (var f2 in u2.groups) u2.groups[f2] = "string" == typeof u2.groups[f2] ? decodeURIComponent(u2.groups[f2]) : u2.groups[f2];
-      return { params: u2.groups, query: D(i2) };
-    }
-    return false;
-  }, e2.compile = function(t5) {
-    var r2 = this;
-    return this.parameterSegments.length ? this.template.replace(/{([^}?]+)(\??)}/g, function(e3, n2, o2) {
-      var i2, u2;
-      if (!o2 && [null, void 0].includes(t5[n2])) throw new Error("Ziggy error: '" + n2 + "' parameter is required for route '" + r2.name + "'.");
-      if (r2.wheres[n2] && !new RegExp("^" + (o2 ? "(" + r2.wheres[n2] + ")?" : r2.wheres[n2]) + "$").test(null != (u2 = t5[n2]) ? u2 : "")) throw new Error("Ziggy error: '" + n2 + "' parameter does not match required format '" + r2.wheres[n2] + "' for route '" + r2.name + "'.");
-      return encodeURI(null != (i2 = t5[n2]) ? i2 : "").replace(/%7C/g, "|").replace(/%25/g, "%").replace(/\$/g, "%24");
-    }).replace(this.origin + "//", this.origin + "/").replace(/\/+$/, "") : this.template;
-  }, r(t4, [{ key: "template", get: function() {
-    var t5 = (this.origin + "/" + this.definition.uri).replace(/\/+$/, "");
-    return "" === t5 ? "/" : t5;
-  } }, { key: "origin", get: function() {
-    return this.config.absolute ? this.definition.domain ? "" + this.config.url.match(/^\w+:\/\//)[0] + this.definition.domain + (this.config.port ? ":" + this.config.port : "") : this.config.url : "";
-  } }, { key: "parameterSegments", get: function() {
-    var t5, r2;
-    return null != (t5 = null == (r2 = this.template.match(/{[^}?]+\??}/g)) ? void 0 : r2.map(function(t6) {
-      return { name: t6.replace(/{|\??}/g, ""), required: !/\?}$/.test(t6) };
-    })) ? t5 : [];
-  } }]), t4;
-}(), F = /* @__PURE__ */ function(t4) {
-  var n2, i2;
-  function u2(r2, n3, o2, i3) {
-    var u3;
-    if (void 0 === o2 && (o2 = true), (u3 = t4.call(this) || this).t = null != i3 ? i3 : "undefined" != typeof Ziggy ? Ziggy : null == globalThis ? void 0 : globalThis.Ziggy, u3.t = e({}, u3.t, { absolute: o2 }), r2) {
-      if (!u3.t.routes[r2]) throw new Error("Ziggy error: route '" + r2 + "' is not in the route list.");
-      u3.i = new $(r2, u3.t.routes[r2], u3.t), u3.u = u3.l(n3);
-    }
-    return u3;
-  }
-  i2 = t4, (n2 = u2).prototype = Object.create(i2.prototype), n2.prototype.constructor = n2, o(n2, i2);
-  var f2 = u2.prototype;
-  return f2.toString = function() {
-    var t5 = this, r2 = Object.keys(this.u).filter(function(r3) {
-      return !t5.i.parameterSegments.some(function(t6) {
-        return t6.name === r3;
-      });
-    }).filter(function(t6) {
-      return "_query" !== t6;
-    }).reduce(function(r3, n3) {
-      var o2;
-      return e({}, r3, ((o2 = {})[n3] = t5.u[n3], o2));
-    }, {});
-    return this.i.compile(this.u) + function(t6, r3) {
-      var e2, n3 = t6, o2 = function(t7) {
-        if (!t7) return R;
-        if (null != t7.encoder && "function" != typeof t7.encoder) throw new TypeError("Encoder has to be a function.");
-        var r4 = t7.charset || R.charset;
-        if (void 0 !== t7.charset && "utf-8" !== t7.charset && "iso-8859-1" !== t7.charset) throw new TypeError("The charset option must be either utf-8, iso-8859-1, or undefined");
-        var e3 = l.default;
-        if (void 0 !== t7.format) {
-          if (!b.call(l.formatters, t7.format)) throw new TypeError("Unknown format option provided.");
-          e3 = t7.format;
-        }
-        var n4 = l.formatters[e3], o3 = R.filter;
-        return ("function" == typeof t7.filter || g(t7.filter)) && (o3 = t7.filter), { addQueryPrefix: "boolean" == typeof t7.addQueryPrefix ? t7.addQueryPrefix : R.addQueryPrefix, allowDots: void 0 === t7.allowDots ? R.allowDots : !!t7.allowDots, charset: r4, charsetSentinel: "boolean" == typeof t7.charsetSentinel ? t7.charsetSentinel : R.charsetSentinel, delimiter: void 0 === t7.delimiter ? R.delimiter : t7.delimiter, encode: "boolean" == typeof t7.encode ? t7.encode : R.encode, encoder: "function" == typeof t7.encoder ? t7.encoder : R.encoder, encodeValuesOnly: "boolean" == typeof t7.encodeValuesOnly ? t7.encodeValuesOnly : R.encodeValuesOnly, filter: o3, format: e3, formatter: n4, serializeDate: "function" == typeof t7.serializeDate ? t7.serializeDate : R.serializeDate, skipNulls: "boolean" == typeof t7.skipNulls ? t7.skipNulls : R.skipNulls, sort: "function" == typeof t7.sort ? t7.sort : null, strictNullHandling: "boolean" == typeof t7.strictNullHandling ? t7.strictNullHandling : R.strictNullHandling };
-      }(r3);
-      "function" == typeof o2.filter ? n3 = (0, o2.filter)("", n3) : g(o2.filter) && (e2 = o2.filter);
-      var i3 = [];
-      if ("object" != typeof n3 || null === n3) return "";
-      var u3 = h[r3 && r3.arrayFormat in h ? r3.arrayFormat : r3 && "indices" in r3 ? r3.indices ? "indices" : "repeat" : "indices"];
-      e2 || (e2 = Object.keys(n3)), o2.sort && e2.sort(o2.sort);
-      for (var f3 = 0; f3 < e2.length; ++f3) {
-        var a2 = e2[f3];
-        o2.skipNulls && null === n3[a2] || w(i3, S(n3[a2], a2, u3, o2.strictNullHandling, o2.skipNulls, o2.encode ? o2.encoder : null, o2.filter, o2.sort, o2.allowDots, o2.serializeDate, o2.format, o2.formatter, o2.encodeValuesOnly, o2.charset));
-      }
-      var c2 = i3.join(o2.delimiter), s2 = true === o2.addQueryPrefix ? "?" : "";
-      return o2.charsetSentinel && (s2 += "iso-8859-1" === o2.charset ? "utf8=%26%2310003%3B&" : "utf8=%E2%9C%93&"), c2.length > 0 ? s2 + c2 : "";
-    }(e({}, r2, this.u._query), { addQueryPrefix: true, arrayFormat: "indices", encodeValuesOnly: true, skipNulls: true, encoder: function(t6, r3) {
-      return "boolean" == typeof t6 ? Number(t6) : r3(t6);
-    } });
-  }, f2.v = function(t5) {
-    var r2 = this;
-    t5 ? this.t.absolute && t5.startsWith("/") && (t5 = this.p().host + t5) : t5 = this.h();
-    var n3 = {}, o2 = Object.entries(this.t.routes).find(function(e2) {
-      return n3 = new $(e2[0], e2[1], r2.t).matchesUrl(t5);
-    }) || [void 0, void 0];
-    return e({ name: o2[0] }, n3, { route: o2[1] });
-  }, f2.h = function() {
-    var t5 = this.p(), r2 = t5.pathname, e2 = t5.search;
-    return (this.t.absolute ? t5.host + r2 : r2.replace(this.t.url.replace(/^\w*:\/\/[^/]+/, ""), "").replace(/^\/+/, "/")) + e2;
-  }, f2.current = function(t5, r2) {
-    var n3 = this.v(), o2 = n3.name, i3 = n3.params, u3 = n3.query, f3 = n3.route;
-    if (!t5) return o2;
-    var a2 = new RegExp("^" + t5.replace(/\./g, "\\.").replace(/\*/g, ".*") + "$").test(o2);
-    if ([null, void 0].includes(r2) || !a2) return a2;
-    var c2 = new $(o2, f3, this.t);
-    r2 = this.l(r2, c2);
-    var l2 = e({}, i3, u3);
-    return !(!Object.values(r2).every(function(t6) {
-      return !t6;
-    }) || Object.values(l2).some(function(t6) {
-      return void 0 !== t6;
-    })) || function t6(r3, e2) {
-      return Object.entries(r3).every(function(r4) {
-        var n4 = r4[0], o3 = r4[1];
-        return Array.isArray(o3) && Array.isArray(e2[n4]) ? o3.every(function(t7) {
-          return e2[n4].includes(t7);
-        }) : "object" == typeof o3 && "object" == typeof e2[n4] && null !== o3 && null !== e2[n4] ? t6(o3, e2[n4]) : e2[n4] == o3;
-      });
-    }(r2, l2);
-  }, f2.p = function() {
-    var t5, r2, e2, n3, o2, i3, u3 = "undefined" != typeof window ? window.location : {}, f3 = u3.host, a2 = u3.pathname, c2 = u3.search;
-    return { host: null != (t5 = null == (r2 = this.t.location) ? void 0 : r2.host) ? t5 : void 0 === f3 ? "" : f3, pathname: null != (e2 = null == (n3 = this.t.location) ? void 0 : n3.pathname) ? e2 : void 0 === a2 ? "" : a2, search: null != (o2 = null == (i3 = this.t.location) ? void 0 : i3.search) ? o2 : void 0 === c2 ? "" : c2 };
-  }, f2.has = function(t5) {
-    return Object.keys(this.t.routes).includes(t5);
-  }, f2.l = function(t5, r2) {
-    var n3 = this;
-    void 0 === t5 && (t5 = {}), void 0 === r2 && (r2 = this.i), null != t5 || (t5 = {}), t5 = ["string", "number"].includes(typeof t5) ? [t5] : t5;
-    var o2 = r2.parameterSegments.filter(function(t6) {
-      return !n3.t.defaults[t6.name];
-    });
-    if (Array.isArray(t5)) t5 = t5.reduce(function(t6, r3, n4) {
-      var i4, u3;
-      return e({}, t6, o2[n4] ? ((i4 = {})[o2[n4].name] = r3, i4) : "object" == typeof r3 ? r3 : ((u3 = {})[r3] = "", u3));
-    }, {});
-    else if (1 === o2.length && !t5[o2[0].name] && (t5.hasOwnProperty(Object.values(r2.bindings)[0]) || t5.hasOwnProperty("id"))) {
-      var i3;
-      (i3 = {})[o2[0].name] = t5, t5 = i3;
-    }
-    return e({}, this.g(r2), this.m(t5, r2));
-  }, f2.g = function(t5) {
-    var r2 = this;
-    return t5.parameterSegments.filter(function(t6) {
-      return r2.t.defaults[t6.name];
-    }).reduce(function(t6, n3, o2) {
-      var i3, u3 = n3.name;
-      return e({}, t6, ((i3 = {})[u3] = r2.t.defaults[u3], i3));
-    }, {});
-  }, f2.m = function(t5, r2) {
-    var n3 = r2.bindings, o2 = r2.parameterSegments;
-    return Object.entries(t5).reduce(function(t6, r3) {
-      var i3, u3, f3 = r3[0], a2 = r3[1];
-      if (!a2 || "object" != typeof a2 || Array.isArray(a2) || !o2.some(function(t7) {
-        return t7.name === f3;
-      })) return e({}, t6, ((u3 = {})[f3] = a2, u3));
-      if (!a2.hasOwnProperty(n3[f3])) {
-        if (!a2.hasOwnProperty("id")) throw new Error("Ziggy error: object passed as '" + f3 + "' parameter is missing route model binding key '" + n3[f3] + "'.");
-        n3[f3] = "id";
-      }
-      return e({}, t6, ((i3 = {})[f3] = a2[n3[f3]], i3));
-    }, {});
-  }, f2.valueOf = function() {
-    return this.toString();
-  }, f2.check = function(t5) {
-    return this.has(t5);
-  }, r(u2, [{ key: "params", get: function() {
-    var t5 = this.v();
-    return e({}, t5.params, t5.query);
-  } }]), u2;
-}(/* @__PURE__ */ u(String));
-function P(t4, r2, e2, n2) {
-  var o2 = new F(t4, r2, e2, n2);
-  return t4 ? o2.toString() : o2;
+function f(t) {
+	var e = "function" == typeof Map ? /* @__PURE__ */ new Map() : void 0;
+	return f = function(t) {
+		if (null === t || !function(t) {
+			try {
+				return -1 !== Function.toString.call(t).indexOf("[native code]");
+			} catch (e) {
+				return "function" == typeof t;
+			}
+		}(t)) return t;
+		if ("function" != typeof t) throw new TypeError("Super expression must either be null or a function");
+		if (void 0 !== e) {
+			if (e.has(t)) return e.get(t);
+			e.set(t, n);
+		}
+		function n() {
+			return function(t, e, n) {
+				if (o()) return Reflect.construct.apply(null, arguments);
+				var r = [null];
+				r.push.apply(r, e);
+				var u = new (t.bind.apply(t, r))();
+				return n && i(u, n.prototype), u;
+			}(t, arguments, r(this).constructor);
+		}
+		return n.prototype = Object.create(t.prototype, { constructor: {
+			value: n,
+			enumerable: !1,
+			writable: !0,
+			configurable: !0
+		} }), i(n, t);
+	}, f(t);
 }
-const appName = "SAC-DataCenter";
-createServer(
-  (page) => createInertiaApp({
-    page,
-    render: ReactDOMServer.renderToString,
-    title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, /* @__PURE__ */ Object.assign({ "./Pages/Admin/Component/Fillable.jsx": () => import("./assets/Fillable--shmwKfY.js"), "./Pages/Admin/Component/Footer.jsx": () => import("./assets/Footer-Dcgp9gxy.js"), "./Pages/Admin/Component/HeadNavigation.jsx": () => import("./assets/HeadNavigation-C5ShT8hy.js"), "./Pages/Admin/Component/Modal.jsx": () => import("./assets/Modal-Br3a30kf.js"), "./Pages/Admin/Component/MyDocument.jsx": () => import("./assets/MyDocument-DcfMp6dy.js"), "./Pages/Admin/Component/Readable.jsx": () => import("./assets/Readable-D81Hgf8P.js"), "./Pages/Admin/Component/Sidebar.jsx": () => import("./assets/Sidebar-Cm1FAR-6.js"), "./Pages/Admin/Dashboard/Index.jsx": () => import("./assets/Index-BHVywGj9.js"), "./Pages/Admin/TempUsers/IndexTempUsers.jsx": () => import("./assets/IndexTempUsers-DU53fa3k.js"), "./Pages/Auth/ConfirmPassword.jsx": () => import("./assets/ConfirmPassword-e_A4S8Kn.js"), "./Pages/Auth/ForgotPassword.jsx": () => import("./assets/ForgotPassword-46KQzcro.js"), "./Pages/Auth/Login.jsx": () => import("./assets/Login-9gOygRVq.js"), "./Pages/Auth/Register.jsx": () => import("./assets/Register-B3gLuUBS.js"), "./Pages/Auth/ResetPassword.jsx": () => import("./assets/ResetPassword-C2huCS53.js"), "./Pages/Auth/VerifyEmail.jsx": () => import("./assets/VerifyEmail-Bm-yC4Ut.js"), "./Pages/CareerPage/CreateCareer.jsx": () => import("./assets/CreateCareer-Do6PY6ZJ.js"), "./Pages/CareerPage/EditCareer.jsx": () => import("./assets/EditCareer-Da1Ntuc6.js"), "./Pages/CareerPage/IndexCareer.jsx": () => import("./assets/IndexCareer-DWnO0rMS.js"), "./Pages/CareerPage/ShowEmployeCareer.jsx": () => import("./assets/ShowEmployeCareer-CQuEBZPv.js"), "./Pages/Dashboard.jsx": () => import("./assets/Dashboard-DAnmo6r9.js"), "./Pages/EmployePages/CreateEmploye.jsx": () => import("./assets/CreateEmploye-CXcY9PgD.js"), "./Pages/EmployePages/EditEmploye.jsx": () => import("./assets/EditEmploye-C3Qa4Akw.js"), "./Pages/EmployePages/IndexEmploye.jsx": () => import("./assets/IndexEmploye-DmhbSFTk.js"), "./Pages/EmployePages/PrintEmploye.jsx": () => import("./assets/PrintEmploye-BE2o9SOY.js"), "./Pages/EmployePages/ShowEmploye.jsx": () => import("./assets/ShowEmploye-BxYUJDlJ.js"), "./Pages/PGJ_Kontrak/CreateKontrak.jsx": () => import("./assets/CreateKontrak-COgyZX78.js"), "./Pages/PGJ_Kontrak/EditKontrak.jsx": () => import("./assets/EditKontrak-BySFRC9E.js"), "./Pages/PGJ_Kontrak/IndexKontrak.jsx": () => import("./assets/IndexKontrak-xnnnRE7n.js"), "./Pages/PGJ_Kontrak/ShowKontrak.jsx": () => import("./assets/ShowKontrak-CBVrAx4w.js"), "./Pages/Profile/Edit.jsx": () => import("./assets/Edit-C_w3uwz8.js"), "./Pages/Profile/Partials/DeleteUserForm.jsx": () => import("./assets/DeleteUserForm-ChEnN-Yb.js"), "./Pages/Profile/Partials/UpdatePasswordForm.jsx": () => import("./assets/UpdatePasswordForm-Dv4fd9xr.js"), "./Pages/Profile/Partials/UpdateProfileInformationForm.jsx": () => import("./assets/UpdateProfileInformationForm-Ck5ORd2C.js"), "./Pages/SlipGajiPages/CreateSlip.jsx": () => import("./assets/CreateSlip-Cb9Ojk9Y.js"), "./Pages/SlipGajiPages/EditSlip.jsx": () => import("./assets/EditSlip-BbuZBEpO.js"), "./Pages/SlipGajiPages/ExportSlip.jsx": () => import("./assets/ExportSlip-CkHB7PEn.js"), "./Pages/SlipGajiPages/IndexSlip.jsx": () => import("./assets/IndexSlip-D_qPcOMx.js"), "./Pages/Welcome.jsx": () => import("./assets/Welcome-CuLVnEAS.js") })),
-    setup: ({ App, props }) => {
-      global.route = (name, params, absolute) => P(name, params, absolute, {
-        ...page.props.ziggy,
-        location: new URL(page.props.ziggy.location)
-      });
-      return /* @__PURE__ */ jsx(App, { ...props });
-    }
-  })
-);
+var c = String.prototype.replace;
+var a = /%20/g;
+var l = {
+	RFC1738: function(t) {
+		return c.call(t, a, "+");
+	},
+	RFC3986: function(t) {
+		return String(t);
+	}
+};
+var s = "RFC3986";
+var p = Object.prototype.hasOwnProperty;
+var y = Array.isArray;
+var d = /* @__PURE__ */ new WeakMap();
+var b = function(t, e) {
+	return d.set(t, e), t;
+};
+function v(t) {
+	return d.has(t);
+}
+var h = function(t) {
+	return d.get(t);
+};
+var m = function(t, e) {
+	d.set(t, e);
+};
+var g = function() {
+	const t = [];
+	for (let e = 0; e < 256; ++e) t.push("%" + ((e < 16 ? "0" : "") + e.toString(16)).toUpperCase());
+	return t;
+}();
+var w = function(t, e) {
+	const n = e && e.plainObjects ? Object.create(null) : {};
+	for (let e = 0; e < t.length; ++e) void 0 !== t[e] && (n[e] = t[e]);
+	return n;
+};
+var j = function t(e, n, r) {
+	if (!n) return e;
+	if ("object" != typeof n) {
+		if (y(e)) e.push(n);
+		else {
+			if (!e || "object" != typeof e) return [e, n];
+			if (v(e)) {
+				var o = h(e) + 1;
+				e[o] = n, m(e, o);
+			} else (r && (r.plainObjects || r.allowPrototypes) || !p.call(Object.prototype, n)) && (e[n] = !0);
+		}
+		return e;
+	}
+	if (!e || "object" != typeof e) {
+		if (v(n)) {
+			for (var i = Object.keys(n), u = r && r.plainObjects ? {
+				__proto__: null,
+				0: e
+			} : { 0: e }, f = 0; f < i.length; f++) u[parseInt(i[f], 10) + 1] = n[i[f]];
+			return b(u, h(n) + 1);
+		}
+		return [e].concat(n);
+	}
+	let c = e;
+	return y(e) && !y(n) && (c = w(e, r)), y(e) && y(n) ? (n.forEach(function(n, o) {
+		if (p.call(e, o)) {
+			const i = e[o];
+			i && "object" == typeof i && n && "object" == typeof n ? e[o] = t(i, n, r) : e.push(n);
+		} else e[o] = n;
+	}), e) : Object.keys(n).reduce(function(e, o) {
+		const i = n[o];
+		return e[o] = p.call(e, o) ? t(e[o], i, r) : i, e;
+	}, c);
+};
+var O = 1024;
+var E = function(t, e, n, r) {
+	if (v(t)) {
+		var o = h(t) + 1;
+		return t[o] = e, m(t, o), t;
+	}
+	var i = [].concat(t, e);
+	return i.length > n ? b(w(i, { plainObjects: r }), i.length - 1) : i;
+};
+var T = function(t, e) {
+	if (y(t)) {
+		const n = [];
+		for (let r = 0; r < t.length; r += 1) n.push(e(t[r]));
+		return n;
+	}
+	return e(t);
+};
+var R = Object.prototype.hasOwnProperty;
+var k = {
+	brackets: function(t) {
+		return t + "[]";
+	},
+	comma: "comma",
+	indices: function(t, e) {
+		return t + "[" + e + "]";
+	},
+	repeat: function(t) {
+		return t;
+	}
+};
+var S = Array.isArray;
+var I = Array.prototype.push;
+var A = function(t, e) {
+	I.apply(t, S(e) ? e : [e]);
+};
+var D = Date.prototype.toISOString;
+var $ = {
+	addQueryPrefix: !1,
+	allowDots: !1,
+	allowEmptyArrays: !1,
+	arrayFormat: "indices",
+	charset: "utf-8",
+	charsetSentinel: !1,
+	delimiter: "&",
+	encode: !0,
+	encodeDotInKeys: !1,
+	encoder: function(t, e, n, r, o) {
+		if (0 === t.length) return t;
+		let i = t;
+		if ("symbol" == typeof t ? i = Symbol.prototype.toString.call(t) : "string" != typeof t && (i = String(t)), "iso-8859-1" === n) return escape(i).replace(/%u[0-9a-f]{4}/gi, function(t) {
+			return "%26%23" + parseInt(t.slice(2), 16) + "%3B";
+		});
+		let u = "";
+		for (let t = 0; t < i.length; t += O) {
+			const e = i.length >= O ? i.slice(t, t + O) : i, n = [];
+			for (let t = 0; t < e.length; ++t) {
+				let r = e.charCodeAt(t);
+				45 === r || 46 === r || 95 === r || 126 === r || r >= 48 && r <= 57 || r >= 65 && r <= 90 || r >= 97 && r <= 122 || "RFC1738" === o && (40 === r || 41 === r) ? n[n.length] = e.charAt(t) : r < 128 ? n[n.length] = g[r] : r < 2048 ? n[n.length] = g[192 | r >> 6] + g[128 | 63 & r] : r < 55296 || r >= 57344 ? n[n.length] = g[224 | r >> 12] + g[128 | r >> 6 & 63] + g[128 | 63 & r] : (t += 1, r = 65536 + ((1023 & r) << 10 | 1023 & e.charCodeAt(t)), n[n.length] = g[240 | r >> 18] + g[128 | r >> 12 & 63] + g[128 | r >> 6 & 63] + g[128 | 63 & r]);
+			}
+			u += n.join("");
+		}
+		return u;
+	},
+	encodeValuesOnly: !1,
+	format: s,
+	formatter: l[s],
+	indices: !1,
+	serializeDate: function(t) {
+		return D.call(t);
+	},
+	skipNulls: !1,
+	strictNullHandling: !1
+};
+var N = {};
+var _ = function(t, e, n, r, o, i, u, f, c, a, l, s, p, y, d, b, v, h) {
+	let m = t, g = h, w = 0, j = !1;
+	for (; void 0 !== (g = g.get(N)) && !j;) {
+		const e = g.get(t);
+		if (w += 1, void 0 !== e) {
+			if (e === w) throw new RangeError("Cyclic object value");
+			j = !0;
+		}
+		void 0 === g.get(N) && (w = 0);
+	}
+	if ("function" == typeof a ? m = a(e, m) : m instanceof Date ? m = p(m) : "comma" === n && S(m) && (m = T(m, function(t) {
+		return t instanceof Date ? p(t) : t;
+	})), null === m) {
+		if (i) return c && !b ? c(e, $.encoder, v, "key", y) : e;
+		m = "";
+	}
+	if ("string" == typeof (O = m) || "number" == typeof O || "boolean" == typeof O || "symbol" == typeof O || "bigint" == typeof O || function(t) {
+		return !(!t || "object" != typeof t || !(t.constructor && t.constructor.isBuffer && t.constructor.isBuffer(t)));
+	}(m)) return c ? [d(b ? e : c(e, $.encoder, v, "key", y)) + "=" + d(c(m, $.encoder, v, "value", y))] : [d(e) + "=" + d(String(m))];
+	var O;
+	const E = [];
+	if (void 0 === m) return E;
+	let R;
+	if ("comma" === n && S(m)) b && c && (m = T(m, c)), R = [{ value: m.length > 0 ? m.join(",") || null : void 0 }];
+	else if (S(a)) R = a;
+	else {
+		const t = Object.keys(m);
+		R = l ? t.sort(l) : t;
+	}
+	const k = f ? e.replace(/\./g, "%2E") : e, I = r && S(m) && 1 === m.length ? k + "[]" : k;
+	if (o && S(m) && 0 === m.length) return I + "[]";
+	for (let e = 0; e < R.length; ++e) {
+		const g = R[e], j = "object" == typeof g && void 0 !== g.value ? g.value : m[g];
+		if (u && null === j) continue;
+		const O = s && f ? g.replace(/\./g, "%2E") : g, T = S(m) ? "function" == typeof n ? n(I, O) : I : I + (s ? "." + O : "[" + O + "]");
+		h.set(t, w);
+		const k = /* @__PURE__ */ new WeakMap();
+		k.set(N, h), A(E, _(j, T, n, r, o, i, u, f, "comma" === n && b && S(m) ? null : c, a, l, s, p, y, d, b, v, k));
+	}
+	return E;
+};
+var x = Object.prototype.hasOwnProperty;
+var C = Array.isArray;
+var P = {
+	allowDots: !1,
+	allowEmptyArrays: !1,
+	allowPrototypes: !1,
+	allowSparse: !1,
+	arrayLimit: 20,
+	charset: "utf-8",
+	charsetSentinel: !1,
+	comma: !1,
+	decodeDotInKeys: !1,
+	decoder: function(t, e, n) {
+		const r = t.replace(/\+/g, " ");
+		if ("iso-8859-1" === n) return r.replace(/%[0-9a-f]{2}/gi, unescape);
+		try {
+			return decodeURIComponent(r);
+		} catch (t) {
+			return r;
+		}
+	},
+	delimiter: "&",
+	depth: 5,
+	duplicates: "combine",
+	ignoreQueryPrefix: !1,
+	interpretNumericEntities: !1,
+	parameterLimit: 1e3,
+	parseArrays: !0,
+	plainObjects: !1,
+	strictNullHandling: !1
+};
+var Z = function(t) {
+	return t.replace(/&#(\d+);/g, function(t, e) {
+		return String.fromCharCode(parseInt(e, 10));
+	});
+};
+var F = function(t, e) {
+	return t && "string" == typeof t && e.comma && t.indexOf(",") > -1 ? t.split(",") : t;
+};
+var U = function(t, e, n, r) {
+	if (!t) return;
+	const o = n.allowDots ? t.replace(/\.([^.[]+)/g, "[$1]") : t, i = /(\[[^[\]]*])/g;
+	let u = n.depth > 0 && /(\[[^[\]]*])/.exec(o);
+	const f = u ? o.slice(0, u.index) : o, c = [];
+	if (f) {
+		if (!n.plainObjects && x.call(Object.prototype, f) && !n.allowPrototypes) return;
+		c.push(f);
+	}
+	let a = 0;
+	for (; n.depth > 0 && null !== (u = i.exec(o)) && a < n.depth;) {
+		if (a += 1, !n.plainObjects && x.call(Object.prototype, u[1].slice(1, -1)) && !n.allowPrototypes) return;
+		c.push(u[1]);
+	}
+	return u && c.push("[" + o.slice(u.index) + "]"), function(t, e, n, r) {
+		let o = r ? e : F(e, n);
+		for (let e = t.length - 1; e >= 0; --e) {
+			let r;
+			const i = t[e];
+			if ("[]" === i && n.parseArrays) r = v(o) ? o : n.allowEmptyArrays && ("" === o || n.strictNullHandling && null === o) ? [] : E([], o, n.arrayLimit, n.plainObjects);
+			else {
+				r = n.plainObjects ? Object.create(null) : {};
+				const t = "[" === i.charAt(0) && "]" === i.charAt(i.length - 1) ? i.slice(1, -1) : i, e = n.decodeDotInKeys ? t.replace(/%2E/g, ".") : t, u = parseInt(e, 10);
+				n.parseArrays || "" !== e ? !isNaN(u) && i !== e && String(u) === e && u >= 0 && n.parseArrays && u <= n.arrayLimit ? (r = [], r[u] = o) : "__proto__" !== e && (r[e] = o) : r = { 0: o };
+			}
+			o = r;
+		}
+		return o;
+	}(c, e, n, r);
+};
+function q(t, e) {
+	const n = function(t) {
+		if (!t) return P;
+		if (void 0 !== t.allowEmptyArrays && "boolean" != typeof t.allowEmptyArrays) throw new TypeError("`allowEmptyArrays` option can only be `true` or `false`, when provided");
+		if (void 0 !== t.decodeDotInKeys && "boolean" != typeof t.decodeDotInKeys) throw new TypeError("`decodeDotInKeys` option can only be `true` or `false`, when provided");
+		if (null != t.decoder && "function" != typeof t.decoder) throw new TypeError("Decoder has to be a function.");
+		if (void 0 !== t.charset && "utf-8" !== t.charset && "iso-8859-1" !== t.charset) throw new TypeError("The charset option must be either utf-8, iso-8859-1, or undefined");
+		const e = void 0 === t.charset ? P.charset : t.charset, n = void 0 === t.duplicates ? P.duplicates : t.duplicates;
+		if ("combine" !== n && "first" !== n && "last" !== n) throw new TypeError("The duplicates option must be either combine, first, or last");
+		return {
+			allowDots: void 0 === t.allowDots ? !0 === t.decodeDotInKeys || P.allowDots : !!t.allowDots,
+			allowEmptyArrays: "boolean" == typeof t.allowEmptyArrays ? !!t.allowEmptyArrays : P.allowEmptyArrays,
+			allowPrototypes: "boolean" == typeof t.allowPrototypes ? t.allowPrototypes : P.allowPrototypes,
+			allowSparse: "boolean" == typeof t.allowSparse ? t.allowSparse : P.allowSparse,
+			arrayLimit: "number" == typeof t.arrayLimit ? t.arrayLimit : P.arrayLimit,
+			charset: e,
+			charsetSentinel: "boolean" == typeof t.charsetSentinel ? t.charsetSentinel : P.charsetSentinel,
+			comma: "boolean" == typeof t.comma ? t.comma : P.comma,
+			decodeDotInKeys: "boolean" == typeof t.decodeDotInKeys ? t.decodeDotInKeys : P.decodeDotInKeys,
+			decoder: "function" == typeof t.decoder ? t.decoder : P.decoder,
+			delimiter: "string" == typeof t.delimiter || (r = t.delimiter, "[object RegExp]" === Object.prototype.toString.call(r)) ? t.delimiter : P.delimiter,
+			depth: "number" == typeof t.depth || !1 === t.depth ? +t.depth : P.depth,
+			duplicates: n,
+			ignoreQueryPrefix: !0 === t.ignoreQueryPrefix,
+			interpretNumericEntities: "boolean" == typeof t.interpretNumericEntities ? t.interpretNumericEntities : P.interpretNumericEntities,
+			parameterLimit: "number" == typeof t.parameterLimit ? t.parameterLimit : P.parameterLimit,
+			parseArrays: !1 !== t.parseArrays,
+			plainObjects: "boolean" == typeof t.plainObjects ? t.plainObjects : P.plainObjects,
+			strictNullHandling: "boolean" == typeof t.strictNullHandling ? t.strictNullHandling : P.strictNullHandling
+		};
+		var r;
+	}(e);
+	if ("" === t || null == t) return n.plainObjects ? Object.create(null) : {};
+	const r = "string" == typeof t ? function(t, e) {
+		const n = { __proto__: null }, r = (e.ignoreQueryPrefix ? t.replace(/^\?/, "") : t).split(e.delimiter, Infinity === e.parameterLimit ? void 0 : e.parameterLimit);
+		let o, i = -1, u = e.charset;
+		if (e.charsetSentinel) for (o = 0; o < r.length; ++o) 0 === r[o].indexOf("utf8=") && ("utf8=%E2%9C%93" === r[o] ? u = "utf-8" : "utf8=%26%2310003%3B" === r[o] && (u = "iso-8859-1"), i = o, o = r.length);
+		for (o = 0; o < r.length; ++o) {
+			if (o === i) continue;
+			const t = r[o], f = t.indexOf("]="), c = -1 === f ? t.indexOf("=") : f + 1;
+			let a, l;
+			-1 === c ? (a = e.decoder(t, P.decoder, u, "key"), l = e.strictNullHandling ? null : "") : (a = e.decoder(t.slice(0, c), P.decoder, u, "key"), l = T(F(t.slice(c + 1), e), function(t) {
+				return e.decoder(t, P.decoder, u, "value");
+			})), l && e.interpretNumericEntities && "iso-8859-1" === u && (l = Z(l)), t.indexOf("[]=") > -1 && (l = C(l) ? [l] : l);
+			const s = x.call(n, a);
+			s && "combine" === e.duplicates ? n[a] = E(n[a], l, e.arrayLimit, e.plainObjects) : s && "last" !== e.duplicates || (n[a] = l);
+		}
+		return n;
+	}(t, n) : t;
+	let o = n.plainObjects ? Object.create(null) : {};
+	const i = Object.keys(r);
+	for (let e = 0; e < i.length; ++e) {
+		const u = i[e], f = U(u, r[u], n, "string" == typeof t);
+		o = j(o, f, n);
+	}
+	return !0 === n.allowSparse ? o : function(t) {
+		const e = [{
+			obj: { o: t },
+			prop: "o"
+		}], n = [];
+		for (let t = 0; t < e.length; ++t) {
+			const r = e[t], o = r.obj[r.prop], i = Object.keys(o);
+			for (let t = 0; t < i.length; ++t) {
+				const r = i[t], u = o[r];
+				"object" == typeof u && null !== u && -1 === n.indexOf(u) && (e.push({
+					obj: o,
+					prop: r
+				}), n.push(u));
+			}
+		}
+		return function(t) {
+			for (; t.length > 1;) {
+				const e = t.pop(), n = e.obj[e.prop];
+				if (y(n)) {
+					const t = [];
+					for (let e = 0; e < n.length; ++e) void 0 !== n[e] && t.push(n[e]);
+					e.obj[e.prop] = t;
+				}
+			}
+		}(e), t;
+	}(o);
+}
+var K = /*#__PURE__*/ function() {
+	function t(t, e, n) {
+		var r, o;
+		this.name = t, this.definition = e, this.bindings = null != (r = e.bindings) ? r : {}, this.wheres = null != (o = e.wheres) ? o : {}, this.config = n;
+	}
+	var n = t.prototype;
+	return n.matchesUrl = function(t) {
+		var e, n = this;
+		if (!this.definition.methods.includes("GET")) return !1;
+		var r = this.template.replace(/[.*+$()[\]]/g, "\\$&").replace(/(\/?){([^}?]*)(\??)}/g, function(t, e, r, o) {
+			var i, u = "(?<" + r + ">" + ((null == (i = n.wheres[r]) ? void 0 : i.replace(/(^\^)|(\$$)/g, "")) || "[^/?]+") + ")";
+			return o ? "(" + e + u + ")?" : "" + e + u;
+		}).replace(/^\w+:\/\//, ""), o = t.replace(/^\w+:\/\//, "").split("?"), i = o[0], u = o[1], f = null != (e = new RegExp("^" + r + "/?$").exec(i)) ? e : new RegExp("^" + r + "/?$").exec(decodeURI(i));
+		if (f) {
+			for (var c in f.groups) f.groups[c] = "string" == typeof f.groups[c] ? decodeURIComponent(f.groups[c]) : f.groups[c];
+			return {
+				params: f.groups,
+				query: q(u)
+			};
+		}
+		return !1;
+	}, n.compile = function(t) {
+		var e = this;
+		return this.parameterSegments.length ? this.template.replace(/{([^}?]+)(\??)}/g, function(n, r, o) {
+			var i, u;
+			if (!o && [null, void 0].includes(t[r])) throw new Error("Ziggy error: '" + r + "' parameter is required for route '" + e.name + "'.");
+			if (e.wheres[r] && !new RegExp("^" + (o ? "(" + e.wheres[r] + ")?" : e.wheres[r]) + "$").test(null != (u = t[r]) ? u : "")) throw new Error("Ziggy error: '" + r + "' parameter '" + t[r] + "' does not match required format '" + e.wheres[r] + "' for route '" + e.name + "'.");
+			return encodeURI(null != (i = t[r]) ? i : "").replace(/%7C/g, "|").replace(/%25/g, "%").replace(/\$/g, "%24");
+		}).replace(this.config.absolute ? /(\.[^/]+?)(\/\/)/ : /(^)(\/\/)/, "$1/").replace(/\/+$/, "") : this.template;
+	}, e(t, [
+		{
+			key: "template",
+			get: function() {
+				var t = (this.origin + "/" + this.definition.uri).replace(/\/+$/, "");
+				return "" === t ? "/" : t;
+			}
+		},
+		{
+			key: "origin",
+			get: function() {
+				return this.config.absolute ? this.definition.domain ? "" + this.config.url.match(/^\w+:\/\//)[0] + this.definition.domain + (this.config.port ? ":" + this.config.port : "") : this.config.url : "";
+			}
+		},
+		{
+			key: "parameterSegments",
+			get: function() {
+				var t, e;
+				return null != (t = null == (e = this.template.match(/{[^}?]+\??}/g)) ? void 0 : e.map(function(t) {
+					return {
+						name: t.replace(/{|\??}/g, ""),
+						required: !/\?}$/.test(t)
+					};
+				})) ? t : [];
+			}
+		}
+	]);
+}();
+var z = /*#__PURE__*/ function(t) {
+	function r(e, r, o, i) {
+		var u;
+		if (void 0 === o && (o = !0), (u = t.call(this) || this).t = null != i ? i : "undefined" != typeof Ziggy ? Ziggy : null == globalThis ? void 0 : globalThis.Ziggy, !u.t && "undefined" != typeof document && document.getElementById("ziggy-routes-json") && (globalThis.Ziggy = JSON.parse(document.getElementById("ziggy-routes-json").textContent), u.t = globalThis.Ziggy), u.t = n({}, u.t, { absolute: o }), e) {
+			if (!u.t.routes[e]) throw new Error("Ziggy error: route '" + e + "' is not in the route list.");
+			u.i = new K(e, u.t.routes[e], u.t), u.u = u.l(r);
+		}
+		return u;
+	}
+	var o, u = t;
+	(o = r).prototype = Object.create(u.prototype), o.prototype.constructor = o, i(o, u);
+	var f = r.prototype;
+	return f.toString = function() {
+		var t = this, e = Object.keys(this.u).filter(function(e) {
+			return !t.i.parameterSegments.some(function(t) {
+				return t.name === e;
+			});
+		}).filter(function(t) {
+			return "_query" !== t;
+		}).reduce(function(e, r) {
+			var o;
+			return n({}, e, ((o = {})[r] = t.u[r], o));
+		}, {});
+		return this.i.compile(this.u) + function(t, e) {
+			let n = t;
+			const r = function(t) {
+				if (!t) return $;
+				if (void 0 !== t.allowEmptyArrays && "boolean" != typeof t.allowEmptyArrays) throw new TypeError("`allowEmptyArrays` option can only be `true` or `false`, when provided");
+				if (void 0 !== t.encodeDotInKeys && "boolean" != typeof t.encodeDotInKeys) throw new TypeError("`encodeDotInKeys` option can only be `true` or `false`, when provided");
+				if (null != t.encoder && "function" != typeof t.encoder) throw new TypeError("Encoder has to be a function.");
+				const e = t.charset || $.charset;
+				if (void 0 !== t.charset && "utf-8" !== t.charset && "iso-8859-1" !== t.charset) throw new TypeError("The charset option must be either utf-8, iso-8859-1, or undefined");
+				let n = s;
+				if (void 0 !== t.format) {
+					if (!R.call(l, t.format)) throw new TypeError("Unknown format option provided.");
+					n = t.format;
+				}
+				const r = l[n];
+				let o, i = $.filter;
+				if (("function" == typeof t.filter || S(t.filter)) && (i = t.filter), o = t.arrayFormat in k ? t.arrayFormat : "indices" in t ? t.indices ? "indices" : "repeat" : $.arrayFormat, "commaRoundTrip" in t && "boolean" != typeof t.commaRoundTrip) throw new TypeError("`commaRoundTrip` must be a boolean, or absent");
+				return {
+					addQueryPrefix: "boolean" == typeof t.addQueryPrefix ? t.addQueryPrefix : $.addQueryPrefix,
+					allowDots: void 0 === t.allowDots ? !0 === t.encodeDotInKeys || $.allowDots : !!t.allowDots,
+					allowEmptyArrays: "boolean" == typeof t.allowEmptyArrays ? !!t.allowEmptyArrays : $.allowEmptyArrays,
+					arrayFormat: o,
+					charset: e,
+					charsetSentinel: "boolean" == typeof t.charsetSentinel ? t.charsetSentinel : $.charsetSentinel,
+					commaRoundTrip: t.commaRoundTrip,
+					delimiter: void 0 === t.delimiter ? $.delimiter : t.delimiter,
+					encode: "boolean" == typeof t.encode ? t.encode : $.encode,
+					encodeDotInKeys: "boolean" == typeof t.encodeDotInKeys ? t.encodeDotInKeys : $.encodeDotInKeys,
+					encoder: "function" == typeof t.encoder ? t.encoder : $.encoder,
+					encodeValuesOnly: "boolean" == typeof t.encodeValuesOnly ? t.encodeValuesOnly : $.encodeValuesOnly,
+					filter: i,
+					format: n,
+					formatter: r,
+					serializeDate: "function" == typeof t.serializeDate ? t.serializeDate : $.serializeDate,
+					skipNulls: "boolean" == typeof t.skipNulls ? t.skipNulls : $.skipNulls,
+					sort: "function" == typeof t.sort ? t.sort : null,
+					strictNullHandling: "boolean" == typeof t.strictNullHandling ? t.strictNullHandling : $.strictNullHandling
+				};
+			}(e);
+			let o, i;
+			"function" == typeof r.filter ? (i = r.filter, n = i("", n)) : S(r.filter) && (i = r.filter, o = i);
+			const u = [];
+			if ("object" != typeof n || null === n) return "";
+			const f = k[r.arrayFormat], c = "comma" === f && r.commaRoundTrip;
+			o || (o = Object.keys(n)), r.sort && o.sort(r.sort);
+			const a = /* @__PURE__ */ new WeakMap();
+			for (let t = 0; t < o.length; ++t) {
+				const e = o[t];
+				r.skipNulls && null === n[e] || A(u, _(n[e], e, f, c, r.allowEmptyArrays, r.strictNullHandling, r.skipNulls, r.encodeDotInKeys, r.encode ? r.encoder : null, r.filter, r.sort, r.allowDots, r.serializeDate, r.format, r.formatter, r.encodeValuesOnly, r.charset, a));
+			}
+			const p = u.join(r.delimiter);
+			let y = !0 === r.addQueryPrefix ? "?" : "";
+			return r.charsetSentinel && (y += "iso-8859-1" === r.charset ? "utf8=%26%2310003%3B&" : "utf8=%E2%9C%93&"), p.length > 0 ? y + p : "";
+		}(n({}, e, this.u._query), {
+			addQueryPrefix: !0,
+			arrayFormat: "indices",
+			encodeValuesOnly: !0,
+			skipNulls: !0,
+			encoder: function(t, e) {
+				return "boolean" == typeof t ? Number(t) : e(t);
+			}
+		});
+	}, f.p = function(t) {
+		var e = this;
+		t ? this.t.absolute && t.startsWith("/") && (t = this.v().host + t) : t = this.h();
+		var r = {}, o = Object.entries(this.t.routes).find(function(n) {
+			return r = new K(n[0], n[1], e.t).matchesUrl(t);
+		}) || [void 0, void 0];
+		return n({ name: o[0] }, r, { route: o[1] });
+	}, f.h = function() {
+		var t = this.v(), e = t.pathname, n = t.search;
+		return (this.t.absolute ? t.host + e : e.replace(this.t.url.replace(/^\w*:\/\/[^/]+/, ""), "").replace(/^\/+/, "/")) + n;
+	}, f.current = function(t, e) {
+		var r = this.p(), o = r.name, i = r.params, u = r.query, f = r.route;
+		if (!t) return o;
+		var c = new RegExp("^" + t.replace(/\./g, "\\.").replace(/\*/g, ".*") + "$").test(o);
+		if ([null, void 0].includes(e) || !c) return c;
+		var a = new K(o, f, this.t);
+		e = this.l(e, a);
+		var l = n({}, i, u);
+		if (Object.values(e).every(function(t) {
+			return !t;
+		}) && !Object.values(l).some(function(t) {
+			return void 0 !== t;
+		})) return !0;
+		var s = function(t, e) {
+			return Object.entries(t).every(function(t) {
+				var n = t[0], r = t[1];
+				return Array.isArray(r) && Array.isArray(e[n]) ? r.every(function(t) {
+					return e[n].includes(t) || e[n].includes(decodeURIComponent(t));
+				}) : "object" == typeof r && "object" == typeof e[n] && null !== r && null !== e[n] ? s(r, e[n]) : e[n] == r || e[n] == decodeURIComponent(r);
+			});
+		};
+		return s(e, l);
+	}, f.v = function() {
+		var t, e, n, r, o, i, u = "undefined" != typeof window ? window.location : {}, f = u.host, c = u.pathname, a = u.search;
+		return {
+			host: null != (t = null == (e = this.t.location) ? void 0 : e.host) ? t : void 0 === f ? "" : f,
+			pathname: null != (n = null == (r = this.t.location) ? void 0 : r.pathname) ? n : void 0 === c ? "" : c,
+			search: null != (o = null == (i = this.t.location) ? void 0 : i.search) ? o : void 0 === a ? "" : a
+		};
+	}, f.has = function(t) {
+		return this.t.routes.hasOwnProperty(t);
+	}, f.l = function(t, e) {
+		var r = this;
+		void 0 === t && (t = {}), void 0 === e && (e = this.i), t ??= {}, t = ["string", "number"].includes(typeof t) ? [t] : t;
+		var o = e.parameterSegments.filter(function(t) {
+			return !r.t.defaults[t.name];
+		});
+		if (Array.isArray(t)) t = t.reduce(function(t, e, r) {
+			var i, u;
+			return n({}, t, o[r] ? ((i = {})[o[r].name] = e, i) : "object" == typeof e ? e : ((u = {})[e] = "", u));
+		}, {});
+		else if (1 === o.length && !t.hasOwnProperty(o[0].name) && (t.hasOwnProperty(Object.values(e.bindings)[0]) || t.hasOwnProperty("id"))) {
+			var i;
+			(i = {})[o[0].name] = t, t = i;
+		}
+		return n({}, this.m(e), this.j(t, e));
+	}, f.m = function(t) {
+		var e = this;
+		return t.parameterSegments.filter(function(t) {
+			return e.t.defaults[t.name];
+		}).reduce(function(t, r, o) {
+			var i, u = r.name;
+			return n({}, t, ((i = {})[u] = e.t.defaults[u], i));
+		}, {});
+	}, f.j = function(t, e) {
+		var r = e.bindings, o = e.parameterSegments;
+		return Object.entries(t).reduce(function(t, e) {
+			var i, u, f = e[0], c = e[1];
+			if (!c || "object" != typeof c || Array.isArray(c) || !o.some(function(t) {
+				return t.name === f;
+			})) return n({}, t, ((u = {})[f] = c, u));
+			var a = c.hasOwnProperty(r[f]) ? r[f] : c.hasOwnProperty("id") ? "id" : void 0;
+			if (void 0 === a) throw new Error("Ziggy error: object passed as '" + f + "' parameter is missing route model binding key '" + r[f] + "'.");
+			return n({}, t, ((i = {})[f] = c[a], i));
+		}, {});
+	}, f.valueOf = function() {
+		return this.toString();
+	}, e(r, [
+		{
+			key: "params",
+			get: function() {
+				var t = this.p();
+				return n({}, t.params, t.query);
+			}
+		},
+		{
+			key: "routeParams",
+			get: function() {
+				return this.p().params;
+			}
+		},
+		{
+			key: "queryParams",
+			get: function() {
+				return this.p().query;
+			}
+		}
+	]);
+}(/*#__PURE__*/ f(String));
+function B(t, e, n, r) {
+	var o = new z(t, e, n, r);
+	return t ? o.toString() : o;
+}
+//#endregion
+//#region resources/js/ssr.jsx
+var appName = "SAC-DataCenter";
+createServer((page) => createInertiaApp({
+	page,
+	render: ReactDOMServer.renderToString,
+	title: (title) => `${title} - ${appName}`,
+	resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, /* #__PURE__ */ Object.assign({
+		"./Pages/Admin/Component/Fillable.jsx": () => import("./assets/Fillable-MAU4Z2vF.js"),
+		"./Pages/Admin/Component/Footer.jsx": () => import("./assets/Footer-D9aFMhn6.js").then((n) => n.n),
+		"./Pages/Admin/Component/HeadNavigation.jsx": () => import("./assets/HeadNavigation-BGim9v2x.js"),
+		"./Pages/Admin/Component/Modal.jsx": () => import("./assets/Modal-C987QnwO.js"),
+		"./Pages/Admin/Component/MyDocument.jsx": () => import("./assets/MyDocument-D7vk_eq2.js"),
+		"./Pages/Admin/Component/Readable.jsx": () => import("./assets/Readable-nL-gOOAO.js"),
+		"./Pages/Admin/Component/Sidebar.jsx": () => import("./assets/Sidebar-CbFTWmXA.js").then((n) => n.n),
+		"./Pages/Admin/Dashboard/Index.jsx": () => import("./assets/Index-jp8IkfsV.js"),
+		"./Pages/Auth/ConfirmPassword.jsx": () => import("./assets/ConfirmPassword-BfClX0My.js"),
+		"./Pages/Auth/ForgotPassword.jsx": () => import("./assets/ForgotPassword-DcXi1vv3.js"),
+		"./Pages/Auth/Login.jsx": () => import("./assets/Login-CvpXuLHv.js"),
+		"./Pages/Auth/Register.jsx": () => import("./assets/Register-CuDQLfBj.js"),
+		"./Pages/Auth/ResetPassword.jsx": () => import("./assets/ResetPassword-BJpm8a_i.js"),
+		"./Pages/Auth/VerifyEmail.jsx": () => import("./assets/VerifyEmail-BAvY7xma.js"),
+		"./Pages/CareerPage/CreateCareer.jsx": () => import("./assets/CreateCareer-CuYhvSkO.js"),
+		"./Pages/CareerPage/EditCareer.jsx": () => import("./assets/EditCareer-DEPSvWiA.js"),
+		"./Pages/CareerPage/IndexCareer.jsx": () => import("./assets/IndexCareer-Dph1zYEj.js"),
+		"./Pages/CareerPage/ShowEmployeCareer.jsx": () => import("./assets/ShowEmployeCareer-CFBhGT1j.js"),
+		"./Pages/Dashboard.jsx": () => import("./assets/Dashboard-CxHb1Pq6.js"),
+		"./Pages/EmployePages/CreateEmploye.jsx": () => import("./assets/CreateEmploye-Du31SFpi.js"),
+		"./Pages/EmployePages/EditEmploye.jsx": () => import("./assets/EditEmploye-Bb3z1gSs.js"),
+		"./Pages/EmployePages/IndexEmploye.jsx": () => import("./assets/IndexEmploye-CYZLhmmx.js"),
+		"./Pages/EmployePages/PrintEmploye.jsx": () => import("./assets/PrintEmploye-CUnpotb9.js"),
+		"./Pages/EmployePages/ShowEmploye.jsx": () => import("./assets/ShowEmploye-XAYUbhDI.js"),
+		"./Pages/PGJ_Kontrak/CreateKontrak.jsx": () => import("./assets/CreateKontrak-BEyYfpi_.js"),
+		"./Pages/PGJ_Kontrak/EditKontrak.jsx": () => import("./assets/EditKontrak-Dc7f6cnf.js"),
+		"./Pages/PGJ_Kontrak/IndexKontrak.jsx": () => import("./assets/IndexKontrak-BRbwmoHA.js"),
+		"./Pages/PGJ_Kontrak/ShowKontrak.jsx": () => import("./assets/ShowKontrak-BmR365BM.js"),
+		"./Pages/Profile/Edit.jsx": () => import("./assets/Edit-DOgEzjJc.js"),
+		"./Pages/Profile/Partials/DeleteUserForm.jsx": () => import("./assets/DeleteUserForm-DjIW0qR8.js"),
+		"./Pages/Profile/Partials/UpdatePasswordForm.jsx": () => import("./assets/UpdatePasswordForm-BQlM5M_C.js"),
+		"./Pages/Profile/Partials/UpdateProfileInformationForm.jsx": () => import("./assets/UpdateProfileInformationForm-CTt7Lu2e.js"),
+		"./Pages/SlipGajiPages/CreateSlip.jsx": () => import("./assets/CreateSlip-BzIqM0Ez.js"),
+		"./Pages/SlipGajiPages/EditSlip.jsx": () => import("./assets/EditSlip-CPeXZzB9.js"),
+		"./Pages/SlipGajiPages/ExportSlip.jsx": () => import("./assets/ExportSlip-DiNcg7lF.js"),
+		"./Pages/SlipGajiPages/IndexSlip.jsx": () => import("./assets/IndexSlip--5o4XySn.js"),
+		"./Pages/Welcome.jsx": () => import("./assets/Welcome-BgQtbcBQ.js")
+	})),
+	setup: ({ App, props }) => {
+		global.route = (name, params, absolute) => B(name, params, absolute, {
+			...page.props.ziggy,
+			location: new URL(page.props.ziggy.location)
+		});
+		return /* @__PURE__ */ jsx(App, { ...props });
+	}
+}));
+//#endregion
+export {};

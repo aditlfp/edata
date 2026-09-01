@@ -7,7 +7,7 @@ import {
   BiSearchAlt,
   BiShowAlt,
   BiSolidEdit,
-} from "react-icons/bi/index.esm";
+} from "react-icons/bi";
 import Modal from "../Admin/Component/Modal";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";

@@ -23,13 +23,15 @@ class AdminController extends Controller
             DB::raw('MONTH(created_at) as month'),  // Extract the month from the 'created_at' field
             DB::raw('COUNT(*) as employee_count')  // Count how many employees in each month
         )
-        ->whereYear('created_at', date('Y'))  // Filter the data for the current year (or you can specify any year)
-        ->whereBetween(DB::raw('MONTH(created_at)'), [1, 12]) // Get only records from January to December
-        ->groupBy(DB::raw('MONTH(created_at)'))  // Group by the month
-        ->orderBy(DB::raw('MONTH(created_at)'))  // Order the results by month (optional)
-        ->get();
+            ->whereYear('created_at', date('Y'))  // Filter the data for the current year (or you can specify any year)
+            ->whereBetween(DB::raw('MONTH(created_at)'), [1, 12]) // Get only records from January to December
+            ->groupBy(DB::raw('MONTH(created_at)'))  // Group by the month
+            ->orderBy(DB::raw('MONTH(created_at)'))  // Order the results by month (optional)
+            ->get();
 
-        return Inertia::render('Admin/Dashboard/Index', compact('user', 'employeesByMonth'));
+        $totalEmploye = Employe::count();
+        $totalUsers = User::on('mysql2connection')->count();
+
+        return Inertia::render('Admin/Dashboard/Index', compact('user', 'employeesByMonth', 'totalUsers', 'totalEmploye'));
     }
-
 }

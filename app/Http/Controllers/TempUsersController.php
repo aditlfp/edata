@@ -21,10 +21,14 @@ class TempUsersController extends Controller
         $tempUsers = TempUsers::with(['Client', 'Devisi'])->latest()->get();
         $clients = Client::query();
         $devisis = Divisi::query();
-        $key = base64_decode((str_replace('base64:', '', config('app.previous_keys')))); // OR hardcode it here for testing
-        $cipher = 'AES-256-CBC';
+        $legacyKey = config('app.previous_keys')[0] ?? config('app.key');
+        $key = base64_decode(str_starts_with($legacyKey, 'base64:') ? substr($legacyKey, 7) : $legacyKey, true);
 
-        $encrypter = new Encrypter($key, $cipher);
+        if ($key === false || strlen($key) !== 32) {
+            abort(500, 'Invalid encryption key configuration.');
+        }
+
+        $encrypter = new Encrypter($key, 'AES-256-CBC');
 
         foreach ($tempUsers as $tempUser) {
             $allDatas[] = [

@@ -4,8 +4,23 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { toast } from "react-toastify";
 import { MdDeleteForever, MdFileDownload } from "react-icons/md";
+import { RiSendInsLine } from "react-icons/ri";
+import {
+  IoArrowBackCircle,
+  IoChevronBackCircleOutline,
+  IoChevronBackCircleSharp,
+} from "react-icons/io5";
 export default function CreateSlip(props) {
-  const { data, setData, post, get, processing, errors, reset, delete: destroy } = useForm({
+  const {
+    data,
+    setData,
+    post,
+    get,
+    processing,
+    errors,
+    reset,
+    delete: destroy,
+  } = useForm({
     users: props.slip.map((slip) => ({
       nama_lengkap: slip.user.nama_lengkap,
       devisi_id: slip.user.devisi_id,
@@ -35,7 +50,7 @@ export default function CreateSlip(props) {
         (parseFloat(slip.bpjs) || 0) +
         (parseFloat(slip.pinjaman) || 0) +
         (parseFloat(slip.lain_lain) || 0),
-      })),
+    })),
   });
 
   const calculateTotal = (user) => {
@@ -86,8 +101,8 @@ export default function CreateSlip(props) {
     });
   };
 
-   const confirmDelete = (id) => {
-    router.delete(route(`slip-gaji.destroy`, id), { 
+  const confirmDelete = (id) => {
+    router.delete(route(`slip-gaji.destroy`, id), {
       onSuccess: () => {
         toast.warning("Berhasil Menghapus Data Slip!", {
           theme: "colored",
@@ -98,19 +113,21 @@ export default function CreateSlip(props) {
   };
 
   const downloadUserSlip = (params) => {
-    window.location.href = route('downUserSlip', {
+    window.location.href = route("downUserSlip", {
       id: params.id,
       bulan_tahun: params.bulan_tahun,
-    })
-  }
+    });
+  };
   return (
     <>
       <AdminLayout>
         <Head title="Slip Gaji - Create" />
         <HeadNavigation title={"Slip Gaji - Create"} />
-        <div className="flex flex-col  gap-2 my-4 items-start">
+        <div className="m-6 flex flex-col gap-3 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="font-bold text-lg">Tambah Slip Gaji</p>
+            <p className="text-xl font-black tracking-tight text-slate-800">
+              Edit Slip Gaji
+            </p>
             <p className="font-bold text-base">
               Mitra: {props.client.client.name}
             </p>
@@ -119,133 +136,179 @@ export default function CreateSlip(props) {
           <div className="flex justify-start mt-1">
             <Link
               href={route("slip-gaji.index")}
-              className="btn bg-orange-600 btn-sm text-white hover:text-orange-600 rounded-sm"
+              className="group btn btn-sm bg-orange-600 text-white hover:bg-white hover:text-orange-600 rounded-sm transition-colors"
             >
+              <IoChevronBackCircleOutline className="text-lg group-hover:hidden" />
+              <IoChevronBackCircleSharp className="hidden text-lg group-hover:block" />
               Kembali
             </Link>
           </div>
         </div>
 
-        <div className="">
-          <form onSubmit={submit} className="overflow-x-scroll">
-            <table className="table table-zebra table-xs my-5 text-center">
-              <thead className="text-[10px]">
-                <tr className="bg-orange-600 text-white capitalize">
-                  <th className="border-x-[1px] border-orange-300" rowSpan={2}>Action</th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={3}>
-                    Data Karyawan
-                  </th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={2}>
-                    Gaji
-                  </th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={4}>
-                    Tunjangan
-                  </th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={4}>
-                    Potongan
-                  </th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={1}>
-                    Total
-                  </th>
-                </tr>
-                <tr className="bg-orange-600 text-white capitalize"> 
-                  <th className="border-x-[1px] border-orange-300">Karyawan</th>
-                  <th className="border-x-[1px] border-orange-300">Formasi</th>
-                  <th className="border-x-[1px] border-orange-300">MK</th>
-                  <th className="border-x-[1px] border-orange-300">Pokok</th>
-                  <th className="border-x-[1px] border-orange-300">Lembur</th>
-                  <th className="border-x-[1px] border-orange-300">Jabatan</th>
-                  <th className="border-x-[1px] border-orange-300">
-                    Kehadiran
-                  </th>
-                  <th className="border-x-[1px] border-orange-300">Kinerja</th>
-                  <th className="border-x-[1px] border-orange-300">Lain Lain</th>
-                  <th className="border-x-[1px] border-orange-300">BPJS</th>
-                  <th className="border-x-[1px] border-orange-300">Pinjaman</th>
-                  <th className="border-x-[1px] border-orange-300">Absen</th>
-                  <th className="border-x-[1px] border-orange-300">
-                    Lain-lain
-                  </th>
-                  <th className="border-x-[1px] border-orange-300">Total</th>
-                </tr>
-              </thead>
-              <tbody className="text-[10px]">
-                {data.users.map((us, index) => {
-                  return (
-                    <tr key={index} className="border-[1px] border-orange-300 ">
-                      <td>
-                        <div className="flex gap-y-1 flex-col">
-                          <button
-                            type="button"
-                            className="btn btn-error btn-sm rounded-sm text-white hover:text-red-900 hover:bg-red-600 hover:bg-opacity-20 hover:border-0"
-                            onClick={() => confirmDelete(us.id)}
-                          >
-                            <MdDeleteForever className="text-xl"/>
-                          </button>
-                          <button className="btn btn-sm rounded-sm bg-green-600 hover:bg-green-500 text-white hover:text-green-800 hover:bg-opacity-20 hover:border-0 border-green-500" onClick={() => downloadUserSlip(us)}>
-                          <MdFileDownload className="text-xl"/>
-                          </button>
-                        </div>
-                      </td>
-                      <td className="border-[1px] border-orange-300">
-                        {us.nama_lengkap}
-                      </td>
-                      <td className="border-[1px] border-orange-300">
-                        {us.formasi}
-                      </td>
-                      {/* MK */}
-
-                      {[
-                        "mk",
-                        "gaji_pokok",
-                        "gaji_lembur",
-                        "tj_jabatan",
-                        "tj_kehadiran",
-                        "tj_kinerja",
-                        "tj_lain",
-                        "bpjs",
-                        "pinjaman",
-                        "absen",
-                        "lain_lain",
-                      ].map((field) => (
-                        <td
-                          key={field}
-                          className="border-[1px] border-orange-300 min-w-[95px]"
-                        >
-                          <input
-                            id={us[field]}
-                            type="number"
-                            className="input input-xs input-bordered w-full"
-                            value={us[field]}
-                            inputMode="numeric"
-                            onChange={(e) =>
-                              handleChange(index, field, e.target.value)
-                            }
-                          />
-                          {errors[field] && (
-                            <span className="text-red-500">
-                              {errors[field]}
-                            </span>
-                          )}
+        <div className="m-6">
+          <form onSubmit={submit}>
+            <div className="max-h-[calc(100vh-260px)] overflow-auto rounded-xl border border-slate-200 shadow-sm">
+              <table className="table table-zebra table-sm min-w-[1100px] text-center">
+                <thead className="sticky top-0 z-20 text-[10px]">
+                  <tr className="bg-orange-600 text-white capitalize">
+                    <th
+                      className="border-x-[1px] border-orange-300"
+                      rowSpan={2}
+                    >
+                      Action
+                    </th>
+                    <th
+                      className="border-x-[1px] border-orange-300"
+                      colSpan={3}
+                    >
+                      Data Karyawan
+                    </th>
+                    <th
+                      className="border-x-[1px] border-orange-300"
+                      colSpan={2}
+                    >
+                      Gaji
+                    </th>
+                    <th
+                      className="border-x-[1px] border-orange-300"
+                      colSpan={4}
+                    >
+                      Tunjangan
+                    </th>
+                    <th
+                      className="border-x-[1px] border-orange-300"
+                      colSpan={4}
+                    >
+                      Potongan
+                    </th>
+                    <th
+                      className="border-x-[1px] border-orange-300"
+                      colSpan={1}
+                    >
+                      Total
+                    </th>
+                  </tr>
+                  <tr className="bg-orange-600 text-white capitalize">
+                    <th className="border-x-[1px] border-orange-300">
+                      Karyawan
+                    </th>
+                    <th className="border-x-[1px] border-orange-300">
+                      Formasi
+                    </th>
+                    <th className="border-x-[1px] border-orange-300">MK</th>
+                    <th className="border-x-[1px] border-orange-300">Pokok</th>
+                    <th className="border-x-[1px] border-orange-300">Lembur</th>
+                    <th className="border-x-[1px] border-orange-300">
+                      Jabatan
+                    </th>
+                    <th className="border-x-[1px] border-orange-300">
+                      Kehadiran
+                    </th>
+                    <th className="border-x-[1px] border-orange-300">
+                      Kinerja
+                    </th>
+                    <th className="border-x-[1px] border-orange-300">
+                      Lain Lain
+                    </th>
+                    <th className="border-x-[1px] border-orange-300">BPJS</th>
+                    <th className="border-x-[1px] border-orange-300">
+                      Pinjaman
+                    </th>
+                    <th className="border-x-[1px] border-orange-300">Absen</th>
+                    <th className="border-x-[1px] border-orange-300">
+                      Lain-lain
+                    </th>
+                    <th className="border-x-[1px] border-orange-300">Total</th>
+                  </tr>
+                </thead>
+                <tbody className="text-[10px]">
+                  {data.users.map((us, index) => {
+                    return (
+                      <tr
+                        key={index}
+                        className="border-[1px] border-orange-300 "
+                      >
+                        <td>
+                          <div className="flex gap-y-1 flex-col">
+                            <button
+                              type="button"
+                              className="btn btn-error btn-sm rounded-sm text-white hover:text-red-900 hover:bg-red-600 hover:bg-opacity-20 hover:border-0"
+                              onClick={() => confirmDelete(us.id)}
+                            >
+                              <MdDeleteForever className="text-xl" />
+                            </button>
+                            <button
+                              className="btn btn-sm rounded-sm bg-green-600 hover:bg-green-500 text-white hover:text-green-800 hover:bg-opacity-20 hover:border-0 border-green-500"
+                              onClick={() => downloadUserSlip(us)}
+                            >
+                              <MdFileDownload className="text-xl" />
+                            </button>
+                          </div>
                         </td>
-                      ))}
-                      <td className="border-[1px] border-orange-300">
-                        <FormatRupiah value={us.total} />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                        <td className="border-[1px] border-orange-300">
+                          {us.nama_lengkap}
+                        </td>
+                        <td className="border-[1px] border-orange-300">
+                          {us.formasi}
+                        </td>
+                        {/* MK */}
+
+                        {[
+                          "mk",
+                          "gaji_pokok",
+                          "gaji_lembur",
+                          "tj_jabatan",
+                          "tj_kehadiran",
+                          "tj_kinerja",
+                          "tj_lain",
+                          "bpjs",
+                          "pinjaman",
+                          "absen",
+                          "lain_lain",
+                        ].map((field) => (
+                          <td
+                            key={field}
+                            className="border-[1px] border-orange-300 min-w-[95px]"
+                          >
+                            <input
+                              id={us[field]}
+                              type="number"
+                              className="input input-xs input-bordered w-full"
+                              value={us[field]}
+                              inputMode="numeric"
+                              onWheel={(e) => e.currentTarget.blur()}
+                              onChange={(e) =>
+                                handleChange(index, field, e.target.value)
+                              }
+                            />
+                            {errors[field] && (
+                              <span className="text-red-500">
+                                {errors[field]}
+                              </span>
+                            )}
+                          </td>
+                        ))}
+                        <td className="border-[1px] border-orange-300">
+                          <FormatRupiah value={us.total} />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div className="absolute bottom-0 z-10 flex justify-end mb-5">
+              <button
+                type="submit"
+                className="btn btn-sm border-0 bg-sky-600 px-6 text-white hover:bg-sky-700"
+              >
+                <div className="flex items-center gap-x-2">
+                  <RiSendInsLine className="text-lg font-bold" />
+                  <span>Simpan</span>
+                </div>
+              </button>
+            </div>
           </form>
-          <div className="flex justify-end">
-            <button
-              onClick={submit}
-              className="btn bg-orange-600 btn-sm text-white hover:text-orange-600 rounded-sm"
-            >
-              Submit
-            </button>
-          </div>
         </div>
       </AdminLayout>
       <style jsx>{`

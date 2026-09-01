@@ -4,7 +4,7 @@ import { Head, usePage } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { BiChevronsLeft, BiChevronsRight, BiExtension } from "react-icons/bi";
-import { BiGroup } from "react-icons/bi/index.esm";
+import { BiGroup } from "react-icons/bi";
 import { ToastContainer } from "react-toastify";
 
 function AdminLayout({ children, overflow, props }) {
@@ -41,9 +41,7 @@ function AdminLayout({ children, overflow, props }) {
     <>
       <Head title="Home" />
       <div
-        className={`flex ${
-          overflow ? overflow : "overflow-auto"
-        } w-full bg-gray-200 gap-2`}
+        className={`flex ${overflow ? overflow : "overflow-auto"}w-full gap-2`}
       >
         <AnimatePresence>
           <motion.div
@@ -65,14 +63,7 @@ function AdminLayout({ children, overflow, props }) {
               }}
               className={"relative"}
             >
-              <Sidebar
-                props={newCount}
-                link={"employes.index"}
-                value={"Employes Data"}
-                open={open}
-              >
-                {<BiGroup />}
-              </Sidebar>
+              <Sidebar />
             </motion.div>
             <motion.div
               initial={{ translateX: "-338%" }}
@@ -113,7 +104,7 @@ function AdminLayout({ children, overflow, props }) {
           {children}
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
       <style jsx>{`
         ::-webkit-scrollbar {
           height: 12px;

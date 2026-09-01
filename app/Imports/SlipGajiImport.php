@@ -11,6 +11,8 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use RuntimeException;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 
@@ -23,15 +25,35 @@ class SlipGajiImport implements ToModel, WithHeadingRow, WithBatchInserts,  With
     * @return \Illuminate\Database\Eloquent\Model|null
     */
 
+    public function __construct(private readonly int $clientId) {}
+
     public function model(array $row)
     {
        // Calculate the total if it's a formula
-        if ($row['pokok'] === null) {
+        if (empty($row['pokok'])) {
             return null;
         }
-        $month = date('Y-m');
-        $models = SlipGaji::where('bulan_tahun', $month)->get();
-        $users = User::on('mysql2connection')->where('nama_lengkap', $row['karyawan'])->first();
+        $bulan = $row['bulan_tahun'];
+        if (preg_match('/^\d{2}-\d{4}$/', $bulan)) {
+            $bulan = Carbon::createFromFormat('m-Y', $bulan)->format('Y-m');
+        }
+        $name = $row['karyawan'] ?? '';
+        $user = User::where('nama_lengkap', $name)->where('kerjasama_id', $this->clientId)->first();
+        $employee = DB::connection('mysql')->table('employes')->where('client_id', $this->clientId)->where('name', $name)->exists();
+        $in = DB::connection('mysql2connection')->table('person_ins')->where('client_id', $this->clientId)->where('fullname', $name)->whereDate('date_in', '<=', Carbon::parse($bulan . '-01')->endOfMonth())->exists();
+        $out = $user && DB::connection('mysql2connection')->table('person_outs')->where('user_id', $user->id)->exists();
+        if ($out) {
+            SlipGaji::where('karyawan', $name)->where('bulan_tahun', $bulan)->delete();
+            return null;
+        }
+        if (! $employee || ! $in) {
+            throw new RuntimeException("Karyawan {$name} tidak valid untuk mitra/periode ini.");
+        }
+        if (SlipGaji::where('user_id', $user->id)->where('bulan_tahun', $bulan)->exists()) {
+            throw new RuntimeException("Slip {$name} untuk bulan {$bulan} sudah ada.");
+        }
+        $row['bulan_tahun'] = $bulan;
+        $users = User::on('mysql2connection')->where('nama_lengkap', $name)->where('kerjasama_id', $this->clientId)->first();
                 if($row['bulan_tahun'] != null && $users != null)
                 {
                     // dd(Carbon::now())

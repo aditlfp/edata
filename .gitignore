@@ -3,7 +3,7 @@ vendor/
 node_modules/
 build/
 dist/
-boostrap/ssr/assets/*
+bootstrap/ssr/assets/*
 .cache/
 .env
 .env.local
@@ -30,3 +30,5 @@ Thumbs.db
 
 
 public/build.zip
+
+.phpunit.result.cache

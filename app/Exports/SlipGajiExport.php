@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Employe;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
@@ -91,6 +92,8 @@ class SlipGajiExport implements FromCollection, WithHeadings, WithMapping, WithE
                 ->orderBy('numbers', $this->orderBy)
                 ->orderBy('date_real', $this->orderBy)
                 ->whereNotIn('name', $this->notpluck)
+                ->whereIn('name', DB::connection('mysql2connection')->table('person_ins')->where('client_id', $this->kerjasama_id)->whereDate('date_in', '<=', \Carbon\Carbon::parse($this->bulan . '-01')->endOfMonth())->pluck('fullname'))
+                ->whereNotIn('name', DB::connection('mysql2connection')->table('users')->where('kerjasama_id', $this->kerjasama_id)->whereIn('id', DB::connection('mysql2connection')->table('person_outs')->pluck('user_id'))->pluck('nama_lengkap'))
                 ->get();
         // return User::on('mysql2connection')
         //     ->with($this->devisi)

@@ -1,14 +1,7 @@
 import { Link, useForm } from "@inertiajs/react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import {
-  BiChevronsRight,
-  BiSolidLockOpenAlt,
-  BiUserCheck,
-} from "react-icons/bi";
-import { BiCreditCard, BiDetail, BiExtension } from "react-icons/bi/index.esm";
+import { BiSolidLockOpenAlt, BiCreditCard, BiHome } from "react-icons/bi";
 
-function Sidebar({ link, value, children, open, props }) {
+function Sidebar() {
   const { post } = useForm({});
 
   const signOut = () => {
@@ -18,57 +11,43 @@ function Sidebar({ link, value, children, open, props }) {
     <>
       <div className="w-full flex items-center relative">
         <div className="bg-orange-100 w-full drop-shadow-sm min-h-screen justify-start items-start px-3">
-          <div className="text-center font-black text-lg sm:text-xl bg-orange-600 p-5 rounded-b-lg shadow-sm text-white">
-            <span>E-DATA</span>
-          </div>
-          <Link
-            href={route(`${link}`)}
-            className="bg-orange-300 flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm justify-between text-xs sm:text-sm cursor-pointer"
-          >
-            <div className="text-lg">{children}</div>
-            {value}
-          </Link>
-          <Link
-            href={route("accept-employe.index")}
-            className="relative flex items-center justify-between bg-orange-300 hover:bg-orange-400 transition-all ease-in-out duration-150 rounded-sm px-4 py-3 gap-x-4 text-sm font-semibold text-gray-800 hover:text-white"
-          >
-            <div className="flex items-center gap-x-2">
-              <BiUserCheck className="text-xl" />
-              <div className="flex flex-col leading-tight">
-                <span>Verifikasi</span>
-                <span className="-mt-1">Data</span>
-              </div>
+          <div className="flex min-h-screen w-full flex-col bg-orange-50 px-3 pb-4">
+            <div className="-mx-3 rounded-b-xl bg-orange-600 px-4 py-5 text-center text-xl font-black tracking-wide text-white shadow-sm">
+              E-DATA
+              <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.2em] text-orange-100">
+                Admin Panel
+              </p>
             </div>
-
-            {props > 0 && (
-              <span className="absolute -top-2 -right-2 px-2 py-0.5 text-[10px] font-bold uppercase text-white bg-rose-500 rounded-full shadow">
-                {props} New
-              </span>
-            )}
-          </Link>
-
-          <Link
-            href={route("slip-gaji.index")}
-            className="bg-orange-300 flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm justify-between text-xs sm:text-sm cursor-pointer"
-          >
-            <div className="text-lg">{<BiCreditCard />}</div>
-            Slip Gaji Bulanan
-          </Link>
-          <Link
-            href={route("contracts.index")}
-            className="bg-orange-300 flex justify-between hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm text-xs sm:text-sm cursor-pointer"
-          >
-            <div className="text-lg">{<BiDetail />}</div>
-            Ajukan Kontrak
-          </Link>
-          <button
-            type="button"
-            onClick={() => signOut()}
-            className="btn btn-sm rounded-sm text-xs sm:text-sm text-red-900 bg-red-400 hover:bg-red-500 w-full hover:text-white"
-          >
-            <BiSolidLockOpenAlt />
-            Sign Out
-          </button>
+            <nav aria-label="Admin navigation" className="mt-8 space-y-2">
+              <p className="px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-orange-700/70">
+                Menu utama
+              </p>
+              <Link
+                href={route("admin.dashboard")}
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 sm:text-sm ${route().current("admin.dashboard") ? "bg-orange-600 text-white shadow-sm" : "text-slate-700 hover:bg-orange-200"}`}
+              >
+                <BiHome className="shrink-0 text-xl" />
+                Dashboard
+              </Link>
+              <Link
+                href={route("slip-gaji.index")}
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 sm:text-sm ${route().current("slip-gaji.*") || route().current("editSlip") ? "bg-orange-600 text-white shadow-sm" : "text-slate-700 hover:bg-orange-200"}`}
+              >
+                <BiCreditCard className="shrink-0 text-xl" />
+                Slip Gaji Bulanan
+              </Link>
+            </nav>
+            <div className="mt-auto pt-8">
+              <button
+                type="button"
+                onClick={signOut}
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-red-100 px-3 py-2.5 text-xs font-bold text-red-800 transition-colors hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 sm:text-sm"
+              >
+                <BiSolidLockOpenAlt className="text-lg" />
+                Sign Out
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </>
