@@ -104,7 +104,12 @@ export default function IndexSlip(props) {
     if (data.route == "create") {
       get(route("slip-gaji.create"));
     } else if (data.route == "edit") {
-      get(route("editSlip", data.mitra));
+      get(
+        route("editSlip", {
+          month: data.bulan,
+          mitra: data.mitra,
+        }),
+      );
     } else if (data.route == "download") {
       // get(route("downSlip"))
       window.open(

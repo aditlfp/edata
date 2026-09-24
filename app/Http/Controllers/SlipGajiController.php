@@ -38,9 +38,9 @@ class SlipGajiController extends Controller
             'user',
             'user.divisi',
             'latestSlipGaji',
-            'SlipGaji' => fn ($query) => $query->where('bulan_tahun', $latestMonth),
+            'SlipGaji' => fn($query) => $query->where('bulan_tahun', $latestMonth),
         ])
-            ->when($search, fn ($query) => $query->where(function ($query) use ($search) {
+            ->when($search, fn($query) => $query->where(function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%")->orWhere('formasi', 'like', "%{$search}%");
             }))
             ->orderBy('numbers')->orderBy('date_real')->paginate(25)->onEachSide(1)->withQueryString();
@@ -121,15 +121,15 @@ class SlipGajiController extends Controller
     }
 
 
-    public function editSlip(Request $request, $id)
+    public function editSlip(Request $request)
     {
         // dd("oke", $id);
         $mitra = $request->mitra;
         $bulan = $request->bulan;
 
-        // dd($bulan);
+        // dd($request->all());
         $bulanFormat = Carbon::createFromFormat('Y-m', $bulan);
-        $client = Kerjasama::on('mysql2connection')->with('client')->where('id', $id)->first();
+        $client = Kerjasama::on('mysql2connection')->with('client')->where('id', $mitra)->first();
         $employe = Employe::all();
         $divisi = Divisi::on('mysql2connection')->get();
         $user = User::on('mysql2connection')->with(['divisi', 'kerjasama', 'slipGaji'])->where('kerjasama_id', $client->id)->orderBy('kerjasama_id', 'asc')->wherein('nama_lengkap', $employe->pluck('name'))->get();

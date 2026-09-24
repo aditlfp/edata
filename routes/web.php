@@ -42,7 +42,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::resource('/slip-gaji', SlipGajiController::class);
     Route::get('/slip-gaji/create/{id}', [SlipGajiController::class, 'createSlip'])->name('createSlip');
-    Route::get('/slip-gaji/ubah/{id}', [SlipGajiController::class, 'editSlip'])->name('editSlip');
+    Route::get('/slip-gaji/ubah/{month}/{mitra}', [SlipGajiController::class, 'editSlip'])->name('editSlip');
     Route::post('/slipgaji/import', [SlipGajiController::class, 'import'])->name('importe.slipe');
     Route::get('/slipgaji/download-template', [SlipGajiController::class, 'downloadTemplate'])->name('download.template');
     Route::get('/slipgaji/data_download', [SlipGajiController::class, 'data_download'])->name('downSlip');
